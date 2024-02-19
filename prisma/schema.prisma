@@ -1,0 +1,78 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Post {
+  id        String     @id @default(uuid())
+  title     String
+  content   String?
+  published Boolean    @default(false)
+  author    User       @relation(fields: [authorId], references: [id])
+  authorId  String
+  likes     Int
+  comments  Comments[]
+  category  Category[]
+  createAt  DateTime   @default(now()) @map(name: "created_at")
+}
+
+model Category {
+  id       String @id @default(uuid())
+  Post     Post   @relation(fields: [postId], references: [id])
+  postId   String
+  category String
+}
+
+model Comments {
+  id      String @id @default(uuid())
+  Post    Post   @relation(fields: [postId], references: [id])
+  postId  String
+  content String
+}
+
+model User {
+  id          String     @id @default(uuid())
+  username    String?    @unique
+  email       String?    @unique
+  password    String
+  createdAt   DateTime   @default(now()) @map(name: "created_at")
+  updatedAt   DateTime   @updatedAt @map(name: "updated_at")
+  posts       Post[]
+  followedBy  Follows[]  @relation("followedBy")
+  following   Follows[]  @relation("following")
+  bio         String
+  displayName String
+  profileImg  String
+  bgImg       String
+  messageTo   Messages[] @relation("messageTo")
+  messageFrom Messages[] @relation("messageFrom")
+
+  @@map(name: "users")
+}
+
+model Follows {
+  followedBy   User   @relation("followedBy", fields: [followedById], references: [id])
+  followedById String
+  following    User   @relation("following", fields: [followingId], references: [id])
+  followingId  String
+
+  @@id([followingId, followedById])
+}
+
+model Messages {
+  messageTo     User    @relation("messageTo", fields: [messageToId], references: [id])
+  messageToId   String
+  messageFrom   User    @relation("messageFrom", fields: [messageFromId], references: [id])
+  messageFromId String
+  content       String
+  read          Boolean @default(false)
+
+  @@id([messageToId, messageFromId])
+}
