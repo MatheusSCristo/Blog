@@ -100,7 +100,7 @@ const Register = () => {
 
                     <button type='submit' className='bg-lightBlue w-1/2  rounded-2xl text-white uppercase m-auto my-5 p-3 font-semibold disabled:opacity-50' disabled={loading}>Criar conta</button>
                 </form>
-                <h2>Já possui uma conta?<Link href={'/login'} className='mx-2 text-lightBlue'>Faça login</Link></h2>
+                <h2>Já possui uma conta?<Link href={'/auth/login'} className='mx-2 text-lightBlue'>Faça login</Link></h2>
             </div>
 
 

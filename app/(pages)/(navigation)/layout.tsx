@@ -1,13 +1,14 @@
 import NavBar from "@/app/(pages)/(navigation)/components/navBar";
 import MenuBar from "@/app/(pages)/(navigation)/components/menuBar";
 
-
-export default function ({
+// eslint-disable-next-line react/display-name
+export default function  ({
   children,
 }: {
   children: React.ReactNode;
 }) {
   
+
   return (
     <>
       <NavBar />

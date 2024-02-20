@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 
 const Login = () => {
     const [passVisibility, setPassVisibility] = useState(false)
-    const [erros, setErrors] = useState('')
+    const [erros, setErrors] = useState ('')
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     type loginUserType = z.infer<typeof LoginUserFormSchema>
@@ -42,7 +42,7 @@ const Login = () => {
         })
 
         if (signInData?.ok) {
-            router.push('/')
+            router.push('/home')
         }
         if (signInData?.status === 401) {
             setErrors('Erro na validação das credenciais,tente novamente')
@@ -62,11 +62,11 @@ const Login = () => {
                     <div className='flex justify-between md:w-2/5 gap-3'>
                         <div className='bg-white flex items-center justify-center border border-lightGray rounded p-2 gap-2 md:w-32'>
                             <FcGoogle size={20} />
-                            <Link href={''}>Google</Link>
+                            <Link href={'/auth/login'}>Google</Link>
                         </div>
                         <div className='bg-white flex items-center justify-center border border-lightGray rounded p-2 gap-2 md:w-32'>
                             <FaGithub size={20} />
-                            <Link href={''}>GitHub</Link>
+                            <Link href={'/auth/login'}>GitHub</Link>
                         </div>
                     </div>
                     <div className='flex flex-row w-full items-center gap-2 md:gap-3 md:px-2 '>
@@ -91,7 +91,7 @@ const Login = () => {
                         {erros && <span className='text-red text-sm text-center mt-2'>{erros}</span>}
                         <button type='submit' className='bg-lightBlue w-1/2  rounded-2xl text-white uppercase m-auto my-5 p-3 font-semibold disabled:opacity-50' disabled={loading}>Entrar</button>
                     </form>
-                    <h2>Não possui uma conta?<Link href={'/register'} className='text-nowrap md:mx-2 text-lightBlue'>Se cadastre agora</Link></h2>
+                    <h2>Não possui uma conta?<Link href={'/auth/register'} className='text-nowrap md:mx-2 text-lightBlue'>Se cadastre agora</Link></h2>
                 </div>
             </main>
     )
