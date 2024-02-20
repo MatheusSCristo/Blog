@@ -12,7 +12,6 @@ import { useForm } from 'react-hook-form';
 import { LoginUserFormSchema } from '@/schemas/loginUserSchema';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import RootLayout from '../layout';
 
 const Login = () => {
     const [passVisibility, setPassVisibility] = useState(false)
@@ -55,8 +54,6 @@ const Login = () => {
 
 
     return (
-        <RootLayout>
-
             <main className='flex justify-center items-center h-[100vh] m-0 relative '>
                 <Image src={'/bgLogin.jpg'} fill={true} alt='bg-IMG' />
                 <div className='flex flex-col p-5 items-center bg-white z-10 md:w-2/5 rounded-2xl gap-2'>
@@ -97,7 +94,6 @@ const Login = () => {
                     <h2>Não possui uma conta?<Link href={'/register'} className='text-nowrap md:mx-2 text-lightBlue'>Se cadastre agora</Link></h2>
                 </div>
             </main>
-        </RootLayout>
     )
 }
 
