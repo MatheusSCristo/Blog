@@ -31,28 +31,32 @@ model Category {
 }
 
 model Comments {
-  id      String @id @default(uuid())
-  Post    Post   @relation(fields: [postId], references: [id])
-  postId  String
-  content String
+  id       String @id @default(uuid())
+  Post     Post   @relation(fields: [postId], references: [id])
+  author   User   @relation(fields: [userId], references: [id])
+  authorId String @unique
+  postId   String
+  content  String
+  userId   String
 }
 
 model User {
   id          String     @id @default(uuid())
-  username    String?    @unique
-  email       String?    @unique
+  username    String     @unique
+  email       String     @unique
   password    String
   createdAt   DateTime   @default(now()) @map(name: "created_at")
   updatedAt   DateTime   @updatedAt @map(name: "updated_at")
   posts       Post[]
   followedBy  Follows[]  @relation("followedBy")
   following   Follows[]  @relation("following")
-  bio         String
-  displayName String
-  profileImg  String
-  bgImg       String
+  bio         String?
+  displayName String?
+  profileImg  String?
+  bgImg       String?
   messageTo   Messages[] @relation("messageTo")
   messageFrom Messages[] @relation("messageFrom")
+  comments    Comments[]
 
   @@map(name: "users")
 }

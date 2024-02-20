@@ -10,9 +10,15 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { LoginUserFormSchema } from '@/schemas/loginUserSchema';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import RootLayout from '../layout';
 
 const Login = () => {
     const [passVisibility, setPassVisibility] = useState(false)
+    const [erros, setErrors] = useState('')
+    const [loading, setLoading] = useState(false)
+    const router = useRouter()
     type loginUserType = z.infer<typeof LoginUserFormSchema>
 
 
@@ -28,14 +34,31 @@ const Login = () => {
     }
 
 
-    const handleOnClickSubmit = (data: loginUserType) => {
-        console.log(data)
+    const handleOnClickSubmit = async (data: loginUserType) => {
+        setLoading(true)
+        const signInData = await signIn('credentials', {
+            email: data.email,
+            password: data.password,
+            redirect: false
+        })
+
+        if (signInData?.ok) {
+            router.push('/')
+        }
+        if (signInData?.status === 401) {
+            setErrors('Erro na validação das credenciais,tente novamente')
+        }
+
+        setLoading(false)
+
     }
 
 
     return (
-        <main className=' m-10 flex justify-center items-center h-[100vh] m-0 relative '>
-            <Image src={'/bgLogin.jpg'} fill={true} alt='bg-IMG'/>
+        <RootLayout>
+
+            <main className='flex justify-center items-center h-[100vh] m-0 relative '>
+                <Image src={'/bgLogin.jpg'} fill={true} alt='bg-IMG' />
                 <div className='flex flex-col p-5 items-center bg-white z-10 md:w-2/5 rounded-2xl gap-2'>
                     <h1 className='text-2xl md:text-4xl font-bold my-1 md:my-4'>Bem vindo de volta</h1>
                     <h2 className="text-md md:text-xl">Entre com</h2>
@@ -68,12 +91,13 @@ const Login = () => {
                                 : <FaRegEye size={20} className='absolute right-5' onClick={handleOnClickVisibilityButton} />}
                         </div>
                         {errors.password && <span className='text-red'>{errors.password.message}</span>}
-
-                        <button type='submit' className='bg-lightBlue w-1/2  rounded-2xl text-white uppercase m-auto my-5 p-3 font-semibold'>Entrar</button>
+                        {erros && <span className='text-red text-sm text-center mt-2'>{erros}</span>}
+                        <button type='submit' className='bg-lightBlue w-1/2  rounded-2xl text-white uppercase m-auto my-5 p-3 font-semibold disabled:opacity-50' disabled={loading}>Entrar</button>
                     </form>
                     <h2>Não possui uma conta?<Link href={'/register'} className='text-nowrap md:mx-2 text-lightBlue'>Se cadastre agora</Link></h2>
                 </div>
-        </main>
+            </main>
+        </RootLayout>
     )
 }
 
