@@ -12,7 +12,7 @@ export default function  ({
   return (
     <>
       <NavBar />
-      <main className='bg-bgGray px-32 py-4 flex'>
+      <main className='bg-bgGray px-32 py-4 flex min-h-fit'>
         <MenuBar />
         {children}
       </main>
