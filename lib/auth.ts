@@ -10,7 +10,7 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt"
     },
     pages: {
-        signIn: '/login'
+        signIn: '/login',
     },
     providers: [
         CredentialsProvider({
@@ -34,6 +34,7 @@ export const authOptions: NextAuthOptions = {
                 if (!passwordMatch) {
                     return null
                 }
+                
                 return {
                     id: existingUser.id,
                     username: existingUser.username,
@@ -42,5 +43,24 @@ export const authOptions: NextAuthOptions = {
             }
         })
     ]
-
+    , secret: process.env.NEXTAUTH_SECRET as string,
+    callbacks:{
+        session:async({session})=>{
+            if(session.user?.email){
+            const userWithId = await prisma.user.findUnique({
+                where: { email: session.user.email }
+            });
+            if (userWithId && userWithId.id) {
+                return {
+                    ...session,
+                    user: {
+                        ...session.user,
+                        id: userWithId.id 
+                    }
+                };
+            }}
+    
+            return session;
+        }
+    }
 }

@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa6";
@@ -10,14 +10,25 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { LoginUserFormSchema } from '@/schemas/loginUserSchema';
-import { signIn } from 'next-auth/react';
+import { SessionProvider, getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
+
 const Login = () => {
-    const [passVisibility, setPassVisibility] = useState(false)
-    const [erros, setErrors] = useState ('')
-    const [loading, setLoading] = useState(false)
     const router = useRouter()
+    useEffect(()=>{
+        const redirectUser=async()=>{
+            const session = await getSession()
+            if(session){
+                router.push('/home')
+            }
+        }
+        redirectUser()
+    },[])
+
+    const [passVisibility, setPassVisibility] = useState(false)
+    const [erros, setErrors] = useState('')
+    const [loading, setLoading] = useState(false)
     type loginUserType = z.infer<typeof LoginUserFormSchema>
 
 
@@ -54,6 +65,7 @@ const Login = () => {
 
 
     return (
+
             <main className='flex justify-center items-center h-[100vh] m-0 relative '>
                 <Image src={'/bgLogin.jpg'} fill={true} alt='bg-IMG' />
                 <div className='flex flex-col p-5 items-center bg-white z-10 md:w-2/5 rounded-2xl gap-2'>

@@ -7,10 +7,16 @@ import { IoPeopleOutline, IoPersonOutline, IoHomeOutline } from "react-icons/io5
 import { AiOutlinePoweroff, AiOutlineMessage } from "react-icons/ai";
 import { IoIosArrowDropright, IoIosArrowDropleft } from "react-icons/io";
 import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 const MenuBar = () => {
   const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const handleOnClickSignOut=async()=>{
+    await signOut({callbackUrl:'/auth/login'})
+  }
+
   return (
 
     !menuOpen ?
@@ -37,7 +43,7 @@ const MenuBar = () => {
             <IoPersonOutline size={30} className='text-white ' />
           </div>
         </div>
-        <div className='bottom-0 my-5  hover:border hover:border-white p-3 rounded-xl hover:scale-110 cursor pointer'>
+        <div className='bottom-0 my-5  hover:border hover:border-white p-3 rounded-xl hover:scale-110 cursor-pointer' onClick={handleOnClickSignOut}>
           <AiOutlinePoweroff size={30} className='text-white' />
         </div>
       </div>
@@ -74,7 +80,7 @@ const MenuBar = () => {
             <span>Perfil</span>
           </div>
         </div>
-        <div className='bottom-0 my-5  hover:border hover:border-white p-3 rounded-xl hover:scale-110 cursor-pointer '>
+        <div className='bottom-0 my-5  hover:border hover:border-white p-3 rounded-xl hover:scale-110 cursor-pointer ' onClick={handleOnClickSignOut}>
           <AiOutlinePoweroff size={30} />
         </div>
       </div >

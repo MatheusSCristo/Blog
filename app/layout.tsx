@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import NavBar from "./(pages)/(navigation)/components/navBar";
-import MenuBar from "./(pages)/(navigation)/components/menuBar";
+
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
+
 
 const poppins = Poppins({ weight: '400', subsets: ["latin"] });
 
@@ -16,6 +17,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en">
       <body className={poppins.className}>

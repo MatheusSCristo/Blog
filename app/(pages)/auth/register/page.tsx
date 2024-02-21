@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa6";
@@ -11,15 +11,26 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { getSession } from 'next-auth/react';
 
 const Register = () => {
+    useEffect(() => {
+        const redirectUser = async () => {
+            const session = await getSession()
+            if (session) {
+                router.push('/home')
+            }
+        }
+        redirectUser()
+    }, [])
+
+
+
     const [passVisibility, setPassVisibility] = useState(false)
     const [erros, setErrors] = useState('')
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     type createUserType = z.infer<typeof createUserFormSchema>
-
-
 
     const { register,
         handleSubmit,
@@ -56,6 +67,7 @@ const Register = () => {
 
 
     return (
+
         <main className=' flex justify-center items-center min-h-[100vh] m-0 relative '>
             <Image src={'/bgRegister.jpg'} fill={true} objectFit='' alt='bg-IMG' priority={true} />
 
@@ -102,11 +114,6 @@ const Register = () => {
                 </form>
                 <h2>Já possui uma conta?<Link href={'/auth/login'} className='mx-2 text-lightBlue'>Faça login</Link></h2>
             </div>
-
-
-
-
-
         </main>
     )
 }

@@ -1,64 +1,25 @@
 import React from 'react'
 import PostsCard from './components/postsCard'
 import PostBox from './components/postBox'
-const Home = () => {
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
+import { PostsType, sessionsType } from '@/types/types'
 
-  const posts = [{
-    id: 'alksddaswq12askakpsdkasd123',
-    title: 'Comecei a correr',
-    content: "Comecei a correr ontem e foi muito bom",
-    published: true,
-    author: 'mtx',
-    authorId: '123123123',
-    likes: 234,
-    comments: ['Nossa amiga que legal'],
-    category: ['corrida', 'exercicio'],
-    createAt: new Date("February 18, 2024 14:47:00"),
-    saved: 1203
-  }, {
-    id: 'alksdkakpsdxasxadkasd123',
-    title: 'Comecei a correr',
-    content: "Comecei a correr ontem e foi muito bom",
-    published: true,
-    author: 'mtx',
-    authorId: '123123123',
-    likes: 234,
-    comments: ['Nossa amiga que legal'],
-    category: ['corrida', 'exercicio'],
-    createAt: new Date("February 18, 2024 14:47:00"),
-    saved: 1203
-  }, {
-    id: 'alksdkaasdaskpxassdkasd123',
-    title: 'Comecei a correr',
-    content: "Comecei a correr ontem e foi muito bom",
-    published: true,
-    author: 'mtx',
-    authorId: '123123123',
-    likes: 234,
-    comments: ['Nossa amiga que legal'],
-    category: ['corrida', 'exercicio'],
-    createAt: new Date("February 18, 2024 14:47:00"),
-    saved: 1203
-  }, {
-    id: 'alksdkakpsdasdkasd123',
-    title: 'Comecei a correr',
-    content: "Comecei a correr ontem e foi muito bom",
-    published: true,
-    author: 'mtx',
-    authorId: '123123123',
-    likes: 234,
-    comments: ['Nossa amiga que legal'],
-    category: ['corrida', 'exercicio'],
-    createAt: new Date("February 18, 2024 14:47:00"),
-    saved: 1203
-  },]
-
-
+  
+const getPosts = async () => {
+  const data=await fetch(`${process.env.NEXTAUTH_URL}/api/getPosts`,{ next: { tags: ['posts'] } })
+  const res=await data.json()
+  const results=res.data.reverse()
+  return results
+}
+const Home = async () => {
+  const posts=await getPosts() 
+  const session:sessionsType | null= await getServerSession(authOptions)
   return (
     <section className='w-full mx-16 min-h-max'>
-      <PostBox/>
-      {posts.map((post) =>
-        <PostsCard post={post} key={post.id} />
+      <PostBox userId={session?.user.id} />
+      {posts?.map((post:PostsType) =>
+        <PostsCard post={post} key={post.id} userId={session?.user.id}  />
 
       )}
     </section>
