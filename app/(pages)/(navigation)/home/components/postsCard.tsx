@@ -19,7 +19,7 @@ type postCardParamsT = {
         saved: number
     }
 }
-const postsCard = ({ post }: postCardParamsT) => {
+const PostsCard = ({ post }: postCardParamsT) => {
     const [liked, setLiked] = useState(false)
 
     const getPostedTime = (time: Date) => {
@@ -49,7 +49,7 @@ const postsCard = ({ post }: postCardParamsT) => {
         setLiked((prevState) => !prevState)
     }
     return (
-        <div className='bg-white mt-8 min-h-[200px] rounded-lg' key={post.id}>
+        <div className='bg-white mt-8 min-h-[200px] rounded-lg' >
             <div className='flex p-5 gap-5 items-center mx-5'>
                 <h1 className='text-xl font-bold'>{displayName}</h1>
                 <h2 className='text-lg text-lightGray'>@{post.author}</h2>
@@ -77,4 +77,4 @@ const postsCard = ({ post }: postCardParamsT) => {
     )
 }
 
-export default postsCard
+export default PostsCard

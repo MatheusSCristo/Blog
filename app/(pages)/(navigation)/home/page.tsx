@@ -4,7 +4,7 @@ import PostBox from './components/postBox'
 const Home = () => {
 
   const posts = [{
-    id: 'alksdkakpsdkasd123',
+    id: 'alksddaswq12askakpsdkasd123',
     title: 'Comecei a correr',
     content: "Comecei a correr ontem e foi muito bom",
     published: true,
@@ -16,7 +16,7 @@ const Home = () => {
     createAt: new Date("February 18, 2024 14:47:00"),
     saved: 1203
   }, {
-    id: 'alksdkakpsdkasd123',
+    id: 'alksdkakpsdxasxadkasd123',
     title: 'Comecei a correr',
     content: "Comecei a correr ontem e foi muito bom",
     published: true,
@@ -28,7 +28,7 @@ const Home = () => {
     createAt: new Date("February 18, 2024 14:47:00"),
     saved: 1203
   }, {
-    id: 'alksdkakpsdkasd123',
+    id: 'alksdkaasdaskpxassdkasd123',
     title: 'Comecei a correr',
     content: "Comecei a correr ontem e foi muito bom",
     published: true,
@@ -40,7 +40,7 @@ const Home = () => {
     createAt: new Date("February 18, 2024 14:47:00"),
     saved: 1203
   }, {
-    id: 'alksdkakpsdkasd123',
+    id: 'alksdkakpsdasdkasd123',
     title: 'Comecei a correr',
     content: "Comecei a correr ontem e foi muito bom",
     published: true,
@@ -58,7 +58,7 @@ const Home = () => {
     <section className='w-full mx-16 min-h-max'>
       <PostBox/>
       {posts.map((post) =>
-        <PostsCard post={post} />
+        <PostsCard post={post} key={post.id} />
 
       )}
     </section>
