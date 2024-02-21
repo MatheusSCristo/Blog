@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import action from '@/utils/revalidateData';
 
-const postBox = ({ userId }: { userId: string | null | undefined; }) => {
+const PostBox = ({ userId }: { userId: string | null | undefined; }) => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [category, setCategory] = useState('')
@@ -50,4 +50,4 @@ const postBox = ({ userId }: { userId: string | null | undefined; }) => {
   )
 }
 
-export default postBox
+export default PostBox
