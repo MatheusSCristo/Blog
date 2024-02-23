@@ -4,22 +4,36 @@ import PostBox from './components/postBox'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { PostsType, sessionsType } from '@/types/types'
+import prisma from '@/lib/prisma'
 
-  
+
 const getPosts = async () => {
-  const data=await fetch(`${process.env.NEXTAUTH_URL}/api/getPosts`,{ next: { tags: ['posts'] } })
-  const res=await data.json()
-  const results=res.data.reverse()
-  return results
+  const posts = await prisma.post.findMany({
+    select: {
+      author: true,
+      authorId: true,
+      likes: true,
+      published: true,
+      category: true,
+      comments: true,
+      content: true,
+      createAt: true,
+      id: true,
+      title: true
+    }
+  })
+  return posts.reverse()
 }
+export const fetchCache = 'force-no-store'
+
 const Home = async () => {
-  const posts=await getPosts() 
-  const session:sessionsType | null= await getServerSession(authOptions)
+  const posts = await getPosts()
+  const session: sessionsType | null = await getServerSession(authOptions)
   return (
     <section className='w-full mx-16 min-h-max'>
       <PostBox userId={session?.user.id} />
-      {posts?.map((post:PostsType) =>
-        <PostsCard post={post} key={post.id} userId={session?.user.id}  />
+      {posts?.map((post: any) =>
+        <PostsCard post={post} key={post.id} userId={session?.user.id} />
 
       )}
     </section>

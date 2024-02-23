@@ -1,13 +1,6 @@
 export type postCardParamsT = {
-    post: {
-        id: string;
-        title: string;
-        content: string | null;
-        published: boolean;
-        authorId: string;
-        createAt: string;
-    } | undefined
-    userId: String | null | undefined
+    post: any
+    userId: string | null | undefined
 }
 export type sessionsType = {
     user: {
@@ -25,7 +18,7 @@ export type PostsType = {
     published: boolean;
     authorId: string;
     createAt: string;
-} 
+}
 
 export type AuthorType = {
     email: String,
@@ -35,4 +28,10 @@ export type AuthorType = {
     displayName: String,
     profileImg: String,
     bgImg: String,
+}
+
+export type UserSearchType = {
+    username: string,
+    displayName: string,
+    profileImg: string
 }

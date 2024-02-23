@@ -1,20 +1,25 @@
 'use client'
-import { AuthorType, postCardParamsT } from '@/types/types';
+import { postCardParamsT } from '@/types/types';
+import revalidateAllData from '@/utils/revalidateData';
+import action from '@/utils/revalidateProfilePosts';
 import React, { useEffect, useState } from 'react'
 import { CiChat1, CiBookmarkPlus, CiBookmarkCheck } from "react-icons/ci"
 
 import { IoHeartCircle } from "react-icons/io5";
 
 const PostsCard = ({ post, userId }: postCardParamsT) => {
-    const [likes, setLikes] = useState(0)
-    const [author, setAuthor] = useState<AuthorType | null>()
     const [liked, setLiked] = useState(false)
-
+    const [likes,setLikes]=useState(post.likes.length)
 
     useEffect(() => {
-        getAuthor(post?.authorId)
-        getLikes()
+        post.likes.map((e: { userId: string, postId: string }) => {
+            if (e.userId === userId) {
+               setLiked(true)
+            }
+        })
     }, [])
+
+
 
     const getPostedTime = (time: string | undefined) => {
         if (time) {
@@ -42,6 +47,12 @@ const PostsCard = ({ post, userId }: postCardParamsT) => {
 
     }
     const handleOnClickLikeButton = async (postId: string | undefined) => {
+        if(liked){
+            setLikes((prevState:number)=>prevState-1)
+        }
+        else{
+            setLikes((prevState:number)=>prevState+1)
+        }
         setLiked((prevState) => !prevState)
         await fetch('/api/likePost', {
             method: 'PUT',
@@ -49,45 +60,19 @@ const PostsCard = ({ post, userId }: postCardParamsT) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ postId, userId })
+        }).
+        then(()=>{
+            revalidateAllData()
         })
 
-        getLikes()
     }
 
-    const getAuthor = async (authorId: string | undefined) => {
-        const data = await fetch('api/getUser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: authorId })
-        })
-        const user = await data.json()
-        setAuthor(user.data)
-    }
-
-
-    const getLikes = async () => {
-        const data = await fetch('api/likePost', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ postId: post?.id, userId })
-        })
-        const likes = await data.json()
-        setLikes(likes.data.likes.length)
-        if (likes.data.likedByUser) {
-            setLiked(true)
-        }
-
-    }
 
     return (
-        <div className='bg-white mt-8 min-h-[200px] rounded-lg' >
+        <div className='bg-white mt-8 min-h-[200px] rounded-lg border border-black m-10' >
             <div className='flex p-5 gap-5 items-center mx-5'>
-                <h1 className='text-xl font-bold'>{author?.displayName}</h1>
-                <h2 className='text-lg text-lightGray'>@{author?.username}</h2>
+                <h1 className='text-xl font-bold'>{post.author?.displayName}</h1>
+                <h2 className='text-lg text-lightGray'>@{post.author?.username}</h2>
                 <span>- Postado {getPostedTime(post?.createAt)} </span>
             </div>
             <div className='flex flex-col p-5 mx-5 gap-2'>

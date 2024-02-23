@@ -1,20 +1,25 @@
 'use client'
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { FaRegBell } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci"
 import { IoPeopleOutline, IoPersonOutline, IoHomeOutline } from "react-icons/io5";;
 import { AiOutlinePoweroff, AiOutlineMessage } from "react-icons/ai";
 import { IoIosArrowDropright, IoIosArrowDropleft } from "react-icons/io";
-import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
-const MenuBar = () => {
-  const router = useRouter()
+type User = {
+  user:{
+    displayName: string | null | undefined;
+    profileImg: string | null | undefined;
+  }
+}
+
+const MenuBar = ({ user }: (User | {user:undefined} | {user:null}) ) => {
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const handleOnClickSignOut=async()=>{
-    await signOut({callbackUrl:'/auth/login'})
+  const handleOnClickSignOut = async () => {
+    await signOut({ callbackUrl: '/auth/login' })
   }
 
   return (
@@ -26,22 +31,22 @@ const MenuBar = () => {
           <IoIosArrowDropright size={30} className='absolute right-0 text-white hover:scale-110 hidden md:block' onClick={() => setMenuOpen(true)} />
         </div>
         <div className='flex flex-col gap-4 md:gap-10 my-10'>
-          <div className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer' onClick={() => router.push('/home')} >
+          <Link href='/home' className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer' >
             <IoHomeOutline size={30} className='text-white' />
-          </div>
-          <div className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
+          </Link>
+          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
             <AiOutlineMessage size={30} className='text-white' />
-          </div>
-          <div className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
+          </Link>
+          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
 
             <CiBookmark size={30} className='text-white ' />
-          </div>
-          <div className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
+          </Link>
+          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
             <IoPeopleOutline size={30} className='text-white' />
-          </div>
-          <div className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer' onClick={() => router.push('/profile')}>
+          </Link>
+          <Link href={'/profile'} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
             <IoPersonOutline size={30} className='text-white ' />
-          </div>
+          </Link>
         </div>
         <div className='bottom-0 my-5  hover:border hover:border-white p-3 rounded-xl hover:scale-110 cursor-pointer' onClick={handleOnClickSignOut}>
           <AiOutlinePoweroff size={30} className='text-white' />
@@ -56,29 +61,29 @@ const MenuBar = () => {
             <Image src={'/profileImg.png'} alt='Imagem de perfil' width={70} height={70} className='border border-black rounded-full' />
             <IoIosArrowDropleft size={30} className='absolute right-0 text-black hover:scale-110' onClick={() => setMenuOpen(false)} />
           </div>
-          <h1 className='my-2'>Mtx</h1>
+          <h1 className='my-2'>{user?.displayName}</h1>
         </div>
         <div className='flex flex-col gap-4 md:gap-8 my-10 w-full items-center text-sm md:text-lg '>
-          <div onClick={() => router.push('/home')} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black' >
+          <Link href={'/home'} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black' >
             <IoHomeOutline size={30} className='' />
             <span>Home</span>
-          </div>
-          <div className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
+          </Link>
+          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
             <AiOutlineMessage size={30} />
             <span>Mensagens</span>
-          </div>
-          <div className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
+          </Link>
+          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
             <CiBookmark size={30} />
             <span>Salvos</span>
-          </div>
-          <div className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
+          </Link>
+          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
             <IoPeopleOutline size={30} />
             <span>Seguindo</span>
-          </div>
-          <div onClick={() => router.push('/profile')} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
+          </Link>
+          <Link href={'/profile'} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
             <IoPersonOutline size={30} />
             <span>Perfil</span>
-          </div>
+          </Link>
         </div>
         <div className='bottom-0 my-5  hover:border hover:border-white p-3 rounded-xl hover:scale-110 cursor-pointer ' onClick={handleOnClickSignOut}>
           <AiOutlinePoweroff size={30} />
