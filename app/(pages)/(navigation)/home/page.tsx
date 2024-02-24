@@ -25,6 +25,7 @@ const getPosts = async () => {
   return posts.reverse()
 }
 export const fetchCache = 'force-no-store'
+export const revalidate = 60
 
 const Home = async () => {
   const posts = await getPosts()

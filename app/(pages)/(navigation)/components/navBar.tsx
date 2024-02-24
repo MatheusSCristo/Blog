@@ -36,7 +36,7 @@ const NavBar = () => {
         else {
             setUsers([])
         }
-    }, [search,getUsers,setUsers])
+    }, [search])
 
 
     return (

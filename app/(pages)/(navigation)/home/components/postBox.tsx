@@ -8,10 +8,8 @@ import revalidatePostsData from '@/utils/revalidatePosts';
 
 const PostBox = ({ userId }: { userId: string | null | undefined; }) => {
 
-
   type creatPostType = z.infer<typeof createPostSchema>
 
-  
   const { register,
     handleSubmit,
     reset,
