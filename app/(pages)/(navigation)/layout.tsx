@@ -8,9 +8,6 @@ import prisma from "@/lib/prisma";
 
 const getUser = async () => {
   const session: sessionsType | null = await getServerSession(authOptions)
-  // if (!session) {
-  //   redirect('/auth/login') 
-  // }
   if (session?.user?.id) {
       const data = await prisma.user.findUnique({
           where: {

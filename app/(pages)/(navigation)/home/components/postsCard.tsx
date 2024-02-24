@@ -17,7 +17,7 @@ const PostsCard = ({ post, userId }: postCardParamsT) => {
                setLiked(true)
             }
         })
-    }, [])
+    }, [post.likes,userId])
 
 
 

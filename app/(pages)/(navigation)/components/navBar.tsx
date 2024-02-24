@@ -9,7 +9,7 @@ import { IoPersonCircle } from "react-icons/io5";
 import Image from 'next/image';
 import Link from 'next/link';
 
-const navBar = () => {
+const NavBar = () => {
     const [users, setUsers] = useState<UserSearchType[]>([])
     const [search, setSearch] = useState('')
     const [loading, setLoading] = useState(false)
@@ -36,7 +36,7 @@ const navBar = () => {
         else {
             setUsers([])
         }
-    }, [search])
+    }, [search,getUsers,setUsers])
 
 
     return (
@@ -54,7 +54,7 @@ const navBar = () => {
                     :
                     <ul className='absolute border border-lightGray top-14 bg-white w-2/5 rounded-b-lg z-[11]  '>
                         {users.map((user) => (
-                            <Link href={`/profile/${user.id}`} className='flex gap-5 items-center m-2' onClick={()=>setSearch('')}>
+                            <Link href={`/profile/${user.id}`} className='flex gap-5 items-center m-2' onClick={()=>setSearch('')} key={user.id}>
                                 {user.profileImg ?
                                     <Image src={user.profileImg} alt='Imagem de perfil' style={{borderRadius:'50%'}} width={50} height={50}/>
                                     :
@@ -78,4 +78,4 @@ const navBar = () => {
     )
 }
 
-export default navBar
+export default NavBar

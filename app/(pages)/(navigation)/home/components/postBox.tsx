@@ -25,7 +25,7 @@ const PostBox = ({ userId }: { userId: string | null | undefined; }) => {
     setTimeout(() => {
       reset()
     }, 3000);
-  }, [isSubmitSuccessful])
+  }, [isSubmitSuccessful,reset])
 
   const handleOnClickPublishButton = (data: creatPostType) => {
     fetch('/api/newPost', {

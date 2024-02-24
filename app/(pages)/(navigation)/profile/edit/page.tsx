@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { RiPencilFill } from "react-icons/ri";
-const profile = () => {
+const EditProfile = () => {
     const [username, setUsername] = useState<string | undefined>(undefined)
     const [bio, setBio] = useState<string | undefined>(undefined)
     const [displayName, setDisplayName] = useState<string | undefined>(undefined)
@@ -95,4 +95,4 @@ const profile = () => {
     )
 }
 
-export default profile
+export default EditProfile

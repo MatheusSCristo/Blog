@@ -9,7 +9,7 @@ import { IoPersonCircle } from 'react-icons/io5';
 import ReactLoading from 'react-loading';
 import { useRouter } from 'next/navigation';
 
-const profile = ({ params }: { params: { id: string } }) => {
+const Profile = ({ params }: { params: { id: string } }) => {
     const [userId, setUserId] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [user, setUser] = useState<profileUserType>()
@@ -128,4 +128,4 @@ const profile = ({ params }: { params: { id: string } }) => {
     )
 }
 
-export default profile
+export default Profile
