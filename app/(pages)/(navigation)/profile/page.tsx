@@ -1,13 +1,14 @@
 
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
-import { AuthorType, PostsType, sessionsType } from '@/types/types';
+import { sessionsType } from '@/types/types';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image'
 import Link from 'next/link';
 import React from 'react'
 import { RiPencilFill } from "react-icons/ri";
 import PostsCard from '../home/components/postsCard';
+import { IoPersonCircle } from 'react-icons/io5';
 const getUser = async () => {
     const session: sessionsType | null = await getServerSession(authOptions)
     if (session?.user?.id) {
@@ -22,6 +23,8 @@ const getUser = async () => {
                 username: true,
                 followedBy: true,
                 following: true,
+                profileImg:true,
+                bgImg:true,
                 posts: {
                     select: {
                         author: true,
@@ -41,7 +44,7 @@ const getUser = async () => {
         return data
     }
 }
-export const fetchCache = 'force-no-store'
+
 
 const profile = async () => {
     const user = await getUser()
@@ -51,7 +54,11 @@ const profile = async () => {
                 <Image src='/bgProfile.png' fill={true} alt='Imagem de fundo' className='z-0' />
             </div>
             <div className=' bg-white m-10 p-1 border border-black w-fit rounded'>
-                <Image src='/ImgBigProfile.png' width={120} height={120} alt='Foto de perfil' />
+                {user?.profileImg ?
+                    <Image src={user.profileImg} width={120} height={120} alt='Foto de perfil' />
+                    :
+                    <IoPersonCircle size={100} />
+                }
             </div>
             <div className='m-10 flex flex-col'>
                 <div className='flex justify-between'>
@@ -73,7 +80,7 @@ const profile = async () => {
                     <p className='text-lightGray'>{user?.bio}</p>
                 </div>
             </div>
-            {user?.posts?.map((post: any) =>
+            {user?.posts?.reverse().map((post: any) =>
                 <PostsCard post={post} key={post.id} userId={user.id} />
 
             )}

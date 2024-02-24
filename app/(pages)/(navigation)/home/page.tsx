@@ -3,7 +3,7 @@ import PostsCard from './components/postsCard'
 import PostBox from './components/postBox'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { PostsType, sessionsType } from '@/types/types'
+import { sessionsType } from '@/types/types'
 import prisma from '@/lib/prisma'
 
 

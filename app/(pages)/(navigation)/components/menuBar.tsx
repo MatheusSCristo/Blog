@@ -2,20 +2,20 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { CiBookmark } from "react-icons/ci"
-import { IoPeopleOutline, IoPersonOutline, IoHomeOutline } from "react-icons/io5";;
+import { IoPeopleOutline, IoPersonOutline, IoHomeOutline, IoPersonCircle } from "react-icons/io5";;
 import { AiOutlinePoweroff, AiOutlineMessage } from "react-icons/ai";
 import { IoIosArrowDropright, IoIosArrowDropleft } from "react-icons/io";
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 
 type User = {
-  user:{
+  user: {
     displayName: string | null | undefined;
     profileImg: string | null | undefined;
-  }
+  } | undefined | null
 }
 
-const MenuBar = ({ user }: (User | {user:undefined} | {user:null}) ) => {
+const MenuBar = ({ user }: User) => {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const handleOnClickSignOut = async () => {
@@ -26,8 +26,12 @@ const MenuBar = ({ user }: (User | {user:undefined} | {user:null}) ) => {
 
     !menuOpen ?
       <div className='h-fit bg-lightBlue w-16 md:w-32 rounded-2xl flex flex-col items-center py-8  relative' >
-        <div className='rounded-[50%] w-full relative flex items-center justify-center ' >
-          <Image src={'/profileImg.png'} alt='Imagem de perfil' width={70} height={70} />
+        <div className=' w-full relative flex items-center justify-center ' >
+          {user?.profileImg ?
+            <Image src={user.profileImg} alt='Imagem de perfil' width={70} height={70} style={{borderRadius:'50%'}}/>
+            :
+            <IoPersonCircle size={70} className='rounded-[50%]'/>
+          }
           <IoIosArrowDropright size={30} className='absolute right-0 text-white hover:scale-110 hidden md:block' onClick={() => setMenuOpen(true)} />
         </div>
         <div className='flex flex-col gap-4 md:gap-10 my-10'>
@@ -41,7 +45,7 @@ const MenuBar = ({ user }: (User | {user:undefined} | {user:null}) ) => {
 
             <CiBookmark size={30} className='text-white ' />
           </Link>
-          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
+          <Link href={'/following'} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
             <IoPeopleOutline size={30} className='text-white' />
           </Link>
           <Link href={'/profile'} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
@@ -56,9 +60,13 @@ const MenuBar = ({ user }: (User | {user:undefined} | {user:null}) ) => {
       :
 
       <div className='h-fit bg-white w-[300px] md:w-1/5 rounded-2xl flex flex-col items-center py-8 relative' >
-        <div className='rounded-[50%] w-full flex flex-col items-center justify-center'>
+        <div className=' w-full flex flex-col items-center justify-center'>
           <div className='relative flex  items-center justify-center w-full'>
-            <Image src={'/profileImg.png'} alt='Imagem de perfil' width={70} height={70} className='border border-black rounded-full' />
+            {user?.profileImg ?
+              <Image src={user.profileImg} alt='Imagem de perfil' width={70} height={70} style={{borderRadius:'50%'}}/>
+              :
+              <IoPersonCircle size={70} />
+            }
             <IoIosArrowDropleft size={30} className='absolute right-0 text-black hover:scale-110' onClick={() => setMenuOpen(false)} />
           </div>
           <h1 className='my-2'>{user?.displayName}</h1>
@@ -76,7 +84,7 @@ const MenuBar = ({ user }: (User | {user:undefined} | {user:null}) ) => {
             <CiBookmark size={30} />
             <span>Salvos</span>
           </Link>
-          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
+          <Link href={'/following'} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
             <IoPeopleOutline size={30} />
             <span>Seguindo</span>
           </Link>

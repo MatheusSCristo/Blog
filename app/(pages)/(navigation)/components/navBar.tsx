@@ -1,26 +1,43 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import ReactLoading from 'react-loading';
+import { UserSearchType } from '@/types/types';
 import { FaRegBell } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import { ImBlogger } from "react-icons/im";
-import prisma from '@/lib/prisma';
-import { UserSearchType } from '@/types/types';
+import { IoPersonCircle } from "react-icons/io5";
+import Image from 'next/image';
+import Link from 'next/link';
 
-
-
-
-
-const navBar =  () => {
-    const [users,setUsers] = useState<null | UserSearchType[]>()
-    const [search, setSearch] = useState<string | undefined>(undefined)
+const navBar = () => {
+    const [users, setUsers] = useState<UserSearchType[]>([])
+    const [search, setSearch] = useState('')
+    const [loading, setLoading] = useState(false)
     const getUsers = async () => {
-        const data = await fetch('/api/getUsers')
-        const res=await data.json()
+        setLoading(true)
+        const data = await fetch('/api/getUsersSearched', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ search })
+        })
+        const res = await data.json()
         setUsers(res.data)
+        setTimeout(() => {
+            setLoading(false)
+        }, 1500);
+
     }
-    useEffect(()=>{
-        getUsers()
-    },[])
+    useEffect(() => {
+        if (search) {
+            getUsers()
+        }
+        else {
+            setUsers([])
+        }
+    }, [search])
+
 
     return (
         <nav className='flex items-center justify-evenly p-4 bg-white'>
@@ -28,27 +45,34 @@ const navBar =  () => {
                 <ImBlogger size={30} />
                 <h1>BLOG</h1>
             </div>
-            <div className='relative flex items-center w-2/5'>
-                <input type='text' placeholder='Procurar' className='border border-lightGray rounded-xl w-full p-2' value={search} onChange={(e) => setSearch(e.target.value)} />
-                <CiSearch size={30} className='absolute right-0 mx-2 p-1 rounded-[50%] bg-lightBlue text-white' />
-            </div>
-
-            {search && 
-            <div className='bg-white border border-lightGray roundexl h-fit'>
-                 {users?.map((user:UserSearchType) => {
-                return (
-                    <div className=''>
-                        
-                        <h1>{user.displayName}</h1>
-
-
+            <div className='flex flex-col w-full items-center relative'  >
+                <input type='text' placeholder='Procurando um amigo?' className='w-2/5 p-4 rounded-lg border-lightGray border' value={search} onChange={(e) => setSearch(e.target.value)} />
+                {users && loading ?
+                    <div className='absolute border border-lightGray top-14 bg-white w-2/5 rounded-b-lg flex justify-center z-[11] p-4 '>
+                        <ReactLoading color='black' type="spin" height={40} width={40}  /> 
                     </div>
-                )
-            })}
+                    :
+                    <ul className='absolute border border-lightGray top-14 bg-white w-2/5 rounded-b-lg z-[11]  '>
+                        {users.map((user) => (
+                            <Link href={`/profile/${user.id}`} className='flex gap-5 items-center m-2' onClick={()=>setSearch('')}>
+                                {user.profileImg ?
+                                    <Image src={user.profileImg} alt='Imagem de perfil' style={{borderRadius:'50%'}} width={50} height={50}/>
+                                    :
+                                    <IoPersonCircle size={40} />
+                                }
+                                <div className='flex flex-col gap-2'>
+                                    <h1>{user.displayName}</h1>
+                                    <h2 className='text-lightGray'>@{user.username}</h2>
+                                </div>
+                            </Link>
+                        ))}
+                    </ul>
+
+
+                }
             </div>
-            }
             <div className='rounded-[50%] p-1 border border-black flex '>
-                <FaRegBell size={30} />
+                <FaRegBell size={30} color='black' />
             </div>
         </nav>
     )

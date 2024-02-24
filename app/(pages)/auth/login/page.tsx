@@ -10,21 +10,12 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { LoginUserFormSchema } from '@/schemas/loginUserSchema';
-import { SessionProvider, getSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 
 const Login = () => {
     const router = useRouter()
-    useEffect(()=>{
-        const redirectUser=async()=>{
-            const session = await getSession()
-            if(session){
-                router.push('/home')
-            }
-        }
-        redirectUser()
-    },[])
 
     const [passVisibility, setPassVisibility] = useState(false)
     const [erros, setErrors] = useState('')
