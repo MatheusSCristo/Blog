@@ -1,15 +1,28 @@
 'use client'
-import { postCardParamsT } from '@/types/types';
 import revalidateAllData from '@/utils/revalidateData';
-import action from '@/utils/revalidateProfilePosts';
+import { getSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react'
 import { CiChat1, CiBookmarkPlus, CiBookmarkCheck } from "react-icons/ci"
 
 import { IoHeartCircle } from "react-icons/io5";
 
-const PostsCard = ({ post, userId }: postCardParamsT) => {
+const PostsCard = ({ post}: {post:any}) => {
     const [liked, setLiked] = useState(false)
     const [likes,setLikes]=useState(post.likes.length)
+    const [userId,setUserId]=useState<null | string>()
+    const getUserId=async()=>{
+        const session:any=await getSession()
+        setUserId(session?.user.id)
+    }
+
+    useEffect(()=>{
+        getUserId()
+    },[])
+    
+
+ 
+
+
 
     useEffect(() => {
         post.likes.map((e: { userId: string, postId: string }) => {

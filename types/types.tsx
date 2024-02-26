@@ -1,9 +1,5 @@
 import { Category, Comments, Follows, Like } from "@prisma/client"
 
-export type postCardParamsT = {
-    post: any
-    userId: string | null | undefined
-}
 export type sessionsType = {
     user: {
         email?: string | null | undefined,

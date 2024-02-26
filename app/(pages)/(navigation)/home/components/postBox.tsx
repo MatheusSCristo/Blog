@@ -1,12 +1,22 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createPostSchema } from '@/schemas/createPostSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import revalidatePostsData from '@/utils/revalidatePosts';
+import { getSession } from 'next-auth/react';
 
-const PostBox = ({ userId }: { userId: string | null | undefined; }) => {
+const PostBox = () => {
+  const [userId, setUserId] = useState<string | null>()
+  const getUserId = async () => {
+    const session: any = await getSession()
+    setUserId(session.user.id)
+  }
+  
+  useEffect(() => {
+    getUserId()
+  }, [])
 
   type creatPostType = z.infer<typeof createPostSchema>
 
@@ -23,7 +33,7 @@ const PostBox = ({ userId }: { userId: string | null | undefined; }) => {
     setTimeout(() => {
       reset()
     }, 3000);
-  }, [isSubmitSuccessful,reset])
+  }, [isSubmitSuccessful, reset])
 
   const handleOnClickPublishButton = (data: creatPostType) => {
     fetch('/api/newPost', {
