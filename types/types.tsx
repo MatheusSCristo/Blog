@@ -30,7 +30,7 @@ export type profileUserType = {
     profileImg: string | null;
     bgImg: string | null;
     posts: Post[],
-    comments: Comments[],
+    comments: Comment[],
     followedBy: Follows[],
     following: Follows[],
 

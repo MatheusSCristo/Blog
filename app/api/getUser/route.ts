@@ -21,17 +21,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
                 following: true,
                 profileImg: true,
                 posts: {
-                    select: {
-                        author: true,
-                        category: true,
-                        comments: true,
-                        content: true,
-                        createAt: true,
-                        id: true,
+                    include: {
+                        comments: {
+                            include: {
+                                author: true
+                            }
+                        },
                         likes: true,
-                        title: true,
-                        authorId: true
-
+                        author:true,
                     }
                 },
             }

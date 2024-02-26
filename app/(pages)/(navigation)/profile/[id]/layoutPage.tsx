@@ -3,8 +3,7 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import PostsCard from '../../home/components/postsCard';
 import { getSession } from 'next-auth/react';
-import { profileUserType } from '@/types/types';
-import { Post } from '@prisma/client';
+import { profileUserType,Post } from '@/types/types';
 import { IoPersonCircle } from 'react-icons/io5';
 import ReactLoading from 'react-loading';
 import { useRouter } from 'next/navigation';
@@ -17,6 +16,8 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
     const [isFollowed, setIsFollowed] = useState(false)
     const [followedBy, setFollowedBy] = useState(0)
     const router = useRouter()
+
+    console.log(user?.displayName)
 
 
     const getUserId = async () => {
