@@ -5,7 +5,7 @@ import LayoutPage from './layoutPage'
 const Profile = () => {
   return (
     
-    <Suspense fallback={<LoadingComponents/>} >
+    <Suspense fallback={<div className='flex items-center justify-center w-full'><LoadingComponents/></div>} >
         <LayoutPage/>
     </Suspense>
   )
