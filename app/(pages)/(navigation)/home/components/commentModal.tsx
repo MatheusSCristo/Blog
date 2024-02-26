@@ -50,7 +50,7 @@ const CommentModal = ({ comments, postId }: { comments: Comment[], postId: strin
         </div>
       </div>
       {comments.map((comment) =>
-        <div className='flex flex-col w-full p-5'>
+        <div className='flex flex-col w-full p-5' key={comment.id}>
           <div className='flex gap-5 items-center'>
             {comment.author.profileImg ? <Image src={comment.author.profileImg} alt='Imagem de perfil' width={40} height={40} className='rounded-full' />
               :
