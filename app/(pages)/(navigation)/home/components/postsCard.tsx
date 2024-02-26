@@ -1,43 +1,29 @@
 'use client'
 import revalidateAllData from '@/utils/revalidateData';
-import { getSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react'
-import { CiChat1, CiBookmarkPlus, CiBookmarkCheck } from "react-icons/ci"
-
+import { CiChat1} from "react-icons/ci"
 import { IoHeartCircle } from "react-icons/io5";
+import CommentModal from './commentModal';
+import { Post } from '@/types/types';
 
-const PostsCard = ({ post}: {post:any}) => {
+const PostsCard = ({ post, userId }: { post: Post, userId: string }) => {
     const [liked, setLiked] = useState(false)
-    const [likes,setLikes]=useState(post.likes.length)
-    const [userId,setUserId]=useState<null | string>()
-    const getUserId=async()=>{
-        const session:any=await getSession()
-        setUserId(session?.user.id)
-    }
-
-    useEffect(()=>{
-        getUserId()
-    },[])
-    
-
- 
-
-
-
+    const [likes, setLikes] = useState(post.likes.length)
+    const [commentIsOpen, setCommentIsOpen] = useState(false)
     useEffect(() => {
         post.likes.map((e: { userId: string, postId: string }) => {
             if (e.userId === userId) {
-               setLiked(true)
+                setLiked(true)
             }
         })
-    }, [post.likes,userId])
+    }, [post.likes, userId])
 
 
 
-    const getPostedTime = (time: string | undefined) => {
+    const getPostedTime = (time: Date | undefined) => {
         if (time) {
             const date = Date.now()
-            const res = ((date - Date.parse(time)) / 60000)
+            const res = (date - time.getTime()) / 60000
             if (res.toFixed(0) === '0') {
                 return 'agora mesmo.'
             }
@@ -60,11 +46,11 @@ const PostsCard = ({ post}: {post:any}) => {
 
     }
     const handleOnClickLikeButton = async (postId: string | undefined) => {
-        if(liked){
-            setLikes((prevState:number)=>prevState-1)
+        if (liked) {
+            setLikes((prevState: number) => prevState - 1)
         }
-        else{
-            setLikes((prevState:number)=>prevState+1)
+        else {
+            setLikes((prevState: number) => prevState + 1)
         }
         setLiked((prevState) => !prevState)
         await fetch('/api/likePost', {
@@ -74,9 +60,9 @@ const PostsCard = ({ post}: {post:any}) => {
             },
             body: JSON.stringify({ postId, userId })
         }).
-        then(()=>{
-            revalidateAllData()
-        })
+            then(() => {
+                revalidateAllData()
+            })
 
     }
 
@@ -97,15 +83,19 @@ const PostsCard = ({ post}: {post:any}) => {
                     <IoHeartCircle size={30} className={`hover:scale-[1.15] hover:text-red ${liked ? 'text-red' : 'text-lightGray'}`} />
                     <span>{likes}</span>
                 </div>
-                {/* <div className='flex gap-2 items-center text-lightGray'>
-                    <CiChat1 size={30} className='hover:scale-[1.15]' />
+                <div className='flex gap-2 items-center text-lightGray' >
+                    <CiChat1 size={30} className='hover:scale-[1.15]' onClick={() => setCommentIsOpen((prevState)=>!prevState)} />
                     <span >{post?.comments.length}</span>
-                </div> */}
+                </div>
                 {/* <div className='flex gap-2 items-center text-lightGray'>
                     <CiBookmarkPlus size={30} className='hover:scale-[1.15]' />
                     <span>{post?.saved}</span>
                 </div> */}
             </div>
+            {
+                commentIsOpen &&
+                <CommentModal comments={post?.comments} postId={post.id}  />
+            }
         </div>
     )
 }

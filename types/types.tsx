@@ -1,4 +1,4 @@
-import { Category, Comments, Follows, Like } from "@prisma/client"
+import { Category, Comments, Follows, Like, User } from "@prisma/client"
 
 export type sessionsType = {
     user: {
@@ -29,21 +29,26 @@ export type profileUserType = {
     displayName: string | null;
     profileImg: string | null;
     bgImg: string | null;
-    posts: Posts[],
+    posts: Post[],
     comments: Comments[],
     followedBy: Follows[],
     following: Follows[],
 
 }
 
-export type Posts = {
+export type Post = {
     id: string;
     title: string;
     content: string | null;
     published: boolean;
     authorId: string;
+    author:User
     createAt: Date;
-    comments: Comments[]
+    comments: Comment[]
     category: Category[]
     likes: Like[]
+}
+
+export interface Comment extends Comments{
+    author:User
 }

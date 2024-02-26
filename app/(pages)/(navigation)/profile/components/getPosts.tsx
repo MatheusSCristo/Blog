@@ -23,12 +23,13 @@ const getPost = async () => {
 }
 
 const getPosts = async () => {
+    const session:any=await getServerSession(authOptions)
     const posts= await getPost()
     
   return (
     <div>
         {posts?.reverse().map((post: any) =>
-                <PostsCard post={post} key={post.id} />
+                <PostsCard post={post} key={post.id} userId={session?.user.id} />
 
             )}
     </div>

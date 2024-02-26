@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma'
-import { sessionsType } from '@/types/types'
+import { Post, sessionsType } from '@/types/types'
 import React from 'react'
 import PostsCard from './postsCard'
 import { authOptions } from '@/lib/auth'
@@ -7,17 +7,22 @@ import { getServerSession } from 'next-auth'
 
 const getPosts = async () => {
     const posts = await prisma.post.findMany({
-        select: {
+        include: {
             author: true,
-            authorId: true,
             likes: true,
-            published: true,
             category: true,
-            comments: true,
-            content: true,
-            createAt: true,
-            id: true,
-            title: true
+            comments: {
+                include:{
+                    author:{
+                        select:{
+                            displayName:true,
+                            username:true,
+                            profileImg:true
+                        }
+                    }
+                }
+            },
+
         }
     })
     return posts.reverse()
@@ -27,10 +32,11 @@ export const revalidate = 60
 
 
 const GetPosts = async () => {
+    const session: any = await getServerSession(authOptions)
     const posts = await getPosts()
     return (
         posts?.map((post: any) =>
-            <PostsCard post={post} key={post.id} />
+            <PostsCard post={post} key={post.id} userId={session.user.id} />
         )
 
     )

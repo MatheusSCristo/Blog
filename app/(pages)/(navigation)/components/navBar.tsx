@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import ReactLoading from 'react-loading';
 import { UserSearchType } from '@/types/types';
 import { FaRegBell } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
@@ -8,6 +7,7 @@ import { ImBlogger } from "react-icons/im";
 import { IoPersonCircle } from "react-icons/io5";
 import Image from 'next/image';
 import Link from 'next/link';
+import { CircularProgress } from '@mui/material';
 
 const NavBar = () => {
     const [users, setUsers] = useState<UserSearchType[]>([])
@@ -49,14 +49,14 @@ const NavBar = () => {
                 <input type='text' placeholder='Procurando um amigo?' className='w-2/5 p-4 rounded-lg border-lightGray border' value={search} onChange={(e) => setSearch(e.target.value)} />
                 {users && loading ?
                     <div className='absolute border border-lightGray top-14 bg-white w-2/5 rounded-b-lg flex justify-center z-[11] p-4 '>
-                        <ReactLoading color='black' type="spin" height={40} width={40}  /> 
+                        <CircularProgress />
                     </div>
                     :
                     <ul className='absolute border border-lightGray top-14 bg-white w-2/5 rounded-b-lg z-[11]  '>
                         {users.map((user) => (
-                            <Link href={`/profile/${user.id}`} className='flex gap-5 items-center m-2' onClick={()=>setSearch('')} key={user.id}>
+                            <Link href={`/profile/${user.id}`} className='flex gap-5 items-center m-2' onClick={() => setSearch('')} key={user.id}>
                                 {user.profileImg ?
-                                    <Image src={user.profileImg} alt='Imagem de perfil' style={{borderRadius:'50%'}} width={50} height={50}/>
+                                    <Image src={user.profileImg} alt='Imagem de perfil' style={{ borderRadius: '50%' }} width={50} height={50} />
                                     :
                                     <IoPersonCircle size={40} />
                                 }
@@ -75,6 +75,7 @@ const NavBar = () => {
                 <FaRegBell size={30} color='black' />
             </div>
         </nav>
+
     )
 }
 
