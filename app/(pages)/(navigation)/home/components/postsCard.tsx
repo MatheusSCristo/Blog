@@ -25,10 +25,11 @@ const PostsCard = ({ post, userId }: { post: Post, userId: string }) => {
             const date = Date.now()
             let res=0
             if(time instanceof Date){
-                 res = (date - time.getMilliseconds()) / 60000
+                res =((date - time.getTime()) / 60000)
             }
             else{
                 res= (date - Date.parse(time))/60000
+                console.log(res)
             }
             if (res.toFixed(0) === '0') {
                 return 'agora mesmo.'

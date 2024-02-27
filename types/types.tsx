@@ -52,3 +52,7 @@ export type Post = {
 export interface Comment extends Comments{
     author:User
 }
+
+export interface Follow extends Follows{
+    following:User
+}

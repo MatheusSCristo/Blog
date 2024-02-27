@@ -17,7 +17,6 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
     const [followedBy, setFollowedBy] = useState(0)
     const router = useRouter()
 
-    console.log(user?.displayName)
 
 
     const getUserId = async () => {

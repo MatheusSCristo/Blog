@@ -80,12 +80,12 @@ model Follows {
 }
 
 model Messages {
-  messageTo     User    @relation("messageTo", fields: [messageToId], references: [id])
+  messageTo     User     @relation("messageTo", fields: [messageToId], references: [id])
   messageToId   String
-  messageFrom   User    @relation("messageFrom", fields: [messageFromId], references: [id])
+  messageFrom   User     @relation("messageFrom", fields: [messageFromId], references: [id])
   messageFromId String
+  createdAt     DateTime @default(now()) @map(name: "created_at")
   content       String
-  read          Boolean @default(false)
-
-  @@id([messageToId, messageFromId])
+  read          Boolean  @default(false)
+  id            String   @id @default(uuid())
 }

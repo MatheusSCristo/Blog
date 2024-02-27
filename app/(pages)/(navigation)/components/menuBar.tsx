@@ -38,7 +38,7 @@ const MenuBar = ({ user }: User) => {
           <Link href='/home' className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer' >
             <IoHomeOutline size={30} className='text-white' />
           </Link>
-          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
+          <Link href={'/messages'} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
             <AiOutlineMessage size={30} className='text-white' />
           </Link>
           <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
@@ -76,7 +76,7 @@ const MenuBar = ({ user }: User) => {
             <IoHomeOutline size={30} className='' />
             <span>Home</span>
           </Link>
-          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
+          <Link href={'/messages'} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
             <AiOutlineMessage size={30} />
             <span>Mensagens</span>
           </Link>

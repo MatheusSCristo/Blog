@@ -44,7 +44,7 @@ const UserCard = ({ userId }: { userId: string }) => {
         getUserInfo(userId)
     }, [])
     return (
-        <div className='p-5 shadow rounded-xl flex flex-col w-[200px] min-h-[150px] items-center gap-5'>
+        <div className='p-5 shadow rounded-xl flex flex-col w-[200px] min-h-[150px] items-center gap-5 shadow-2xl border border-black'>
             <div className='flex'>
                 {user?.profileImg ?
                     <Image src={user.profileImg} alt='Imagem de perfil' width={100} height={100} className='rounded-full' />
