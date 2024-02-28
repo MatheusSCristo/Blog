@@ -4,21 +4,31 @@ import revalidateMessages from '@/utils/revalidateMessages'
 import { Messages } from '@prisma/client'
 import { getSession } from 'next-auth/react'
 import Image from 'next/image'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { IoPersonOutline, IoSendOutline } from 'react-icons/io5'
-
+import { CircularProgress } from '@mui/material'
+import useSWR from 'swr'
 
 const Chat = () => {
   const [content, setContent] = useState('')
+  const { data, error } = useSWR('/api/user', getMessages)
   const context = useContext(ChatContext)
+  const [isLoading, setIsLoading] = useState(true)
   const [messages, setMessages] = useState<null | Messages[]>(null)
+  const containerRef = useRef<null | HTMLDivElement>(null);
 
-  const getMessages = async () => {
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messages])
+
+
+  async function getMessages() {
     if (context?.currentChat) {
       const session: any = await getSession()
       const data = await fetch('/api/getMessage',
         {
-          next:{revalidate:5},
           method: 'PUT',
           body: JSON.stringify({
             messageFromId: session.user.id,
@@ -26,14 +36,11 @@ const Chat = () => {
           })
         })
       const res = await data.json()
-      const messagesSortedByLast=res.data.sort((a:{createdAt:string},b:{createdAt:string})=>Date.parse(a.createdAt) - Date.parse(b.createdAt))
+      const messagesSortedByLast = res.data.sort((a: { createdAt: string }, b: { createdAt: string }) => Date.parse(a.createdAt) - Date.parse(b.createdAt))
       setMessages(messagesSortedByLast)
+      setIsLoading(false)
     }
   }
-  useEffect(() => {
-    getMessages()
-  }, [context])
-
 
   const handleOnClickSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -62,7 +69,7 @@ const Chat = () => {
   return (
     context?.currentChat &&
     <div className='flex flex-col border border-gray-300 h-full px-12 py-5 rounded-lg gap-5'>
-      <div className='flex gap-5 items-center'>
+      <div className='flex gap-5 items-center border-b-2 p-2'>
         {context?.currentChat.profileImg ?
           <Image src={context?.currentChat.profileImg} alt='Imagem de perfil' />
           :
@@ -72,18 +79,21 @@ const Chat = () => {
         }
         <h1>{context?.currentChat.displayName}</h1>
       </div>
-      <div className='flex flex-col gap-10 relative h-4/5 overflow-y-scroll '>
-        {messages?.map((item) => {
-          return (
-            <div className='w-full flex flex-col'>
-              <div className={` bg-[#44b9dca6] p-3 rounded w-1/2  ${item.messageFromId === context.currentChat.id ? 'self-start' : 'self-end'}`}>
-                <h1>{item.content}</h1>
+      <div className='flex flex-col gap-10 relative overflow-y-auto snap-y ' ref={containerRef}>
+        {isLoading ?
+          <div className='flex items-center justify-center h-full'>
+            <CircularProgress />
+          </div> :
+          messages?.map((item) => {
+            return (
+              <div className='w-full flex flex-col' key={item.id} >
+                <div className={` bg-[#44b9dca6] p-3 rounded w-1/2  ${item.messageFromId === context.currentChat.id ? 'self-start' : 'self-end'}`}>
+                  <h1>{item.content}</h1>
+                </div>
               </div>
-            </div>
-          )
-        }
-
-        )}
+            )
+          }
+          )}
       </div>
       <form className='w-full flex items-center relative' onSubmit={handleOnClickSendMessage}>
         <input className='border border-gray-300 rounded-full w-full p-4 pr-[50px]' placeholder='Envie sua mensagem'
