@@ -1,101 +1,112 @@
 'use client'
 import { ChatContext } from '@/app/context/ChatContext'
-import revalidateMessages from '@/utils/revalidateMessages'
-import { Messages } from '@prisma/client'
-import { getSession } from 'next-auth/react'
 import Image from 'next/image'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { IoPersonOutline, IoSendOutline } from 'react-icons/io5'
 import { CircularProgress } from '@mui/material'
 import useSWR from 'swr'
+import { UserContext } from '@/app/context/userSession'
+import { Message } from '@/types/types'
+import  './styles.css'
+
+
+
 
 const Chat = () => {
   const [content, setContent] = useState('')
-  const { data, error } = useSWR('/api/user', getMessages)
-  const context = useContext(ChatContext)
+  const { data }: { data: Message[] | null } = useSWR('/api/user', getMessages, { refreshInterval: 3 })
+  const chatUser = useContext(ChatContext)
+  const user = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(true)
-  const [messages, setMessages] = useState<null | Messages[]>(null)
   const containerRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
-  }, [messages])
-
+  }, [data])
 
   async function getMessages() {
-    if (context?.currentChat) {
-      const session: any = await getSession()
+    if (chatUser?.currentChat) {
       const data = await fetch('/api/getMessage',
         {
           method: 'PUT',
           body: JSON.stringify({
-            messageFromId: session.user.id,
-            messageToId: context?.currentChat.id,
+            messageFromId: user?.currentUser?.id,
+            messageToId: chatUser?.currentChat.id,
           })
         })
       const res = await data.json()
-      const messagesSortedByLast = res.data.sort((a: { createdAt: string }, b: { createdAt: string }) => Date.parse(a.createdAt) - Date.parse(b.createdAt))
-      setMessages(messagesSortedByLast)
+      res.data.sort((a: { createdAt: string }, b: { createdAt: string }) => Date.parse(a.createdAt) - Date.parse(b.createdAt))
       setIsLoading(false)
+      return res.data
     }
   }
 
   const handleOnClickSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setContent('')
     if (content) {
-      const session: any = await getSession()
       await fetch('/api/createMessage',
         {
           method: 'POST',
           body: JSON.stringify({
             content,
-            messageToId: context?.currentChat.id,
-            messageFromId: session.user.id,
+            messageToId: chatUser?.currentChat.id,
+            messageFromId: user?.currentUser.id,
             read: false
           })
         })
-      setTimeout(() => {
-        getMessages()
-        revalidateMessages()
-      }
-        , 1500)
-
+      getMessages()
     }
-    setContent('')
   }
 
+  const showMessageHour = (time: Date) => {
+    const date = new Date(time)
+    return (`${date.getHours()} :  ${date.getMinutes()}`)
+  }
+
+
   return (
-    context?.currentChat &&
-    <div className='flex flex-col border border-gray-300 h-full px-12 py-5 rounded-lg gap-5'>
-      <div className='flex gap-5 items-center border-b-2 p-2'>
-        {context?.currentChat.profileImg ?
-          <Image src={context?.currentChat.profileImg} alt='Imagem de perfil' />
+    chatUser?.currentChat &&
+    <div className='flex flex-col h-full  '>
+      <div className='flex gap-5 items-center border-b-2 px-5 py-5  bg-white'>
+        {chatUser?.currentChat.profileImg ?
+          <Image src={chatUser?.currentChat.profileImg} alt='Imagem de perfil' />
           :
           <div className="rounded-full p-2 flex items-center bg-lightBlue h-fit">
             <IoPersonOutline size={30} />
           </div>
         }
-        <h1>{context?.currentChat.displayName}</h1>
+        <h1>{chatUser?.currentChat.displayName}</h1>
       </div>
-      <div className='flex flex-col gap-10 relative overflow-y-auto snap-y ' ref={containerRef}>
+      <div className='flex h-[700px] flex-col gap-10 relative overflow-y-auto snap-y bg-[#EEF1F1] py-2 chat' ref={containerRef}>
         {isLoading ?
           <div className='flex items-center justify-center h-full'>
             <CircularProgress />
           </div> :
-          messages?.map((item) => {
+          data?.map((item) => {
+            showMessageHour(item.createdAt)
             return (
               <div className='w-full flex flex-col' key={item.id} >
-                <div className={` bg-[#44b9dca6] p-3 rounded w-1/2  ${item.messageFromId === context.currentChat.id ? 'self-start' : 'self-end'}`}>
-                  <h1>{item.content}</h1>
+                <div className={` ${item.messageFromId === chatUser.currentChat.id ? 'self-start' : 'self-end'} w-1/2`}>
+                  <div className={`flex items-end gap-2 ${item.messageFromId === chatUser.currentChat.id ? 'flex-row' : 'flex-row-reverse'}`}>
+                    {item.messageFrom.profileImg ? <Image src={item.messageFrom.profileImg} alt='Imagem de perfil' />
+                      : <div className='bg-white rounded-full p-1'> <IoPersonOutline size={30} /> </div>}
+                    <div className='flex flex-col gap-2'>
+                      <div className={`p-5  ${item.messageFromId === chatUser.currentChat.id ? 'rounded-bl-none bg-white' : 'rounded-br-none bg-[#44b9dca6]'}  rounded-2xl `}>
+                        <h1>{item.content}</h1>
+                      </div>
+                      <span className={` ${item.messageFromId === chatUser.currentChat.id ? 'self-start' : 'self-end'}`}>{showMessageHour(item.createdAt)}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             )
           }
           )}
       </div>
-      <form className='w-full flex items-center relative' onSubmit={handleOnClickSendMessage}>
+      <form className='w-full flex items-center relative bg-gray-200 p-2' onSubmit={handleOnClickSendMessage}>
         <input className='border border-gray-300 rounded-full w-full p-4 pr-[50px]' placeholder='Envie sua mensagem'
           value={content}
           onChange={(e) => setContent(e.target.value)} />

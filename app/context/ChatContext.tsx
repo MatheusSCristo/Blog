@@ -16,7 +16,7 @@ type ContextType={
 
 export const ChatContext = createContext<ContextType | null>(null)
 
-const Context = ({ children }: { children: React.ReactNode }) => {
+const ContextChat = ({ children }: { children: React.ReactNode }) => {
     const [currentChat, setCurrentChat] = useState<any>()
 
     return (
@@ -26,4 +26,4 @@ const Context = ({ children }: { children: React.ReactNode }) => {
     )
 
 }
-export default Context
+export default ContextChat

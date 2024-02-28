@@ -35,7 +35,7 @@ export default async function  ({
   return (
     <>
       <NavBar />
-      <main className='bg-bgGray px-32 py-4 flex min-h-fit'>
+      <main className='bg-bgGray px-32 py-4 flex flex-1'>
         <MenuBar user={user} />
         {children}
       </main>

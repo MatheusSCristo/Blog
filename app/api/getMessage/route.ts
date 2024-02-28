@@ -10,16 +10,22 @@ export async function PUT(req: NextRequest, res: NextResponse) {
             where:{
                 messageFromId,
                 messageToId,
+            },
+            include:{
+                messageFrom:true
             }
         })
         const messageReceived= await prisma.messages.findMany({
             where:{
                 messageFromId:messageToId,
                 messageToId:messageFromId
+            },
+            include:{
+                messageFrom:true
             }
         })
 
-        const data= messageReceived.concat( messagesSent)
+        const data= messageReceived.concat(messagesSent)
         
         return NextResponse.json({
             data, message: 'Message retrieved'
