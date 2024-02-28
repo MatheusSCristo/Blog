@@ -33,8 +33,8 @@ const Menu = () => {
                 <input className='border rounded-xl border-gray-300 pl-10 p-3 w-full' type='text' placeholder='Procure suas conversas...' />
             </div>
             {following?.map((item: Follow) =>
-                <Suspense fallback={<CircularProgress />}>
-                    <Messages item={item} key={item.followingId} />
+                <Suspense fallback={<CircularProgress />} key={item.followingId} >
+                    <Messages item={item} />
                 </Suspense>
             )}
         </div>
