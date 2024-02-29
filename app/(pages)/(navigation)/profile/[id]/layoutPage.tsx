@@ -121,7 +121,7 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
                     </div>
                 </div>
                 {user?.posts?.reverse().map((post: Post) =>
-                    <PostsCard post={post} key={post.id} userId={userId} />
+                    <PostsCard post={post} key={post.id} userId={userId} isAuthor={false} />
                 )}
             </section>
 
