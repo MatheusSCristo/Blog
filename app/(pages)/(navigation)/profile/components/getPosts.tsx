@@ -29,7 +29,7 @@ const getPosts = async () => {
   return (
     <div>
         {posts?.reverse().map((post: any) =>
-                <PostsCard post={post} key={post.id} userId={session?.user.id} />
+                <PostsCard post={post} key={post.id} userId={session?.user.id} isAuthor={true}/>
 
             )}
     </div>

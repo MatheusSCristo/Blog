@@ -8,7 +8,7 @@ const Home =  () => {
     <section className='w-full mx-16 min-h-max'>
       <PostBox />
       <Suspense fallback={<LoadingComponents />}>
-        <GetPosts />
+        <GetPosts isAuthor={false} />
       </Suspense>
     </section>
   )

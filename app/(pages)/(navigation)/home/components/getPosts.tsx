@@ -1,5 +1,4 @@
 import prisma from '@/lib/prisma'
-import { Post, sessionsType } from '@/types/types'
 import React from 'react'
 import PostsCard from './postsCard'
 import { authOptions } from '@/lib/auth'
@@ -12,12 +11,12 @@ const getPosts = async () => {
             likes: true,
             category: true,
             comments: {
-                include:{
-                    author:{
-                        select:{
-                            displayName:true,
-                            username:true,
-                            profileImg:true
+                include: {
+                    author: {
+                        select: {
+                            displayName: true,
+                            username: true,
+                            profileImg: true
                         }
                     }
                 }
@@ -27,17 +26,20 @@ const getPosts = async () => {
     })
     return posts.reverse()
 }
-export const fetchCache = 'force-no-store'
-export const revalidate = 60
+export const revalidate = 1
 
 
-const GetPosts = async () => {
+const GetPosts = async ({ isAuthor }: { isAuthor: boolean }) => {
     const session: any = await getServerSession(authOptions)
     const posts = await getPosts()
     return (
-        posts?.map((post: any) =>
-            <PostsCard post={post} key={post.id} userId={session.user.id} />
-        )
+        posts.length > 0 ?
+            posts?.map((post: any) =>
+                <PostsCard post={post} key={post.id} userId={session.user.id} isAuthor={isAuthor} />
+            )
+            : <div className='m-10'>
+                <h1 className='text-center text-xl m-5'>Não foi possível encontrar nenhum post recente!</h1>
+            </div>
 
     )
 }

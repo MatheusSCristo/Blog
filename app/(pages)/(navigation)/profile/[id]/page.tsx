@@ -1,3 +1,4 @@
+'use client'
 import React, { Suspense } from 'react'
 import LoadingComponents from '../../components/loadingComponents'
 import LayoutPage from './layoutPage'

@@ -42,21 +42,44 @@ export type Post = {
     content: string | null;
     published: boolean;
     authorId: string;
-    author:User
+    author: User
     createAt: Date;
     comments: Comment[]
     category: Category[]
     likes: Like[]
 }
 
-export interface Comment extends Comments{
-    author:User
+export interface Comment extends Comments {
+    author: User
 }
 
-export interface Follow extends Follows{
-    following:User
+export interface Follow extends Follows {
+    following:
+    {
+        id: string,
+        username: string,
+        email: string,
+        password: string,
+        createdAt: string
+        updatedAt: string,
+        bio: string,
+        displayName: string,
+        profileImg: string,
+        bgImg: string,
+        messageFrom: Message[],
+        messageTo: Message[]
+    }
+
 }
 
-export interface Message extends Messages{
-    messageFrom:User
+
+export interface Message  {
+    messageFrom: User
+    messageToId: string;
+    messageFromId: string;
+    createdAt:string;
+    content: string;
+    read: boolean;
+    id: string;
+
 }

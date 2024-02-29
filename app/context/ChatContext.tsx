@@ -1,3 +1,4 @@
+import { Message } from '@/types/types'
 import { Messages } from '@prisma/client'
 import React, { createContext, useState } from 'react'
 
@@ -5,7 +6,7 @@ type currentChat={
     id: string,
     username: string,
     displayName: string | null,
-    profileImg: string | null
+    profileImg: string | null,
 }
 
 type ContextType={

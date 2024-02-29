@@ -41,10 +41,6 @@ const MenuBar = ({ user }: User) => {
           <Link href={'/messages'} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
             <AiOutlineMessage size={30} className='text-white' />
           </Link>
-          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
-
-            <CiBookmark size={30} className='text-white ' />
-          </Link>
           <Link href={'/following'} className=' p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer'>
             <IoPeopleOutline size={30} className='text-white' />
           </Link>
@@ -79,10 +75,6 @@ const MenuBar = ({ user }: User) => {
           <Link href={'/messages'} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
             <AiOutlineMessage size={30} />
             <span>Mensagens</span>
-          </Link>
-          <Link href={''} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
-            <CiBookmark size={30} />
-            <span>Salvos</span>
           </Link>
           <Link href={'/following'} className=' p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black'>
             <IoPeopleOutline size={30} />

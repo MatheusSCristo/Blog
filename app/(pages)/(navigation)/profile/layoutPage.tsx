@@ -8,7 +8,7 @@ import React, { Suspense } from 'react'
 import { RiPencilFill } from "react-icons/ri";
 import { IoPersonCircle } from 'react-icons/io5';
 import LoadingComponents from '../components/loadingComponents';
-import GetPosts from '../home/components/getPosts';
+import GetPosts from './components/getPosts';
 
 
 
@@ -69,7 +69,7 @@ const profile = async () => {
                 </div>
             </div>
             <Suspense fallback={<LoadingComponents />}>
-                <GetPosts />
+                <GetPosts  />
             </Suspense>
         </section>
     )

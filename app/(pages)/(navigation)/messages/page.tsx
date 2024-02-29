@@ -7,7 +7,7 @@ import Context from '@/app/context/Context'
 const page = () => {
     return (
         <Context>
-            <section className='w-full mx-16  gap-3 bg-white relative flex bg-[#EEF1F1]'>
+            <section className='w-full mx-[5%]  gap-3 bg-white relative flex bg-[#EEF1F1]'>
                 <div className='2xl:w-[30%] w-[40%] '>
                     <Menu />
                 </div>

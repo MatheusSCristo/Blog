@@ -4,18 +4,16 @@ import Image from 'next/image'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { IoPersonOutline, IoSendOutline } from 'react-icons/io5'
 import { CircularProgress } from '@mui/material'
-import useSWR from 'swr'
 import { UserContext } from '@/app/context/userSession'
 import { Message } from '@/types/types'
-import  './styles.css'
-
-
-
+import './styles.css'
+import { MessageContext } from '@/app/context/MessagesContext'
 
 const Chat = () => {
   const [content, setContent] = useState('')
-  const { data }: { data: Message[] | null } = useSWR('/api/user', getMessages, { refreshInterval: 3 })
+  const [messages, setMessages] = useState<Message[] | undefined>(undefined)
   const chatUser = useContext(ChatContext)
+  const messageContext = useContext(MessageContext)
   const user = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(true)
   const containerRef = useRef<null | HTMLDivElement>(null);
@@ -24,24 +22,16 @@ const Chat = () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
-  }, [data])
+  }, [messages])
 
-  async function getMessages() {
-    if (chatUser?.currentChat) {
-      const data = await fetch('/api/getMessage',
-        {
-          method: 'PUT',
-          body: JSON.stringify({
-            messageFromId: user?.currentUser?.id,
-            messageToId: chatUser?.currentChat.id,
-          })
-        })
-      const res = await data.json()
-      res.data.sort((a: { createdAt: string }, b: { createdAt: string }) => Date.parse(a.createdAt) - Date.parse(b.createdAt))
+
+  useEffect(() => {
+    if (messageContext?.messages !== undefined) {
+      setIsLoading(true)
+      setMessages(messageContext?.messages.messages)
       setIsLoading(false)
-      return res.data
     }
-  }
+  }, [messageContext?.messages?.messages])
 
   const handleOnClickSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -57,18 +47,20 @@ const Chat = () => {
             read: false
           })
         })
-      getMessages()
     }
   }
 
-  const showMessageHour = (time: Date) => {
+  const showMessageHour = (time: string) => {
     const date = new Date(time)
-    return (`${date.getHours()} :  ${date.getMinutes()}`)
+    if(date.getMinutes()<10){
+      return `${date.getHours()}:0${date.getMinutes()}`
+    }
+    return (`${date.getHours()}:${date.getMinutes()}`)
   }
 
-
   return (
-    chatUser?.currentChat &&
+    chatUser?.currentChat
+    &&
     <div className='flex flex-col h-full  '>
       <div className='flex gap-5 items-center border-b-2 px-5 py-5  bg-white'>
         {chatUser?.currentChat.profileImg ?
@@ -82,29 +74,27 @@ const Chat = () => {
       </div>
       <div className='flex h-[700px] flex-col gap-10 relative overflow-y-auto snap-y bg-[#EEF1F1] py-2 chat' ref={containerRef}>
         {isLoading ?
-          <div className='flex items-center justify-center h-full'>
-            <CircularProgress />
+          <div className=' h-full w-full flex justify-center items-center'>
+            <CircularProgress  />
           </div> :
-          data?.map((item) => {
-            showMessageHour(item.createdAt)
+          messageContext?.messages.messages && messages?.map((item) => {
             return (
-              <div className='w-full flex flex-col' key={item.id} >
-                <div className={` ${item.messageFromId === chatUser.currentChat.id ? 'self-start' : 'self-end'} w-1/2`}>
-                  <div className={`flex items-end gap-2 ${item.messageFromId === chatUser.currentChat.id ? 'flex-row' : 'flex-row-reverse'}`}>
-                    {item.messageFrom.profileImg ? <Image src={item.messageFrom.profileImg} alt='Imagem de perfil' />
-                      : <div className='bg-white rounded-full p-1'> <IoPersonOutline size={30} /> </div>}
-                    <div className='flex flex-col gap-2'>
-                      <div className={`p-5  ${item.messageFromId === chatUser.currentChat.id ? 'rounded-bl-none bg-white' : 'rounded-br-none bg-[#44b9dca6]'}  rounded-2xl `}>
-                        <h1>{item.content}</h1>
-                      </div>
-                      <span className={` ${item.messageFromId === chatUser.currentChat.id ? 'self-start' : 'self-end'}`}>{showMessageHour(item.createdAt)}</span>
+            <div className='w-full flex flex-col' key={item.id} >
+              <div className={` ${item.messageFromId === chatUser.currentChat.id ? 'self-start' : 'self-end'} w-1/2`}>
+                <div className={`flex items-end gap-2 ${item.messageFromId === chatUser.currentChat.id ? 'flex-row' : 'flex-row-reverse'}`}>
+                  {item.messageFrom.profileImg ? <Image src={item.messageFrom.profileImg} alt='Imagem de perfil' />
+                    : <div className='bg-white rounded-full p-1'> <IoPersonOutline size={30} /> </div>}
+                  <div className='flex flex-col gap-2'>
+                    <div className={`p-5  ${item.messageFromId === chatUser.currentChat.id ? 'rounded-bl-none bg-white' : 'rounded-br-none bg-[#44b9dca6]'}  rounded-2xl `}>
+                      <h1>{item.content}</h1>
                     </div>
+                    <span className={` ${item.messageFromId === chatUser.currentChat.id ? 'self-start' : 'self-end'}`}>{showMessageHour(item.createdAt)}</span>
                   </div>
                 </div>
               </div>
-            )
-          }
-          )}
+            </div>)
+          })}
+
       </div>
       <form className='w-full flex items-center relative bg-gray-200 p-2' onSubmit={handleOnClickSendMessage}>
         <input className='border border-gray-300 rounded-full w-full p-4 pr-[50px]' placeholder='Envie sua mensagem'
@@ -114,10 +104,7 @@ const Chat = () => {
           <IoSendOutline size={30} />
         </button>
       </form>
-
-
     </div>
-
   )
 }
 

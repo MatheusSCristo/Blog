@@ -1,4 +1,5 @@
 import ContextChat from "./ChatContext"
+import ContextMessage from "./MessagesContext"
 import ContextUser from "./userSession"
 
 const Context = ({ children }: { children: React.ReactNode }) => {
@@ -6,7 +7,9 @@ const Context = ({ children }: { children: React.ReactNode }) => {
     return (
         <ContextChat>
             <ContextUser>
-                {children}
+                <ContextMessage>
+                    {children}
+                </ContextMessage>
             </ContextUser>
         </ContextChat>
     )
