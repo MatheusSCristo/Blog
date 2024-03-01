@@ -61,8 +61,8 @@ const Chat = () => {
   return (
     chatUser?.currentChat
     &&
-    <div className='flex flex-col h-full  '>
-      <div className='flex gap-5 items-center border-b-2 px-5 py-5  bg-white'>
+    <div className='flex flex-col h-full bg-[#EEF1F1] '>
+      <div className='flex gap-5 items-center border-b-2 px-5 mx-2 py-5  bg-white'>
         {chatUser?.currentChat.profileImg ?
           <Image src={chatUser?.currentChat.profileImg} alt='Imagem de perfil' />
           :
@@ -70,9 +70,9 @@ const Chat = () => {
             <IoPersonOutline size={30} />
           </div>
         }
-        <h1>{chatUser?.currentChat.displayName}</h1>
+        <h1>{chatUser?.currentChat.displayName?chatUser?.currentChat.displayName:`@${chatUser?.currentChat.username}`}</h1>
       </div>
-      <div className='flex h-[700px] flex-col gap-10 relative overflow-y-auto snap-y bg-[#EEF1F1] py-2 chat' ref={containerRef}>
+      <div className='flex flex-1 flex-col gap-10 relative overflow-y-auto snap-y  p-5 chat' ref={containerRef}>
         {isLoading ?
           <div className=' h-full w-full flex justify-center items-center'>
             <CircularProgress  />
@@ -96,7 +96,7 @@ const Chat = () => {
           })}
 
       </div>
-      <form className='w-full flex items-center relative bg-gray-200 p-2' onSubmit={handleOnClickSendMessage}>
+      <form className='w-full flex items-center relative  p-2' onSubmit={handleOnClickSendMessage}>
         <input className='border border-gray-300 rounded-full w-full p-4 pr-[50px]' placeholder='Envie sua mensagem'
           value={content}
           onChange={(e) => setContent(e.target.value)} />

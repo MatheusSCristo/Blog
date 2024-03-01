@@ -49,12 +49,12 @@ const Menu = () => {
 
         return (
             <div className='bg-white h-full flex flex-col p-5 gap-5'>
-                <h1 className='text-xl font-semibold'>Mensagens</h1>
+                <h1 className='text-3xl font-semibold ml-2 mt-10'>Mensagens</h1>
                 <div className='flex items-center w-full'>
                     <IoSearchOutline className='absolute ml-2 text-gray-500' size={30} />
                     <input className='border rounded-xl border-gray-300 pl-10 p-3 w-full' type='text' placeholder='Procure suas conversas...' />
                 </div>
-                <div className='flex-1 flex flex-col gap-5 '>
+                <div className='flex-1 flex flex-col gap-5 overflow-y-auto'>
                     {isLoading ?
                         <div className='flex justify-center'> <CircularProgress /> </div>
                         :

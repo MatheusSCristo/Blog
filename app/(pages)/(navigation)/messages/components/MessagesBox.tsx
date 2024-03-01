@@ -85,15 +85,15 @@ const MessagesBox = ({ item }: { item: Follow }) => {
 
 
     return (
-        <div className='flex py-2 pl-1 gap-3 border-b border-gray-200  items-center cursor-pointer hover:scale-[1.01] relative items-center ' onClick={Handle}>
+        <div className='flex py-2 pl-1 gap-3 border-b border-gray-200 h-[90px] items-center cursor-pointer hover:scale-[1.01] relative items-center ' onClick={Handle}>
             {receiver.profileImg ? <Image src={receiver.profileImg} alt='Imagem de perfil' />
                 :
                 <div className="rounded-full p-2 flex items-center bg-lightBlue h-fit">
-                    <IoPersonOutline size={20} />
+                    <IoPersonOutline size={30} />
                 </div>
             }
             <div className='flex flex-col max-h-[70px] overflow-hidden'>
-                <h1 className='text-md font-bold'>{receiver.displayName}</h1>
+                <h1 className='text-md font-bold'>{receiver.displayName?receiver.displayName:`@${receiver.username}`}</h1>
                 {isLoading ?
                     <div className='h-1/2 w-full flex items-center justify-center'>
                         <CircularProgress size={20} />

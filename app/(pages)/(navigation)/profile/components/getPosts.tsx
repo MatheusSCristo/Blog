@@ -13,9 +13,14 @@ const getPost = async () => {
                 authorId: session.user.id
             },
             include: {
-                category:true,
-                comments:true,
-                likes:true,
+                category: true,
+                comments: {
+                    include: {
+                        author: true
+                    }
+                },
+                likes: true,
+                author: true
             }
         })
         return data
@@ -23,17 +28,22 @@ const getPost = async () => {
 }
 
 const getPosts = async () => {
-    const session:any=await getServerSession(authOptions)
-    const posts= await getPost()
-    
-  return (
-    <div>
-        {posts?.reverse().map((post: any) =>
-                <PostsCard post={post} key={post.id} userId={session?.user.id} isAuthor={true}/>
+    const session: any = await getServerSession(authOptions)
+    const posts = await getPost()
 
-            )}
-    </div>
-  )
+    return (
+        <div>
+            {posts && posts?.length > 0 ?
+                posts?.reverse().map((post: any) =>
+                    <PostsCard post={post} key={post.id} userId={session?.user.id} isAuthor={true} />
+
+                ) :
+                <div className='w-full flex justify-center my-5'>
+                    <h1 className='font-bold text-2xl'>Voce ainda não tem nenhum post!</h1>
+                </div>
+            }
+        </div>
+    )
 }
 
 export default getPosts

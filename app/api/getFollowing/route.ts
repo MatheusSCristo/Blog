@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma"
+import { prismaExclude } from "@/utils/excludePass";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -11,29 +12,44 @@ export async function POST(req: NextRequest, res: NextResponse) {
             },
             include: {
                 following: {
-                    include: {
+                    select: {
+                        id:true,
+                        email: true,
+                        bgImg: true,
+                        username: true,
+                        bio: true,
+                        createdAt: true,
+                        displayName: true,
+                        followedBy: true,
+                        following: true,
+                        profileImg: true,
                         messageFrom: {
                             where: {
                                 messageToId: followedById
                             },
-                            include:{
-                                messageFrom:true
+                            include: {
+                                messageFrom: {
+                                    select: prismaExclude('User', ['password'])
+                                }
                             }
 
                         },
                         messageTo: {
                             where: {
                                 messageFromId: followedById
-                            },include:{
-                                messageFrom:true
+                            }, include: {
+                                messageFrom: {
+                                    select: prismaExclude('User', ['password'])
+                                }
                             }
-                        
+
                         }
                     }
                 }
-
             }
-        })
+
+        }
+        )
 
         return NextResponse.json({
             data: users, message: 'Users found'

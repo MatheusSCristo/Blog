@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import PostsCard from '../../home/components/postsCard';
 import { getSession } from 'next-auth/react';
-import { profileUserType,Post } from '@/types/types';
+import { profileUserType, Post } from '@/types/types';
 import { IoPersonCircle } from 'react-icons/io5';
 import ReactLoading from 'react-loading';
 import { useRouter } from 'next/navigation';
@@ -61,13 +61,13 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
 
 
     const handleOnClickFollow = async () => {
-        setIsFollowed((prevState)=>!prevState)
-        if(isFollowed){
-            setFollowedBy((prevState)=>prevState-1)
-        }else{
-            setFollowedBy((prevState)=>prevState+1)
+        setIsFollowed((prevState) => !prevState)
+        if (isFollowed) {
+            setFollowedBy((prevState) => prevState - 1)
+        } else {
+            setFollowedBy((prevState) => prevState + 1)
         }
-         await fetch('/api/follow', {
+        await fetch('/api/follow', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -100,9 +100,9 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
                             <IoPersonCircle size={100} />
                         }
                     </div>
-                    
-                        <button className='text-white bg-lightBlue h-fit px-6 py-2 m-5 rounded-xl hover:scale-[1.15]' onClick={handleOnClickFollow}>{isFollowed?'Deixar de seguir':'Seguir +'} </button>
-            
+
+                    <button className='text-white bg-lightBlue h-fit px-6 py-2 m-5 rounded-xl hover:scale-[1.15]' onClick={handleOnClickFollow}>{isFollowed ? 'Deixar de seguir' : 'Seguir +'} </button>
+
                 </div>
                 <div className='m-10 flex flex-col'>
                     <div className='flex justify-between'>
@@ -120,9 +120,15 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
                         <p className='text-lightGray'>{user?.bio}</p>
                     </div>
                 </div>
-                {user?.posts?.reverse().map((post: Post) =>
-                    <PostsCard post={post} key={post.id} userId={userId} isAuthor={false} />
-                )}
+                {user?.posts && user?.posts?.length > 0 ?
+                    user?.posts?.reverse().map((post: Post) =>
+                        <PostsCard post={post} key={post.id} userId={userId} isAuthor={false} />
+                    )
+                    :
+                    <div className='flex justify-center w-full mt-10'>
+                        <h1 className='font-bold text-2xl'>O usuário ainda não possui nenhum post publico!</h1>
+                    </div>
+                }
             </section>
 
     )

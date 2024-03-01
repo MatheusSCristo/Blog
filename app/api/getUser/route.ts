@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma"
+import { prismaExclude } from "@/utils/excludePass";
 import { triggerAsyncId } from "async_hooks";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -24,11 +25,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
                     include: {
                         comments: {
                             include: {
-                                author: true
+                                author: {
+                                    select: prismaExclude('User', ['password'])
+                                }
                             }
                         },
                         likes: true,
-                        author:true,
+                        author: true,
                     }
                 },
             }

@@ -15,6 +15,11 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
                 postId
             }
         })
+        const likes= await prisma.like.deleteMany({
+            where:{
+                postId
+            }
+        })
         const post= await prisma.post.delete({
             where:{ 
 

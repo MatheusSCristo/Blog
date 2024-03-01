@@ -2,7 +2,6 @@
 import { Comment } from '@/types/types'
 import revalidatePostsData from '@/utils/revalidatePosts'
 import { CircularProgress } from '@mui/material'
-import { Comments } from '@prisma/client'
 import { getSession } from 'next-auth/react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
