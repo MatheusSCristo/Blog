@@ -45,24 +45,24 @@ const UserCard = ({ userId }: { userId: string }) => {
     }, [])
     return (
         <div className='p-5 shadow rounded-xl flex flex-col w-[200px] min-h-[150px] items-center gap-5 shadow-2xl border border-gray-300'>
-            <div className='flex'>
+            <div className='flex w-full gap-5'>
                 {user?.profileImg ?
                     <Image src={user.profileImg} alt='Imagem de perfil' width={100} height={100} className='rounded-full' />
                     :
-                    <IoPersonCircle size={40} />
+                    <IoPersonCircle size={50} />
                 }
                 <div className='flex flex-col'>
-                    <h1 className='text-xl'>{user?.displayName ? user.displayName : 'Indisponível'}</h1>
-                    <h2 className='text-lightGray text-sm'>@{user?.username}</h2>
+                    <h1 className='text-xl'>{user?.displayName ? user.displayName : '...'}</h1>
+                    <h2 className='text-lightGray text-sm'>@{user?.username ? user?.username :'...'}</h2>
                 </div>
             </div>
             <div className='w-full bg-lightGray h-[1px]' />
             <div className='flex text-lightBlue gap-5'>
-                <Link href={''}>
+                <Link href={'/messages'}>
                     <AiOutlineMessage size={30} />
                 </Link>
                 <RiUserUnfollowFill size={30} onClick={() => unfollowUser({ profileId: userId })} className='hover:scale-[1.15] cursor-pointer'/>
-                <Link href={`profile/${user?.id}`}>
+                <Link href={`profile/${userId}`}>
                     <FaExternalLinkAlt size={30} />
                 </Link>
             </div>

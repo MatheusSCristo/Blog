@@ -6,20 +6,39 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { RiPencilFill } from "react-icons/ri";
+
+type values = {
+    username: string | undefined,
+    bio: string | undefined,
+    displayName: string | undefined,
+}
+const initialState: values = {
+    username: '',
+    bio: '',
+    displayName: ''
+};
+
 const EditProfile = () => {
-    const [username, setUsername] = useState<string | undefined>(undefined)
-    const [bio, setBio] = useState<string | undefined>(undefined)
-    const [displayName, setDisplayName] = useState<string | undefined>(undefined)
+    const [values, setValues] = useState<values>(initialState)
     const [message, setMessage] = useState({ error: false, message: '' })
     const router = useRouter()
 
 
+    const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValues((prevState: values) => ({
+            ...prevState,
+            [e.target.name]: e.target.value
+        }))
+    }
+
     const updateUserInfo = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!(username || bio || displayName)) {
+        if (!(values)) {
             setMessage({ error: true, message: 'É preciso informar algum campo a ser alterado' })
             return
         }
+        
+        
         const session: any = await getSession()
         const { id } = session.user
         await fetch('/api/updateUser', {
@@ -30,9 +49,7 @@ const EditProfile = () => {
             body: JSON.stringify(
                 {
                     userId: id,
-                    username,
-                    bio,
-                    displayName
+                    ...values
                 })
         }).then((res) => {
             if (!res.ok) {
@@ -70,15 +87,15 @@ const EditProfile = () => {
                 <form className='grid grid-cols-2 gap-5 grid-rows-3' onSubmit={updateUserInfo}>
                     <div className='flex flex-col w-4/5'>
                         <label htmlFor='username'>Username</label>
-                        <input type='text' name='username' className='p-3 bg-gray-100 border border-slay-500 rounded ' value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <input type='text' name='username' className='p-3 bg-gray-100 border border-slay-500 rounded '  onChange={handleChanges} />
                     </div>
                     <div className='flex flex-col w-4/5'>
                         <label htmlFor='displayName'>Display Name </label>
-                        <input type='text' name='displayName ' className='p-3 bg-gray-100 border border-slay-500 rounded ' value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+                        <input type='text' name='displayName' className='p-3 bg-gray-100 border border-slay-500 rounded '  onChange={handleChanges} />
                     </div>
                     <div className='flex flex-col w-4/5'>
                         <label htmlFor='bio'>Bio</label>
-                        <input type='text' name='bio' className='p-3 bg-gray-100 border border-slay-500 rounded ' value={bio} onChange={(e) => setBio(e.target.value)} />
+                        <input type='text' name='bio' className='p-3 bg-gray-100 border border-slay-500 rounded ' onChange={handleChanges} />
                     </div>
                     <div className='flex row-start-3 gap-2 mx-5 flex-col'>
                         <div className='flex gap-5'>

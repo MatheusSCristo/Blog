@@ -1,8 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-
-
 export async function PUT(req: NextRequest, res: NextResponse) {
     if (req.method === 'PUT')
         try {
@@ -19,14 +17,20 @@ export async function PUT(req: NextRequest, res: NextResponse) {
 
                 }
             }
+
+            const user=await prisma.user.findUnique({
+                where:{
+                    id:userId
+                }
+            })
             const updatedUser = await prisma.user.update({
                 where: {
                     id: userId
                 },
                 data: {
-                    username,
-                    displayName,
-                    bio
+                    username:username!==''?username:user?.username,
+                    displayName:displayName!==''?displayName:user?.displayName,
+                    bio:bio!==''?bio:user?.bio,
                 }
             })
 
