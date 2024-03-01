@@ -22,7 +22,6 @@ const Login = () => {
     const [loading, setLoading] = useState(false)
     type loginUserType = z.infer<typeof LoginUserFormSchema>
 
-
     const { register,
         handleSubmit,
         formState: { errors }

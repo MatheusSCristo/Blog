@@ -18,7 +18,6 @@ type User = {
 
 const MenuBar = ({ user }: User) => {
   const pathname=usePathname()
-  console.log(pathname)
   const [menuOpen, setMenuOpen] = useState(false)
 
   const handleOnClickSignOut = async () => {

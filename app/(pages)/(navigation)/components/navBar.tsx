@@ -2,17 +2,46 @@
 import React, { useEffect, useState } from 'react'
 import { UserSearchType } from '@/types/types';
 import { FaRegBell } from "react-icons/fa";
-import { CiSearch } from "react-icons/ci";
 import { ImBlogger } from "react-icons/im";
 import { IoPersonCircle } from "react-icons/io5";
 import Image from 'next/image';
 import Link from 'next/link';
 import { CircularProgress } from '@mui/material';
+import { getSession } from 'next-auth/react';
+import useSWR from 'swr';
+
+type messagesReceived = {
+    read: boolean
+}
+
 
 const NavBar = () => {
+    const { data } = useSWR<messagesReceived[]>('/api/getMessageReceived', getNotifications, { refreshInterval: 5 })
+    const [notifications, setNotifications] = useState<number | null>(null)
     const [users, setUsers] = useState<UserSearchType[]>([])
     const [search, setSearch] = useState('')
     const [loading, setLoading] = useState(false)
+
+    async function getNotifications() {
+        const session: any = await getSession()
+        const data = await fetch('/api/getMessageReceived', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ messageToId: session.user.id })
+        })
+        const res = await data.json()
+        return res.data
+    }
+    useEffect(() => {
+        if (data) {
+            const not = data.filter((item: { read: boolean }) => item.read === false)
+            setNotifications(not.length)
+        }
+    }, [data])
+
+
     const getUsers = async () => {
         setLoading(true)
         const data = await fetch('/api/getUsersSearched', {
@@ -37,6 +66,9 @@ const NavBar = () => {
             setUsers([])
         }
     }, [search])
+
+
+
 
 
     return (
@@ -71,9 +103,15 @@ const NavBar = () => {
 
                 }
             </div>
-            <div className='rounded-[50%] p-1 border border-black flex '>
-                <FaRegBell size={30} color='black' />
-            </div>
+            <Link href={'/messages'}>
+                <div className='rounded-[50%] p-1 border border-black flex relative '>
+                    <FaRegBell size={30} color='black' />
+                    {notifications!==0 && <div className='p-2 w-5 h-5 rounded-full bg-[#DD0000] absolute right-0 bottom-0 flex items-center justify-center text-white'>
+                        <span>{notifications}</span>
+                    </div>
+                    }
+                </div>
+            </Link>
         </nav>
 
     )

@@ -11,6 +11,7 @@ const MessagesBox = ({ item }: { item: Follow }) => {
     const [isLoading, setIsLoading] = useState(true)
     const chatUser = useContext(ChatContext)
     const messageContext = useContext(MessageContext)
+    const [messagesUnread, setMessagesUnread] = useState<number | null>(null)
     const { following: receiver } = item
     const [messages, setMessages] = useState<Message[]>([])
 
@@ -29,7 +30,16 @@ const MessagesBox = ({ item }: { item: Follow }) => {
     }
 
 
+    const getMessagesUnread = () => {
+        if (receiver.messageFrom) {
+            const data = receiver.messageFrom.filter((item) => item.read === false)
+            setMessagesUnread(data.length)
+        }
+    }
+
+
     useEffect(() => {
+        getMessagesUnread()
         orderMessages()
     }, [receiver.messageFrom, receiver.messageTo])
 
@@ -93,7 +103,7 @@ const MessagesBox = ({ item }: { item: Follow }) => {
                 </div>
             }
             <div className='flex flex-col max-h-[70px] overflow-hidden'>
-                <h1 className='text-md font-bold'>{receiver.displayName?receiver.displayName:`@${receiver.username}`}</h1>
+                <h1 className='text-md font-bold'>{receiver.displayName ? receiver.displayName : `@${receiver.username}`}</h1>
                 {isLoading ?
                     <div className='h-1/2 w-full flex items-center justify-center'>
                         <CircularProgress size={20} />
@@ -109,7 +119,7 @@ const MessagesBox = ({ item }: { item: Follow }) => {
                     && !item.following.messageFrom[item.following.messageFrom.length - 1].read
                     &&
                     <div className='bg-[#DD0000] p-2 rounded-full w-5 h-5 flex items-center justify-center'>
-                        <span className='text-white text-sm'>{1}</span>
+                        <span className='text-white text-sm'>{messagesUnread}</span>
                     </div>
                 }
             </div>

@@ -52,7 +52,7 @@ const Chat = () => {
 
   const showMessageHour = (time: string) => {
     const date = new Date(time)
-    if(date.getMinutes()<10){
+    if (date.getMinutes() < 10) {
       return `${date.getHours()}:0${date.getMinutes()}`
     }
     return (`${date.getHours()}:${date.getMinutes()}`)
@@ -61,7 +61,7 @@ const Chat = () => {
   return (
     chatUser?.currentChat
     &&
-    <div className='flex flex-col h-full bg-[#EEF1F1] '>
+    <div className='flex flex-col h-full bg-[#EEF1F1] max-h-screen '>
       <div className='flex gap-5 items-center border-b-2 px-5 mx-2 py-5  bg-white'>
         {chatUser?.currentChat.profileImg ?
           <Image src={chatUser?.currentChat.profileImg} alt='Imagem de perfil' />
@@ -70,29 +70,29 @@ const Chat = () => {
             <IoPersonOutline size={30} />
           </div>
         }
-        <h1>{chatUser?.currentChat.displayName?chatUser?.currentChat.displayName:`@${chatUser?.currentChat.username}`}</h1>
+        <h1>{chatUser?.currentChat.displayName ? chatUser?.currentChat.displayName : `@${chatUser?.currentChat.username}`}</h1>
       </div>
       <div className='flex flex-1 flex-col gap-10 relative overflow-y-auto snap-y  p-5 chat' ref={containerRef}>
         {isLoading ?
           <div className=' h-full w-full flex justify-center items-center'>
-            <CircularProgress  />
+            <CircularProgress />
           </div> :
           messageContext?.messages.messages && messages?.map((item) => {
             return (
-            <div className='w-full flex flex-col' key={item.id} >
-              <div className={` ${item.messageFromId === chatUser.currentChat.id ? 'self-start' : 'self-end'} w-1/2`}>
-                <div className={`flex items-end gap-2 ${item.messageFromId === chatUser.currentChat.id ? 'flex-row' : 'flex-row-reverse'}`}>
-                  {item.messageFrom.profileImg ? <Image src={item.messageFrom.profileImg} alt='Imagem de perfil' />
-                    : <div className='bg-white rounded-full p-1'> <IoPersonOutline size={30} /> </div>}
-                  <div className='flex flex-col gap-2'>
-                    <div className={`p-5  ${item.messageFromId === chatUser.currentChat.id ? 'rounded-bl-none bg-white' : 'rounded-br-none bg-[#44b9dca6]'}  rounded-2xl `}>
-                      <h1>{item.content}</h1>
+              <div className='w-full flex flex-col' key={item.id} >
+                <div className={` ${item.messageFromId === chatUser.currentChat.id ? 'self-start' : 'self-end'} w-1/2`}>
+                  <div className={`flex items-end gap-2 ${item.messageFromId === chatUser.currentChat.id ? 'flex-row' : 'flex-row-reverse'}`}>
+                    {item.messageFrom.profileImg ? <Image src={item.messageFrom.profileImg} alt='Imagem de perfil' />
+                      : <div className='bg-white rounded-full p-1'> <IoPersonOutline size={30} /> </div>}
+                    <div className='flex flex-col gap-2'>
+                      <div className={`p-5  ${item.messageFromId === chatUser.currentChat.id ? 'rounded-bl-none bg-white' : 'rounded-br-none bg-[#44b9dca6]'}  rounded-2xl `}>
+                        <h1>{item.content}</h1>
+                      </div>
+                      <span className={` ${item.messageFromId === chatUser.currentChat.id ? 'self-start' : 'self-end'}`}>{showMessageHour(item.createdAt)}</span>
                     </div>
-                    <span className={` ${item.messageFromId === chatUser.currentChat.id ? 'self-start' : 'self-end'}`}>{showMessageHour(item.createdAt)}</span>
                   </div>
                 </div>
-              </div>
-            </div>)
+              </div>)
           })}
 
       </div>

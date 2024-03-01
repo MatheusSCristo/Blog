@@ -33,7 +33,7 @@ const GetPosts = async ({ isAuthor }: { isAuthor: boolean }) => {
     const session: any = await getServerSession(authOptions)
     const posts = await getPosts()
     return (
-        posts.length > 0 ?
+        posts.length > 0 && session ?
             posts?.map((post: any) =>
                 <PostsCard post={post} key={post.id} userId={session.user.id} isAuthor={isAuthor} />
             )
