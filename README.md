@@ -12,8 +12,8 @@ Esse é um projeto de uma rede social estilo Blog, onde as pessoas podem postar 
 - `Funcionalidade 3`: Grupos de mensagens entre usuários🚧
 
 # Techs
--NextJs
--Prisma
--AWS Relational Database w/ Postgres
--Tailwind
--Typescript
+-`NextJs` 
+-`Prisma`
+-`AWS Relational Database w/ Postgres`
+-`Tailwind`
+-`Typescript`
