@@ -89,7 +89,7 @@ const MenuBar = ({ user }: User) => {
             <span>Perfil</span>
           </Link>
         </div>
-        <div className='flex  items-center gap-2 bottom-0 my-5  hover:border hover:bg-lightBlue text-white p-3 rounded-xl hover:scale-110 cursor-pointer ' onClick={handleOnClickSignOut}>
+        <div className='flex  items-center gap-2 bottom-0 my-5  hover:border hover:bg-lightBlue hover:text-white p-3 rounded-xl hover:scale-110 cursor-pointer ' onClick={handleOnClickSignOut}>
           <AiOutlinePoweroff size={30} />
           <span>Logoff</span>
         </div>
