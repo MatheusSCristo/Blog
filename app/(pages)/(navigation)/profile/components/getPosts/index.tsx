@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma'
 import { sessionsType } from '@/types/types'
 import { getServerSession } from 'next-auth'
 import React from 'react'
-import PostsCard from '../../home/components/postsCard'
+import PostsCard from '../../../home/components/postsCard'
 
 const getPost = async () => {
     const session: sessionsType | null = await getServerSession(authOptions)

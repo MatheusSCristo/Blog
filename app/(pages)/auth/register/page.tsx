@@ -13,8 +13,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 const Register = () => {
-   
-
 
     const [passVisibility, setPassVisibility] = useState(false)
     const [erros, setErrors] = useState('')
@@ -49,7 +47,9 @@ const Register = () => {
             router.push('/')
         }
         const response = await res.json()
-        setErrors(response?.message)
+        if(!response.ok){
+            setErrors(response?.message)
+        }
         setLoading(false)
     }
 

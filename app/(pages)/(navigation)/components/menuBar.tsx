@@ -95,9 +95,6 @@ const MenuBar = ({ user }: User) => {
         </div>
       </div >
   )
-
-
-
 }
 
 export default MenuBar
