@@ -40,7 +40,7 @@ const Profile = async () => {
             <div className='h-[200px]  w-full relative'>
                 <Image src='/bgProfile.png' fill={true} alt='Imagem de fundo' className='z-0' />
             </div>
-            <div className=' bg-white m-10 p-1 border border-black w-fit rounded'>
+            <div className=' bg-white m-10 p-1 border-[1px] border-black w-fit rounded'>
                 {user?.profileImg ?
                     <Image src={user.profileImg} width={120} height={120} alt='Foto de perfil' />
                     :

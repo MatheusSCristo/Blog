@@ -51,9 +51,6 @@ const Login = () => {
     setLoading(false);
   };
 
-  
-  
-
 
   return (
     <main className="flex justify-center items-center h-[100vh] m-0 relative ">

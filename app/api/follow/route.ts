@@ -6,6 +6,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const body = await req.json()
         const { userId, profileId } = body
 
+        if(userId == profileId){
+            return NextResponse.json({ message: 'Cannot follow yourself' },{status:400})
+        }
         const alreadyFollowed = await prisma.follows.findUnique({
             where: {
                 followingId_followedById: {

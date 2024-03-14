@@ -30,12 +30,13 @@ model Category {
 }
 
 model Comments {
-  id       String @id @default(uuid())
-  Post     Post   @relation(fields: [postId], references: [id])
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-  postId   String
-  content  String
+  id        String   @id @default(uuid())
+  Post      Post     @relation(fields: [postId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  postId    String
+  content   String
+  createdAt DateTime @default(now()) @map(name: "created_at")
 }
 
 model Like {

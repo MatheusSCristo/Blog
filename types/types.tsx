@@ -25,9 +25,9 @@ export type profileUserType = {
     password: string;
     createdAt: Date;
     updatedAt: Date;
-    bio: string | null;
-    displayName: string | null;
-    profileImg: string | null;
+    bio?: string ;
+    displayName?: string ;
+    profileImg?: string ;
     bgImg: string | null;
     posts: Post[],
     comments: Comment[],

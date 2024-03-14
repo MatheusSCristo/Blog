@@ -6,10 +6,10 @@ type ContextType = {
         id: string
     } 
 }
-export const UserContext = createContext<ContextType | null>(null)
+export const UserContext = createContext<ContextType>({} as ContextType)
 
 const ContextUser = ({ children }: { children: React.ReactNode }) => {
-    const [currentUser,setCurrentUser]=useState<ContextType | null >(null)
+    const [currentUser,setCurrentUser]=useState<ContextType>({} as ContextType);
     const getUser = async () => {
         const session: any = await getSession()
         setCurrentUser({

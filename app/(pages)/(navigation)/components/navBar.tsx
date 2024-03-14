@@ -79,7 +79,7 @@ const NavBar = () => {
             </div>
             <div className='flex flex-col w-full items-center relative'  >
                 <input type='text' placeholder='Procurando um amigo?' className='w-2/5 p-4 rounded-lg border-gray-200 border' value={search} onChange={(e) => setSearch(e.target.value)} />
-                {users && loading ?
+                {users && users.length>0 && loading ?
                     <div className='absolute border border-gray-200 top-14 bg-white w-2/5 rounded-b-lg flex justify-center z-[11] p-4 '>
                         <CircularProgress />
                     </div>

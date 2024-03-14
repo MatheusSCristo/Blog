@@ -1,17 +1,17 @@
-import { Follow, Message } from '@/types/types'
-import React, { useContext, useEffect, useState } from 'react'
+import { Follow } from '@/types/types'
+import React, { useContext, useState } from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
 import MessagesBox from './MessagesBox'
 import { UserContext } from '@/app/context/userSession'
 import { CircularProgress } from '@mui/material'
 import useSWR from 'swr'
-import { ChatContext } from '@/app/context/ChatContext'
+
 
 const Menu = () => {
     const [isLoading, setIsloading] = useState(true)
     const user = useContext(UserContext)
     const getFollowing = async () => {
-        if (user) {
+        if (user ) {
             const data = await fetch('/api/getFollowing',
                 {
                     method: 'POST',

@@ -1,79 +1,109 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import { createPostSchema } from '@/schemas/createPostSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import revalidatePostsData from '@/utils/revalidatePosts';
-import { getSession } from 'next-auth/react';
+"use client";
+import React, { useContext, useEffect, useState } from "react";
+import { createPostSchema } from "@/schemas/createPostSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import revalidatePostsData from "@/utils/revalidatePosts";
+import { UserContext } from "@/app/context/userSession";
+import getUserInfo from "@/utils/getUserInformation";
 
 const PostBox = () => {
-  const [userId, setUserId] = useState<string | null>()
-  const getUserId = async () => {
-    const session: any = await getSession()
-    setUserId(session.user.id)
-  }
-  
+  const { currentUser } = useContext(UserContext);
+  const [username, setUsername] = useState();
   useEffect(() => {
-    getUserId()
-  }, [])
+    const getUserInfos = async () => {
+      const res = await getUserInfo(currentUser.id);
+      setUsername(res.data.username);
+    };
+    if (currentUser?.id) {
+      getUserInfos();
+    }
+  }, [currentUser]);
 
-  type creatPostType = z.infer<typeof createPostSchema>
+  type creatPostType = z.infer<typeof createPostSchema>;
 
-  const { register,
+  const {
+    register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitSuccessful }
+    formState: { errors, isSubmitSuccessful },
   } = useForm<creatPostType>({
-    defaultValues: { title: '', content: '', category: '' },
-    resolver: zodResolver(createPostSchema)
-  })
+    defaultValues: { title: "", content: "", category: "" },
+    resolver: zodResolver(createPostSchema),
+  });
 
   useEffect(() => {
     setTimeout(() => {
-      reset()
+      reset();
     }, 3000);
-  }, [isSubmitSuccessful, reset])
+  }, [isSubmitSuccessful, reset]);
 
   const handleOnClickPublishButton = (data: creatPostType) => {
-    fetch('/api/newPost', {
-      method: 'POST',
+    fetch("/api/newPost", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         ...data,
-        authorId: userId,
-      })
-    })
-      .then(() => {
-        revalidatePostsData()
-
-      })
-  }
+        authorId: currentUser.id,
+      }),
+    }).then(() => {
+      revalidatePostsData();
+    });
+  };
 
   return (
-    <div className='bg-white  rounded-lg'>
-      <form className='w-full h-full flex flex-col items-end gap-5' onSubmit={handleSubmit(handleOnClickPublishButton)}>
-        <input className='w-full h-[50px] p-5 text-left rounded-lg' placeholder='Titulo' {...register('title')} />
-        {errors.title && <span className='text-red'>{errors.title.message}</span>}
-        <input className='w-full h-[200px] p-5 text-left rounded-lg' placeholder='Está pensando no que? Compartilhe com seus amigos.'
-          {...register('content')} />
-        {errors.content && <span className='text-red'>{errors.content.message}</span>}
-        <div className='flex gap-3'>
-          <label htmlFor='category'>Categoria:</label>
-          <select {...register('category')} >
-            <option>Filmes</option>
-            <option>Opinião</option>
-            <option>Outro</option>
-          </select>
-          {errors.category && <span className='text-red'>{errors.category.message}</span>}
+    <form
+      className="w-full flex flex-col gap-5 col-start-1 col-end-3 "
+      onSubmit={handleSubmit(handleOnClickPublishButton)}
+    >
+      <div className="bg-white h-[200px] rounded-lg relative">
+        <div className="w-full h-[50px] p-5 flex flex-col">
+          <input
+            className=" text-left rounded-lg"
+            placeholder="Titulo"
+            {...register("title")}
+          />
+          {errors.title && (
+            <span className="text-red text-sm">{errors.title.message}</span>
+          )}
         </div>
-        <button type='submit' className='bg-lightBlue text-white rounded-lg w-[15%] h-[50px] m-2'>Publicar post</button>
-      </form>
-    </div>
+        <div className="w-full h-[200px] p-5 flex flex-col">
+          <input
+            className="  text-left rounded-lg p-2"
+            placeholder={
+              username && `Compartilhe o que está na sua mente, ${username}... `
+            }
+            {...register("content")}
+          />
+          {errors.content && (
+            <span className="text-red text-sm">{errors.content.message}</span>
+          )}
+        </div>
+        <div className="flex flex-col absolute right-2 bottom-2 items-end">
+          <div className="flex gap-1">
+            <label htmlFor="category">Categoria:</label>
+            <select {...register("category")} className="border rounded">
+              <option>Filmes</option>
+              <option>Opinião</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          {errors.category && (
+            <span className="text-red text-sm">{errors.category.message}</span>
+          )}
+        </div>
+      </div>
+      <button
+        type="submit"
+        className="bg-lightBlue text-white rounded-lg w-[15%] h-[50px] m-2"
+      >
+        Publicar post
+      </button>
+    </form>
+  );
+};
 
-  )
-}
-
-export default PostBox
+export default PostBox;

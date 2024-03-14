@@ -3,9 +3,9 @@ import { Poppins } from "next/font/google";
 
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import Provider from "./context/Provider";
 
-
-const poppins = Poppins({ weight: '400', subsets: ["latin"] });
+const poppins = Poppins({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -17,14 +17,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
   return (
     <html lang="en">
       <body className={poppins.className}>
-          {children}
+        <Provider>{children}</Provider>
       </body>
-
     </html>
   );
 }

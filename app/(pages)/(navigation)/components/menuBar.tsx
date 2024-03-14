@@ -63,7 +63,7 @@ const MenuBar = ({ user }: User) => {
             {user?.profileImg ?
               <Image src={user.profileImg} alt='Imagem de perfil' width={70} height={70} style={{borderRadius:'50%'}}/>
               :
-              <IoPersonCircle size={70} className='text-lightBlue'/>
+              <IoPersonCircle size={70} className='text-black'/>
             }
             <IoIosArrowDropleft size={30} className='absolute right-0 text-black hover:scale-110' onClick={() => setMenuOpen(false)} />
           </div>

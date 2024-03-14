@@ -1,8 +1,9 @@
+'use client'
 import ContextChat from "./ChatContext"
 import ContextMessage from "./MessagesContext"
 import ContextUser from "./userSession"
 
-const Context = ({ children }: { children: React.ReactNode }) => {
+const Provider = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <ContextChat>
@@ -15,4 +16,4 @@ const Context = ({ children }: { children: React.ReactNode }) => {
     )
 
 }
-export default Context
+export default Provider
