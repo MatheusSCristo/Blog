@@ -5,7 +5,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
     if (req.method === 'PUT')
         try {
             const body = await req.json()
-            const { userId, username,displayName,bio } = body
+            const { userId, username,displayName,bio,profileImg,bgImg } = body
             if (username) {
                 const userNameAlreadyExists = await prisma.user.findUnique({
                     where: {
@@ -31,6 +31,9 @@ export async function PUT(req: NextRequest, res: NextResponse) {
                     username:username!==''?username:user?.username,
                     displayName:displayName!==''?displayName:user?.displayName,
                     bio:bio!==''?bio:user?.bio,
+                    profileImg:profileImg!==''?profileImg:user?.profileImg,
+                    bgImg:bgImg!==''?bgImg:user?.bgImg
+                    
                 }
             })
 

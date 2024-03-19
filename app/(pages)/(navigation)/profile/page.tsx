@@ -27,6 +27,7 @@ const getUser = async () => {
                 following: true,
                 profileImg: true,
                 bgImg: true,
+
             }
         })
         return data
@@ -38,7 +39,7 @@ const Profile = async () => {
     return (
         <section className='w-full mx-16 min-h-max bg-white relative'>
             <div className='h-[200px]  w-full relative'>
-                <Image src='/bgProfile.png' fill={true} alt='Imagem de fundo' className='z-0' />
+                <Image src={user?.bgImg?user?.bgImg:'/bgProfile.png'} fill={true} alt='Imagem de fundo' className='z-0' />
             </div>
             <div className=' bg-white m-10 p-1 border-[1px] border-black w-fit rounded'>
                 {user?.profileImg ?

@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
               ...session.user,
               id: userWithId.id,
             },
-          };
+          } as any;
         }
       }
 
