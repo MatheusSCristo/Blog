@@ -2,10 +2,11 @@
 import revalidateAllData from "@/utils/revalidateData";
 import React, { useEffect, useState } from "react";
 import { CiChat1 } from "react-icons/ci";
-import { IoHeartCircle, IoTrashBinOutline } from "react-icons/io5";
+import { IoHeartCircle, IoPerson, IoTrashBinOutline } from "react-icons/io5";
 import CommentModal from "./commentModal";
 import { Post } from "@/types/types";
 import getPostedTime from "@/utils/getPostedTime";
+import Image from "next/image";
 
 const PostsCard = ({
   post,
@@ -62,6 +63,18 @@ const PostsCard = ({
     <div className="bg-white mt-8 min-h-[200px] rounded-lg border border-black m-10">
       <div className="flex p-5 items-center mx-5 justify-between">
         <div className="flex gap-5 items-center">
+          {post.author.profileImg ? (
+            <div className="relative w-[50px] h-[50px]">
+              <Image
+                src={post.author.profileImg}
+                alt={`Imagem de perfil de ${post.author.username} `}
+                fill
+                className="object-cover rounded-full"
+              />
+            </div>
+          ) : (
+            <IoPerson size={30} />
+          )}
           <h1 className="text-xl font-bold">{post.author?.displayName}</h1>
           <h2 className="text-lg text-lightGray">@{post.author?.username}</h2>
           <span>- Postado {getPostedTime(post?.createAt)} </span>

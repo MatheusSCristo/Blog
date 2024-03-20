@@ -86,7 +86,6 @@ const MessagesBox = ({ item }: { item: Follow }) => {
             return '1d.'
         }
         else {
-            console.log(res)
             return `${(res / 1440).toFixed(0)}d`
         }
 
@@ -96,7 +95,7 @@ const MessagesBox = ({ item }: { item: Follow }) => {
 
     return (
         <div className='flex py-2 pl-1 gap-3 border-b border-gray-200 h-[90px] items-center cursor-pointer hover:scale-[1.01] relative items-center ' onClick={Handle}>
-            {receiver.profileImg ? <Image src={receiver.profileImg} alt='Imagem de perfil' />
+            {receiver.profileImg ? <Image src={receiver.profileImg} alt='Imagem de perfil' width={50} height={50} />
                 :
                 <div className="rounded-full p-2 flex items-center bg-lightBlue h-fit">
                     <IoPersonOutline size={30} />

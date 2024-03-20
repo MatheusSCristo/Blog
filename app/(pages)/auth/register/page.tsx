@@ -81,6 +81,9 @@ const Register = () => {
                 </div>
 
                 <form className='flex flex-col md:w-3/5 text-lightGray ' onSubmit={handleSubmit(handleOnClickSubmit)}>
+                    <label htmlFor='username' className='my-2'>Nome</label>
+                    <input type='text' className='p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md'  {...register('displayName')} />
+                    {errors.displayName && <span className='text-red'>{errors.displayName.message}</span>}
                     <label htmlFor='username' className='my-2'>Username</label>
                     <input type='text' className='p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md'  {...register('username')} />
                     {errors.username && <span className='text-red'>{errors.username.message}</span>}

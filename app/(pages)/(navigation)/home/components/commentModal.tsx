@@ -28,8 +28,8 @@ const CommentModal = ({
     getAuthorId();
   }, []);
 
-  const handleSendComment = async (e:React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSendComment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setContent("");
     setIsLoading(true);
     await fetch("/api/createComment", {
@@ -49,23 +49,21 @@ const CommentModal = ({
   return (
     <div className="flex flex-col items-center justify-center h-fit w-full bg-[#000} ">
       <div className="bg-white flex w-full flex-col p-5 ">
-       
-          <form onSubmit={handleSendComment} className="flex gap-10">
-            <input
-              type="text"
-              className="w-full border border-gray-400 w-3/5 rounded-xl h-[50px] p-5"
-              placeholder="Deixe um comentário"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-            <button
-              className="bg-lightBlue rounded-xl text-white p-2"
-              type="submit"
-            >
-              Enviar comentário
-            </button>
-          </form>
-       
+        <form onSubmit={handleSendComment} className="flex gap-10">
+          <input
+            type="text"
+            className="w-full border border-gray-400 w-3/5 rounded-xl h-[50px] p-5"
+            placeholder="Deixe um comentário"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+          <button
+            className="bg-lightBlue rounded-xl text-white p-2"
+            type="submit"
+          >
+            Enviar comentário
+          </button>
+        </form>
       </div>
       {isLoading && (
         <div className="p-5">
@@ -76,13 +74,14 @@ const CommentModal = ({
         <div className="flex flex-col w-full p-5 border-b" key={comment.id}>
           <div className="flex gap-5 items-center">
             {comment.author.profileImg ? (
-              <Image
-                src={comment.author.profileImg}
-                alt="Imagem de perfil"
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
+              <div className="relative w-[40px] h-[40px]">
+                <Image
+                  src={comment.author.profileImg}
+                  alt="Imagem de perfil"
+                  fill
+                  className="rounded-full object-cover"
+                />
+              </div>
             ) : (
               <IoPersonCircle size={30} />
             )}

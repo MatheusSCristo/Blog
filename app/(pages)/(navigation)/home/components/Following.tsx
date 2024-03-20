@@ -25,25 +25,29 @@ const Following = async () => {
   const followers = await getFollowing();
 
   return (
-    <div className="bg-white border rounded-lg flex-col p-5 flex gap-2" >
+    <div className="bg-white border rounded-lg flex-col p-5 flex gap-2">
       <div className="flex gap-2">
         <h1 className="font-bold">Estou Seguindo</h1>
         <span className="text-lightGray">{followers?.length}</span>
       </div>
       {followers?.map((follower) => (
-        
-        <Link href={`/profile/{follower.followingId}`} key={follower.followingId} className=" cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-black text-white">
+        <Link
+          href={`/profile/{follower.followingId}`}
+          key={follower.followingId}
+        >
           {follower.following.profileImg ? (
-            <Image
-              src={follower.following.profileImg}
-              alt={`Imagem de perfil de ${follower.following.username} `}
-              fill
-              objectFit="contain"
-            />
+            <div className="relative w-[50px] h-[50px]">
+              <Image
+                src={follower.following.profileImg}
+                alt={`Imagem de perfil de ${follower.following.username} `}
+                fill
+                className="object-cover rounded-full"
+              />
+            </div>
           ) : (
             <IoPerson size={30} />
           )}
-        </Link >
+        </Link>
       ))}
     </div>
   );

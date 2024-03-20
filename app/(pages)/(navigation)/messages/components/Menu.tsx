@@ -46,7 +46,6 @@ const Menu = () => {
     
     const { data } = useSWR<Follow[] | undefined>('/api/getFollowing', getFollowing, { refreshInterval: 1 })
    
-
         return (
             <div className='bg-white h-full flex flex-col p-5 gap-5'>
                 <h1 className='text-3xl font-semibold ml-2 mt-10'>Mensagens</h1>

@@ -168,7 +168,7 @@ const EditProfile = () => {
           </div>
         )}
         {!loadingProfileImage && !userInfos.profileImg && (
-          <IoPersonCircle size={100} />
+          <IoPersonCircle size={100} className="bg-white" />
         )}
         <label
           htmlFor="profileFile"
