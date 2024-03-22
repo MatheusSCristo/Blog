@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa6";
@@ -10,7 +10,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LoginUserFormSchema } from "@/schemas/loginUserSchema";
-import { signIn } from "next-auth/react";
+import {  signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
@@ -40,17 +40,15 @@ const Login = () => {
       password: data.password,
       redirect: false,
     });
-
-    if (signInData?.ok) {
-      router.push("/home");
+    if(signInData?.ok){
+      router.push('/home')
     }
-    else if (signInData?.status === 401) {
+    if (signInData?.status === 401) {
       setErrors("Erro na validação das credenciais,tente novamente");
     }
 
     setLoading(false);
   };
-
 
   return (
     <main className="flex justify-center items-center h-[100vh] m-0 relative ">
@@ -61,13 +59,13 @@ const Login = () => {
         </h1>
         <h2 className="text-md md:text-xl">Entre com</h2>
         <div className="flex justify-between md:w-2/5 gap-3">
-          <div className="bg-white flex items-center justify-center border border-lightGray rounded p-2 gap-2 md:w-32 cursor-pointer" >
+          <div className="bg-white flex items-center justify-center border border-lightGray rounded p-2 gap-2 md:w-32 cursor-pointer">
             <FcGoogle size={20} />
-            <span onClick={() => ''}>Google</span>
+            <span onClick={() => ""}>Google</span>
           </div>
-          <div className="bg-white flex items-center justify-center border border-lightGray rounded p-2 gap-2 md:w-32 cursor-pointer" >
+          <div className="bg-white flex items-center justify-center border border-lightGray rounded p-2 gap-2 md:w-32 cursor-pointer">
             <FaGithub size={20} />
-            <span onClick={() => ''}>GitHub</span>
+            <span onClick={() => ""}>GitHub</span>
           </div>
         </div>
         <div className="flex flex-row w-full items-center gap-2 md:gap-3 md:px-2 ">

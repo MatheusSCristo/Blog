@@ -12,6 +12,7 @@ import { IoIosArrowDropright, IoIosArrowDropleft } from "react-icons/io";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCookies } from 'next-client-cookies';
 
 type User = {
   user:
@@ -30,6 +31,7 @@ const MenuBar = ({ user }: User) => {
 
   const handleOnClickSignOut = async () => {
     await signOut({ callbackUrl: "/auth/login" });
+    
   };
 
   return !menuOpen ? (
