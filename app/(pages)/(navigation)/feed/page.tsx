@@ -9,7 +9,9 @@ const Home = () => {
     <div className="flex flex-col mx-16 w-full">
       <h1 className="text-2xl my-5 font-bold">Feed</h1>
       <section className="w-full h-full grid grid-cols-3 gap-5">
-        <PostBox />
+        <div className="bg-white col-start-1 col-end-3">
+          <PostBox />
+        </div>
         <Following />
         <Suspense fallback={<LoadingComponents />}>
           <GetPosts isAuthor={false} />

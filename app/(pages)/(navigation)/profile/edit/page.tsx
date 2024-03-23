@@ -3,7 +3,12 @@ import { storage } from "@/app/api/firebase/storage";
 import { UserContext } from "@/app/context/userSession";
 import { profileUserType } from "@/types/types";
 import getUserInfo from "@/utils/getUserInformation";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+  deleteObject,
+} from "firebase/storage";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -43,6 +48,8 @@ const EditProfile = () => {
   const { currentUser } = useContext(UserContext);
   const [loadingProfileImage, setLoadingProfileImage] = useState(true);
   const [loadingBackgroundImage, setLoadingBackgroundImage] = useState(true);
+  const [profileImageFile, setProfileImageFile] = useState<File>();
+  const [backgroundImageFile, setBackgroundImageFile] = useState<File>();
 
   const router = useRouter();
 
@@ -58,6 +65,7 @@ const EditProfile = () => {
     }
   }, [currentUser]);
 
+
   const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues((prevState: values) => ({
       ...prevState,
@@ -65,14 +73,13 @@ const EditProfile = () => {
     }));
   };
 
-  const editProfileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const editProfileImage = async (file: File, path: string) => {
     setLoadingProfileImage(true);
-    if (!e.target.files) return;
-    const id = currentUser.id;
-    const path = `/UserImages/${id}/profileImage.png`;
+    if (!file) return;
+    setProfileImageFile(file);
     const reference = ref(storage, path);
-    const uploadTask = uploadBytesResumable(reference, e.target.files[0]);
-    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+    const uploadTask = await uploadBytesResumable(reference, file);
+    getDownloadURL(uploadTask.ref).then((url) => {
       setProfileImageUrl(url);
       setUserInfos((prevState) => ({
         ...prevState,
@@ -82,14 +89,13 @@ const EditProfile = () => {
     });
   };
 
-  const editBackgroundImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const editBackgroundImage = async (file: File, path: string) => {
     setLoadingBackgroundImage(true);
-    if (!e.target.files) return;
-    const id = currentUser.id;
-    const path = `/UserImages/${id}/backgroundImage.png`;
+    if (!file) return;
+    setBackgroundImageFile(file);
     const reference = ref(storage, path);
-    const uploadTask = uploadBytesResumable(reference, e.target.files[0]);
-    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+    const uploadTask = await uploadBytesResumable(reference, file);
+    getDownloadURL(uploadTask.ref).then((url) => {
       setBackgroundImageUrl(url);
       setUserInfos((prevState) => ({
         ...prevState,
@@ -112,6 +118,35 @@ const EditProfile = () => {
       setTimeout(() => {
         router.push("/profile");
       }, 1500);
+    }
+    if (profileImageFile)
+      editProfileImage(
+        profileImageFile,
+        `/UserImages/${currentUser.id}/profileImage.png`
+      );
+    if (backgroundImageFile)
+      editProfileImage(
+        backgroundImageFile,
+        `/UserImages/${currentUser.id}/backgroundImage.png`
+      );
+      handleDeleteTempImages()
+  };
+
+  const handleDeleteTempImages = () => {
+    const id = currentUser.id;
+    if (backgroundImageFile) {
+      const backgroundReference = ref(
+        storage,
+        `/UserImages/${id}/tempBackgroundImage.png`
+      );
+      deleteObject(backgroundReference);
+    }
+    if (profileImageFile) {
+      const profileReference = ref(
+        storage,
+        `/UserImages/${id}/tempProfileImage.png`
+      );
+      deleteObject(profileReference);
     }
   };
 
@@ -147,7 +182,13 @@ const EditProfile = () => {
             accept="image/png, image/jpeg"
             multiple
             className="hidden"
-            onChange={editBackgroundImage}
+            onChange={(event) => {
+              if (event.target.files)
+                editBackgroundImage(
+                  event.target.files[0],
+                  `/UserImages/${currentUser.id}/tempBackgroundImage.png`
+                );
+            }}
           />
         </div>
       </div>
@@ -168,7 +209,7 @@ const EditProfile = () => {
           </div>
         )}
         {!loadingProfileImage && !userInfos.profileImg && (
-          <IoPersonCircle size={100} className="bg-white" />
+          <IoPersonCircle size={100} className="bg-white rounded-full" />
         )}
         <label
           htmlFor="profileFile"
@@ -182,7 +223,13 @@ const EditProfile = () => {
           accept="image/png, image/jpeg"
           multiple
           className="hidden"
-          onChange={editProfileImage}
+          onChange={(event) => {
+            if (event.target.files)
+              editProfileImage(
+                event.target.files[0],
+                `/UserImages/${currentUser.id}/tempProfileImage.png`
+              );
+          }}
         />
       </div>
       <div className="my-16 p-10">
@@ -231,6 +278,7 @@ const EditProfile = () => {
               <Link
                 href={"/profile"}
                 className="bg-white p-2 border border-lightBlue text-lightBlue rounded-lg hover:bg-red-600 hover:scale-105 hover:text-white"
+                onClick={handleDeleteTempImages}
               >
                 Cancelar
               </Link>

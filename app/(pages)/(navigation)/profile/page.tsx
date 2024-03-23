@@ -9,6 +9,7 @@ import { RiPencilFill } from "react-icons/ri";
 import { IoPersonCircle } from "react-icons/io5";
 import LoadingComponents from "../components/loadingComponents";
 import GetPosts from "./components/getPosts";
+import PostBox from "../feed/components/postBox";
 
 const getUser = async () => {
   const session: sessionsType | null = await getServerSession(authOptions);
@@ -48,9 +49,9 @@ const Profile = async () => {
           <div className="h-full w-full bg-slate-500 " />
         )}
       </div>
-      <div className=" bg-white m-10 p-1 border-[1px] border-black w-fit rounded">
+      <div className=" bg-white p-5 w-full flex justify-between items-center">
         {user?.profileImg ? (
-          <div className="w-[100px] h-[100px] relative ">
+          <div className="w-[100px] h-[100px] relative rounded-full ">
             <Image
               src={user?.profileImg}
               alt="Imagem de perfil"
@@ -61,8 +62,12 @@ const Profile = async () => {
         ) : (
           <IoPersonCircle size={100} />
         )}
+         <div className="flex gap-5 ">
+            <h2>Seguindo: {user?.following.length}</h2>
+            <h2>Seguidores: {user?.followedBy.length}</h2>
+          </div>
       </div>
-      <div className="m-10 flex flex-col">
+      <div className="m-5 flex flex-col">
         <div className="flex justify-between">
           <div className="flex gap-10 items-center ">
             <h1 className="text-2xl font-bold ">{user?.displayName}</h1>
@@ -75,15 +80,15 @@ const Profile = async () => {
               <RiPencilFill size={20} className="cursor-pointer" />
             </Link>
           </div>
-          <div className="flex gap-5">
-            <h2>Seguindo: {user?.following.length}</h2>
-            <h2>Seguidores: {user?.followedBy.length}</h2>
-          </div>
+         
         </div>
         <div className="flex flex-col mt-10">
           <h1 className="text-xl font-bold">Bio</h1>
-          <p className="text-lightGray">{user?.bio}</p>
+          <p className="text-lightGray">{user?.bio ? user?.bio :"Esse usuário ainda não possui uma bio."}</p>
         </div>
+      </div>
+      <div className="mx-5 border border-gray-200 rounded-lg">
+        <PostBox />
       </div>
       <Suspense fallback={<LoadingComponents />}>
         <GetPosts />

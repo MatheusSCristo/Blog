@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma'
 import { sessionsType } from '@/types/types'
 import { getServerSession } from 'next-auth'
 import React from 'react'
-import PostsCard from '../../../home/components/postsCard'
+import PostsCard from '../../../feed/components/postsCard'
 
 const getPost = async () => {
     const session: sessionsType | null = await getServerSession(authOptions)
@@ -32,14 +32,14 @@ const getPosts = async () => {
     const posts = await getPost()
 
     return (
-        <div>
+        <div className='my-10'>
             {posts && posts?.length > 0 ?
                 posts?.reverse().map((post: any) =>
                     <PostsCard post={post} key={post.id} userId={session?.user.id} isAuthor={true} />
 
                 ) :
                 <div className='w-full flex justify-center my-5'>
-                    <h1 className='font-bold text-2xl'>Voce ainda não tem nenhum post!</h1>
+                    <h1 className='font-bold text-3xl'>Voce ainda não tem nenhum post!</h1>
                 </div>
             }
         </div>

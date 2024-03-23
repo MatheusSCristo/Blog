@@ -41,7 +41,7 @@ const Login = () => {
       redirect: false,
     });
     if(signInData?.ok){
-      router.push('/home')
+      router.push('/feed')
     }
     if (signInData?.status === 401) {
       setErrors("Erro na validação das credenciais,tente novamente");
@@ -89,7 +89,7 @@ const Login = () => {
             {...register("email")}
           />
           {errors.email && (
-            <span className="text-red">{errors.email.message}</span>
+            <span className="text-red-500">{errors.email.message}</span>
           )}
           <label className="my-2" htmlFor="password">
             Senha
@@ -115,10 +115,10 @@ const Login = () => {
             )}
           </div>
           {errors.password && (
-            <span className="text-red">{errors.password.message}</span>
+            <span className="text-red-500">{errors.password.message}</span>
           )}
           {erros && (
-            <span className="text-red text-sm text-center mt-2">{erros}</span>
+            <span className="text-red-500 text-sm text-center mt-2">{erros}</span>
           )}
           <button
             type="submit"

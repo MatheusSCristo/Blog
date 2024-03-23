@@ -1,43 +1,43 @@
-import NavBar from "@/app/(pages)/(navigation)/components/navBar";
-import MenuBar from "@/app/(pages)/(navigation)/components/menuBar";
+import { Poppins } from "next/font/google";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
-import { sessionsType } from "@/types/types";
 import prisma from "@/lib/prisma";
+import { sessionsType } from "@/types/types";
+import Provider from "@/app/context/Provider";
+import MenuBar from "./components/menuBar";
+import NavBar from "./components/navBar";
+
+const poppins = Poppins({ weight: "400", subsets: ["latin"] });
 
 const getUser = async () => {
-  const session: sessionsType | null = await getServerSession(authOptions)
-  
+  const session: sessionsType | null = await getServerSession(authOptions);
   if (session?.user?.id) {
-      const data = await prisma.user.findUnique({
-          where: {
-              id: session.user.id
-          },
-          select:{
-                displayName:true,
-                profileImg:true,
-          }
-      })
-      return data
+    const data = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+      select: {
+        displayName: true,
+        profileImg: true,
+      },
+    });
+    return data;
   }
-}
-// eslint-disable-next-line react/display-name
-export default async function  ({
+};
+
+export default async function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
-  
-  const user=await getUser()
+}>) {
+  const user = await getUser();
   return (
-    <>
+    <Provider>
       <NavBar />
-      <main className='bg-bgGray px-[3%] py-4 flex flex-1 '>
+      <main className="bg-bgGray px-[3%] py-4 flex flex-1 w-full ">
         <MenuBar user={user} />
         {children}
       </main>
-    </>
-
+    </Provider>
   );
 }

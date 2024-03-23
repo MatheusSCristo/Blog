@@ -12,7 +12,7 @@ import { IoIosArrowDropright, IoIosArrowDropleft } from "react-icons/io";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCookies } from 'next-client-cookies';
+import { useCookies } from "next-client-cookies";
 
 type User = {
   user:
@@ -31,7 +31,6 @@ const MenuBar = ({ user }: User) => {
 
   const handleOnClickSignOut = async () => {
     await signOut({ callbackUrl: "/auth/login" });
-    
   };
 
   return !menuOpen ? (
@@ -57,9 +56,9 @@ const MenuBar = ({ user }: User) => {
       </div>
       <div className="flex flex-col gap-4 md:gap-10 my-10">
         <Link
-          href="/home"
+          href="/feed"
           className={`p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer ${
-            pathname === "/home" ? "border border-white" : ""
+            pathname === "/feed" ? "border border-white" : ""
           }`}
         >
           <IoHomeOutline size={30} className="text-white" />
@@ -71,14 +70,6 @@ const MenuBar = ({ user }: User) => {
           }`}
         >
           <AiOutlineMessage size={30} className="text-white" />
-        </Link>
-        <Link
-          href={"/following"}
-          className={`p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer ${
-            pathname === "/following" ? "border border-white" : ""
-          }`}
-        >
-          <IoPeopleOutline size={30} className="text-white" />
         </Link>
         <Link
           href={"/profile"}
@@ -122,9 +113,9 @@ const MenuBar = ({ user }: User) => {
       </div>
       <div className="flex flex-col gap-4 md:gap-8 my-10 w-full items-center text-sm md:text-lg ">
         <Link
-          href={"/home"}
+          href={"/feed"}
           className={`${
-            pathname === "/home" ? "border bg-lightBlue text-white" : ""
+            pathname === "/feed" ? "border bg-lightBlue text-white" : ""
           } p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black`}
         >
           <IoHomeOutline size={30} className="" />
@@ -138,15 +129,6 @@ const MenuBar = ({ user }: User) => {
         >
           <AiOutlineMessage size={30} />
           <span>Mensagens</span>
-        </Link>
-        <Link
-          href={"/following"}
-          className={`${
-            pathname === "/following" ? "border bg-lightBlue text-white" : ""
-          } p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black`}
-        >
-          <IoPeopleOutline size={30} />
-          <span>Seguindo</span>
         </Link>
         <Link
           href={"/profile"}
