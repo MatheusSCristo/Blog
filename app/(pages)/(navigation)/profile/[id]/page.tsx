@@ -1,22 +1,19 @@
 "use client";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
-import PostsCard from "../../home/components/postsCard";
 import { getSession } from "next-auth/react";
 import { profileUserType, Post } from "@/types/types";
 import { IoPersonCircle } from "react-icons/io5";
 import ReactLoading from "react-loading";
-import { useRouter } from "next/navigation";
 import { UserContext } from "@/app/context/userSession";
+import PostsCard from "../../feed/components/postsCard";
 
 const LayoutPage = ({ params }: { params: { id: string } }) => {
-  const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<profileUserType>();
   const [following, setFollowing] = useState(0);
   const [isFollowed, setIsFollowed] = useState(false);
   const [followedBy, setFollowedBy] = useState(0);
-  const router = useRouter();
   const { currentUser } = useContext(UserContext);
 
   const userIsFollowed = async (
@@ -25,8 +22,7 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
       followingId: String;
     }[]
   ) => {
-    const session: any = await getSession();
-    const found = data.find((item) => item.followedById === session.user.id);
+    const found = data.find((item) => item.followedById === currentUser.id);
     if (found) {
       setIsFollowed(true);
     }
@@ -65,7 +61,7 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId:currentUser.id,
+        userId: currentUser.id,
         profileId: params.id,
       }),
     });
@@ -129,7 +125,7 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
             <PostsCard
               post={post}
               key={post.id}
-              userId={userId}
+              userId={currentUser.id}
               isAuthor={false}
             />
           ))

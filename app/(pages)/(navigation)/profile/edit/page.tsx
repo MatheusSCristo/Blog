@@ -43,13 +43,12 @@ const EditProfile = () => {
   const [userInfos, setUserInfos] = useState<profileUserType>(
     {} as profileUserType
   );
-  const [profileImageUrl, setProfileImageUrl] = useState("");
-  const [backgroundImageUrl, setBackgroundImageUrl] = useState("");
   const { currentUser } = useContext(UserContext);
   const [loadingProfileImage, setLoadingProfileImage] = useState(true);
   const [loadingBackgroundImage, setLoadingBackgroundImage] = useState(true);
   const [profileImageFile, setProfileImageFile] = useState<File>();
   const [backgroundImageFile, setBackgroundImageFile] = useState<File>();
+  const [uploadLoading, setUploadLoading] = useState(false);
 
   const router = useRouter();
 
@@ -65,7 +64,6 @@ const EditProfile = () => {
     }
   }, [currentUser]);
 
-
   const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues((prevState: values) => ({
       ...prevState,
@@ -73,81 +71,78 @@ const EditProfile = () => {
     }));
   };
 
-  const editProfileImage = async (file: File, path: string) => {
+  const handleUploadProfileImage = async (file: File) => {
     setLoadingProfileImage(true);
     if (!file) return;
     setProfileImageFile(file);
-    const reference = ref(storage, path);
-    const uploadTask = await uploadBytesResumable(reference, file);
-    getDownloadURL(uploadTask.ref).then((url) => {
-      setProfileImageUrl(url);
-      setUserInfos((prevState) => ({
-        ...prevState,
-        profileImg: url,
-      }));
-      setLoadingProfileImage(false);
-    });
+    setUserInfos((prevState) => ({
+      ...prevState,
+      profileImg: URL.createObjectURL(file),
+    }));
+
+    setLoadingProfileImage(false);
   };
 
-  const editBackgroundImage = async (file: File, path: string) => {
+  const editBackgroundImage = async (file: File) => {
     setLoadingBackgroundImage(true);
     if (!file) return;
     setBackgroundImageFile(file);
-    const reference = ref(storage, path);
-    const uploadTask = await uploadBytesResumable(reference, file);
-    getDownloadURL(uploadTask.ref).then((url) => {
-      setBackgroundImageUrl(url);
-      setUserInfos((prevState) => ({
-        ...prevState,
-        bgImg: url,
-      }));
-      setLoadingBackgroundImage(false);
-    });
+    setUserInfos((prevState) => ({
+      ...prevState,
+      bgImg: URL.createObjectURL(file),
+    }));
+    setLoadingBackgroundImage(false);
+  };
+
+  const handleUploadImages = async (file: File | undefined, path: string) => {
+    if (file) {
+      const reference = ref(storage, path);
+      const uploadTask = await uploadBytesResumable(reference, file);
+      const url = await getDownloadURL(uploadTask.ref);
+      return url;
+    } else {
+      return undefined;
+    }
   };
 
   const handleUpdateUser = async (e: React.FormEvent<HTMLFormElement>) => {
-    const res = await updateUserInfo({
-      e,
-      values,
-      currentUser,
-      profileImageUrl,
-      backgroundImageUrl,
-    });
-    setMessage(res);
-    if (!res.error) {
-      setTimeout(() => {
-        router.push("/profile");
-      }, 1500);
-    }
-    if (profileImageFile)
-      editProfileImage(
+    e.preventDefault();
+    setUploadLoading(true);
+    let profileImageUrl: string;
+    let backgroundImageUrl: string;
+    const uploadPromises = [];
+
+    uploadPromises.push(
+      handleUploadImages(
         profileImageFile,
         `/UserImages/${currentUser.id}/profileImage.png`
-      );
-    if (backgroundImageFile)
-      editProfileImage(
+      )
+    );
+    uploadPromises.push(
+      handleUploadImages(
         backgroundImageFile,
         `/UserImages/${currentUser.id}/backgroundImage.png`
-      );
-      handleDeleteTempImages()
-  };
+      )
+    );
 
-  const handleDeleteTempImages = () => {
-    const id = currentUser.id;
-    if (backgroundImageFile) {
-      const backgroundReference = ref(
-        storage,
-        `/UserImages/${id}/tempBackgroundImage.png`
-      );
-      deleteObject(backgroundReference);
-    }
-    if (profileImageFile) {
-      const profileReference = ref(
-        storage,
-        `/UserImages/${id}/tempProfileImage.png`
-      );
-      deleteObject(profileReference);
-    }
+    Promise.all(uploadPromises).then(async (data) => {
+      if (data[0]) profileImageUrl = data[0];
+      if (data[1]) backgroundImageUrl = data[1];
+      const res = await updateUserInfo({
+        e,
+        values,
+        currentUser,
+        profileImageUrl,
+        backgroundImageUrl,
+      });
+      setMessage(res);
+      setUploadLoading(false);
+      if (!res.error) {
+        setTimeout(() => {
+          router.push("/profile");
+        }, 1500);
+      }
+    });
   };
 
   return (
@@ -184,10 +179,7 @@ const EditProfile = () => {
             className="hidden"
             onChange={(event) => {
               if (event.target.files)
-                editBackgroundImage(
-                  event.target.files[0],
-                  `/UserImages/${currentUser.id}/tempBackgroundImage.png`
-                );
+                editBackgroundImage(event.target.files[0]);
             }}
           />
         </div>
@@ -225,10 +217,7 @@ const EditProfile = () => {
           className="hidden"
           onChange={(event) => {
             if (event.target.files)
-              editProfileImage(
-                event.target.files[0],
-                `/UserImages/${currentUser.id}/tempProfileImage.png`
-              );
+              handleUploadProfileImage(event.target.files[0]);
           }}
         />
       </div>
@@ -278,10 +267,12 @@ const EditProfile = () => {
               <Link
                 href={"/profile"}
                 className="bg-white p-2 border border-lightBlue text-lightBlue rounded-lg hover:bg-red-600 hover:scale-105 hover:text-white"
-                onClick={handleDeleteTempImages}
               >
                 Cancelar
               </Link>
+              {uploadLoading && (
+                <CircularProgress className="w-[50px] h-[50px]" />
+              )}
             </div>
             {message?.message && (
               <span

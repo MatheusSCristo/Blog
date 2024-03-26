@@ -12,7 +12,7 @@ type updateUserInfoParams = {
   currentUser: {
     id: string;
   };
-  profileImageUrl: string;
+  profileImageUrl: string |undefined;
   backgroundImageUrl?: string | undefined;
 };
 
@@ -24,7 +24,7 @@ export const updateUserInfo = async ({
   backgroundImageUrl,
 }: updateUserInfoParams) => {
   e.preventDefault();
-  if (!values) {
+  if (!values && profileImageUrl && !backgroundImageUrl) {
     return { error: true, message: "É preciso alterar algum campo!" };
   }
 
