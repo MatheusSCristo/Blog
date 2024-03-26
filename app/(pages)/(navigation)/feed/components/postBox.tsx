@@ -136,7 +136,7 @@ const PostBox = () => {
         <div className="flex gap-2 px-5 py-2 relative h-fit flex-wrap">
           {categories.length > 0 &&
             categories.map((category) => (
-              <div
+              <div key={category}
                 className="basis-[150px] min-w-fit bg-lightBlue flex justify-evenly items-center text-lightGray rounded-lg p-2 hover:bg-red-400 hover:text-black gap-2 cursor-pointer"
                 onClick={() => handleRemoveCategory(category)}
               >
