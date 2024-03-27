@@ -1,6 +1,6 @@
 "use client";
 import revalidateAllData from "@/utils/revalidateData";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CiChat1 } from "react-icons/ci";
 import { IoHeartCircle, IoPerson, IoTrashBinOutline } from "react-icons/io5";
 import CommentModal from "./commentModal";
@@ -8,27 +8,27 @@ import { Post } from "@/types/types";
 import getPostedTime from "@/utils/getPostedTime";
 import Image from "next/image";
 import DeletePostModal from "@/app/modal/DeletePost";
+import { UserContext } from "@/app/context/userSession";
 
 const PostsCard = ({
   post,
-  userId,
   isAuthor,
 }: {
   post: Post;
-  userId: string;
   isAuthor: boolean;
 }) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(post.likes.length);
   const [commentIsOpen, setCommentIsOpen] = useState(false);
   const [deleteModelIsOpen, setDeleteModelIsOpen] = useState(false);
+  const {currentUser}=useContext(UserContext);
   useEffect(() => {
     post.likes.map((e: { userId: string; postId: string }) => {
-      if (e.userId === userId) {
+      if (e.userId === currentUser?.id) {
         setLiked(true);
       }
     });
-  }, [post.likes, userId]);
+  }, [post.likes, currentUser?.id]);
 
   const handleOnClickLikeButton = async (postId: string | undefined) => {
     if (liked) {
@@ -42,7 +42,7 @@ const PostsCard = ({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ postId, userId }),
+      body: JSON.stringify({ postId, userId:currentUser?.id }),
     }).then(() => {
       revalidateAllData();
     });

@@ -52,16 +52,8 @@ const Register = () => {
   };
 
   return (
-    <main className=" flex justify-center items-center min-h-[100vh] m-0 relative ">
-      <Image
-        src={"/bgRegister.jpg"}
-        fill={true}
-        objectFit=""
-        alt="bg-IMG"
-        priority={true}
-      />
-
-      <div className="flex flex-col p-5 items-center bg-white z-10 md:w-2/5 rounded-2xl gap-2">
+    <main className=" flex justify-center items-center min-h-[100vh] m-0 relative bg-bgGray ">
+           <div className="flex flex-col p-5 items-center bg-white z-10 md:w-2/5 rounded-2xl gap-2">
         <h1 className="ttext-2xl md:text-4xl font-bold my-1 md:my-4">
           Crie sua conta
         </h1>
@@ -166,7 +158,7 @@ const Register = () => {
 
           <button
             type="submit"
-            className="bg-lightBlue w-1/2  rounded-2xl text-white uppercase m-auto my-5 p-3 font-semibold disabled:opacity-50"
+            className="bg-darkBlue w-1/2  rounded-2xl text-white uppercase m-auto my-5 p-3 font-semibold disabled:opacity-50"
             disabled={loading}
           >
             Criar conta
@@ -174,7 +166,7 @@ const Register = () => {
         </form>
         <h2>
           Já possui uma conta?
-          <Link href={"/auth/login"} className="mx-2 text-lightBlue">
+          <Link href={"/auth/login"} className="mx-2 text-darkBlue">
             Faça login
           </Link>
         </h2>

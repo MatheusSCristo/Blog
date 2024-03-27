@@ -37,7 +37,6 @@ const GetPosts = async ({ isAuthor }: { isAuthor: boolean }) => {
           <PostsCard
             post={post}
             key={post.id}
-            userId={session.user.id}
             isAuthor={isAuthor}
           />
         ))

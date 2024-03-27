@@ -32,7 +32,7 @@ const Following = async () => {
       </div>
       {followers?.map((follower) => (
         <Link
-          href={`/profile/{follower.followingId}`}
+          href={`/profile/${follower.followingId}`}
           key={follower.followingId}
         >
           {follower.following.profileImg ? (

@@ -49,8 +49,20 @@ export type Post = {
     likes: Like[]
 }
 
+export type noPassUser={
+    id: string;
+    username: string;
+    email: string;
+    createdAt: Date;
+    updatedAt: Date;
+    bio: string | null;
+    displayName: string | null;
+    profileImg: string | null;
+    bgImg: string | null; 
+}
+
 export interface Comment extends Comments {
-    author: User
+    author: noPassUser
 }
 
 export interface Follow extends Follows {

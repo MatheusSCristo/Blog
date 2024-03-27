@@ -58,7 +58,7 @@ const CommentModal = ({
             onChange={(e) => setContent(e.target.value)}
           />
           <button
-            className="bg-lightBlue rounded-xl text-white p-2"
+            className="bg-darkBlue rounded-xl text-white p-2"
             type="submit"
           >
             Enviar comentário

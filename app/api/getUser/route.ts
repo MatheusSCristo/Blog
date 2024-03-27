@@ -7,7 +7,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     try {
         const body = await req.json()
         const { id } = body
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findUniqueOrThrow({
             where: {
                 id
             },
@@ -52,7 +52,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
         })
     }
     catch (error) {
-        console.error(error)
         return NextResponse.json({ data: null, message: error })
     }
 }

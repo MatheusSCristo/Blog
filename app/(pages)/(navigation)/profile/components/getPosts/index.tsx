@@ -35,7 +35,7 @@ const getPosts = async () => {
         <div className='my-10'>
             {posts && posts?.length > 0 ?
                 posts?.reverse().map((post: any) =>
-                    <PostsCard post={post} key={post.id} userId={session?.user.id} isAuthor={true} />
+                    <PostsCard post={post} key={post.id} isAuthor={true} />
 
                 ) :
                 <div className='w-full flex justify-center my-5'>

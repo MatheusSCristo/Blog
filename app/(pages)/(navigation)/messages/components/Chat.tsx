@@ -70,7 +70,7 @@ const Chat = () => {
               height={50}
             />
           ) : (
-            <div className="rounded-full p-2 flex items-center bg-lightBlue h-fit">
+            <div className="rounded-full p-2 flex items-center bg-darkBlue h-fit">
               <IoPersonOutline size={30} />
             </div>
           )}

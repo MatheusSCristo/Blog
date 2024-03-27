@@ -97,7 +97,7 @@ const MessagesBox = ({ item }: { item: Follow }) => {
         <div className='flex py-2 pl-1 gap-3 border-b border-gray-200 h-[90px] items-center cursor-pointer hover:scale-[1.01] relative items-center ' onClick={Handle}>
             {receiver.profileImg ? <Image src={receiver.profileImg} alt='Imagem de perfil' width={50} height={50} />
                 :
-                <div className="rounded-full p-2 flex items-center bg-lightBlue h-fit">
+                <div className="rounded-full p-2 flex items-center bg-darkBlue h-fit">
                     <IoPersonOutline size={30} />
                 </div>
             }

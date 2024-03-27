@@ -4,12 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest, res: NextResponse) {
     try {
         const body=await req.json()
-        const {search}=body
+        const {search,userId}=body
         const users = await prisma.user.findMany({
             where:{
                 username:{
                     contains:search,
                     mode: 'insensitive'
+                },
+                NOT:{
+                    id:userId
                 }
             },
             select: {

@@ -47,12 +47,10 @@ const Login = () => {
       setErrors("Erro na validação das credenciais,tente novamente");
     }
 
-    setLoading(false);
   };
 
   return (
-    <main className="flex justify-center items-center h-[100vh] m-0 relative ">
-      <Image src={"/bgLogin.jpg"} fill={true} alt="Imagem de fundo" priority />
+    <main className="flex justify-center items-center h-[100vh] m-0 relative bg-bgGray ">
       <div className="flex flex-col p-5 items-center bg-white z-10 md:w-2/5 rounded-2xl gap-2">
         <h1 className="text-2xl md:text-4xl font-bold my-1 md:my-4">
           Bem vindo de volta
@@ -122,7 +120,7 @@ const Login = () => {
           )}
           <button
             type="submit"
-            className="bg-lightBlue w-1/2  rounded-2xl text-white uppercase m-auto my-5 p-3 font-semibold disabled:opacity-50"
+            className="bg-darkBlue w-1/2  rounded-2xl text-white uppercase m-auto my-5 p-3 font-semibold disabled:opacity-50"
             disabled={loading}
           >
             Entrar
@@ -132,7 +130,7 @@ const Login = () => {
           Não possui uma conta?
           <Link
             href={"/auth/register"}
-            className="text-nowrap md:mx-2 text-lightBlue"
+            className="text-nowrap md:mx-2 text-darkBlue"
           >
             Se cadastre agora
           </Link>

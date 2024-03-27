@@ -1,88 +1,70 @@
-"use client";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
-import { getSession } from "next-auth/react";
 import { profileUserType, Post } from "@/types/types";
 import { IoPersonCircle } from "react-icons/io5";
-import ReactLoading from "react-loading";
 import { UserContext } from "@/app/context/userSession";
 import PostsCard from "../../feed/components/postsCard";
+import { notFound } from "next/navigation";
+import notFoundFunction from "@/utils/notFound";
+import FollowButton from "./components/followButton";
+import prisma from "@/lib/prisma";
+import { prismaExclude } from "@/utils/excludePass";
 
-const LayoutPage = ({ params }: { params: { id: string } }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<profileUserType>();
-  const [following, setFollowing] = useState(0);
-  const [isFollowed, setIsFollowed] = useState(false);
-  const [followedBy, setFollowedBy] = useState(0);
-  const { currentUser } = useContext(UserContext);
-
-  const userIsFollowed = async (
-    data: {
-      followedById: String;
-      followingId: String;
-    }[]
-  ) => {
-    const found = data.find((item) => item.followedById === currentUser.id);
-    if (found) {
-      setIsFollowed(true);
-    }
-  };
-  const getUser = async (id: string) => {
-    const data = await fetch("/api/getUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+const getUser = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      email: true,
+      bgImg: true,
+      username: true,
+      bio: true,
+      createdAt: true,
+      displayName: true,
+      followedBy: true,
+      following: true,
+      profileImg: true,
+      posts: {
+        include: {
+          category: true,
+          comments: {
+            include: {
+              author: {
+                select: prismaExclude("User", ["password"]),
+              },
+            },
+          },
+          likes: true,
+          author: true,
+        },
       },
-      body: JSON.stringify({ id }),
-      next: { tags: ["profilePosts"] },
-    });
-    const res = await data.json();
-    setUser(res.data);
-    userIsFollowed(res.data.followedBy);
-    setFollowedBy(res.data.followedBy.length);
-    setFollowing(res.data.following.length);
-    setIsLoading(false);
-  };
+    },
+  });
+  if(!user){
+    notFound()
+  }
+  return user;
+};
 
-  useEffect(() => {
-    getUser(params.id);
-  }, []);
-
-  const handleOnClickFollow = async () => {
-    setIsFollowed((prevState) => !prevState);
-    if (isFollowed) {
-      setFollowedBy((prevState) => prevState - 1);
-    } else {
-      setFollowedBy((prevState) => prevState + 1);
-    }
-    await fetch("/api/follow", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: currentUser.id,
-        profileId: params.id,
-      }),
-    });
-  };
-
-  return isLoading ? (
-    <section className="w-full mx-16 min-h-max flex items-center justify-center">
-      <ReactLoading color="black" type="spin" height={40} width={40} />
-    </section>
-  ) : (
+const LayoutPage = async ({ params }: { params: { id: string } }) => {
+  const user = await getUser(params.id);
+  return (
     <section className="w-full mx-16 min-h-max bg-white relative">
       <div className="h-[200px]  w-full relative">
-        <Image
-          src="/bgProfile.png"
-          fill={true}
-          alt="Imagem de fundo"
-          className="z-0"
-        />
+        {user?.bgImg ? (
+          <Image
+            src={user?.bgImg}
+            fill={true}
+            alt="Imagem de fundo"
+            className="z-0"
+          />
+        ) : (
+          <div className="h-full w-full bg-slate-500 " />
+        )}
       </div>
       <div className="flex justify-between w-full items-center">
-        <div className=" bg-white m-10 p-1 border border-gray-200 w-fit rounded">
+        <div className=" bg-white p-5  w-fit rounded">
           {user?.profileImg ? (
             <Image
               src={user.profileImg}
@@ -95,22 +77,13 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
           )}
         </div>
 
-        <button
-          className="text-white bg-lightBlue h-fit px-6 py-2 m-5 rounded-xl hover:scale-[1.15]"
-          onClick={handleOnClickFollow}
-        >
-          {isFollowed ? "Deixar de seguir" : "Seguir +"}{" "}
-        </button>
+        <FollowButton params={params} user={user} />
       </div>
-      <div className="m-10 flex flex-col">
+      <div className="m-5 flex flex-col">
         <div className="flex justify-between">
           <div className="flex gap-10 items-center ">
             <h1 className="text-2xl font-bold ">{user?.displayName}</h1>
             <h3 className="text-lightGray">@{user?.username}</h3>
-          </div>
-          <div className="flex gap-5">
-            <h2>Seguindo: {following}</h2>
-            <h2>Seguidores: {followedBy}</h2>
           </div>
         </div>
         <div className="flex flex-col mt-10">
@@ -122,12 +95,7 @@ const LayoutPage = ({ params }: { params: { id: string } }) => {
         user?.posts
           ?.reverse()
           .map((post: Post) => (
-            <PostsCard
-              post={post}
-              key={post.id}
-              userId={currentUser.id}
-              isAuthor={false}
-            />
+            <PostsCard post={post} key={post.id} isAuthor={false} />
           ))
       ) : (
         <div className="flex justify-center w-full mt-10">

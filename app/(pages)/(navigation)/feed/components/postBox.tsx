@@ -137,7 +137,7 @@ const PostBox = () => {
           {categories.length > 0 &&
             categories.map((category) => (
               <div key={category}
-                className="basis-[150px] min-w-fit bg-lightBlue flex justify-evenly items-center text-lightGray rounded-lg p-2 hover:bg-red-400 hover:text-black gap-2 cursor-pointer"
+                className="basis-[150px] min-w-fit bg-darkBlue flex justify-evenly items-center text-lightGray rounded-lg p-2 hover:bg-red-400 hover:text-black gap-2 cursor-pointer"
                 onClick={() => handleRemoveCategory(category)}
               >
                 <span>{category}</span>
@@ -147,7 +147,7 @@ const PostBox = () => {
         </div>
         <button
           type="submit"
-          className="bg-lightBlue text-white rounded-lg w-[15%] h-[50px] right-2 self-end "
+          className="bg-darkBlue text-white rounded-lg w-[15%] h-[50px] right-2 self-end "
         >
           Publicar post
         </button>

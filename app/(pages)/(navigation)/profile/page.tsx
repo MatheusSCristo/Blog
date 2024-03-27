@@ -74,7 +74,7 @@ const Profile = async () => {
             <h3 className="text-lightGray">@{user?.username}</h3>
             <Link
               href={"/profile/edit"}
-              className="border border-black rounded-lg flex p-2 gap-3 items-center hover:bg-lightBlue duration-300"
+              className="border border-black rounded-lg flex p-2 gap-3 items-center hover:scale-105 duration-300"
             >
               <span>Editar perfil</span>
               <RiPencilFill size={20} className="cursor-pointer" />

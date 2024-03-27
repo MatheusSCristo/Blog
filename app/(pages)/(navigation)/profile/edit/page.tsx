@@ -167,7 +167,7 @@ const EditProfile = () => {
         <div className="absolute z-[10] right-0 m-5 p-2 flex items-center gap-2 rounded-lg cursor-pointer">
           <label
             htmlFor="bgFile"
-            className="bg-lightBlue rounded text-white hover:scale-105  p-3 "
+            className="bg-darkBlue rounded text-white hover:scale-105  p-3 "
           >
             Trocar foto de fundo
           </label>
@@ -205,7 +205,7 @@ const EditProfile = () => {
         )}
         <label
           htmlFor="profileFile"
-          className="bg-lightBlue rounded text-white hover:scale-105 self-end p-3 "
+          className="bg-darkBlue rounded text-white hover:scale-105 self-end p-3 "
         >
           Trocar foto de perfil
         </label>
@@ -260,13 +260,13 @@ const EditProfile = () => {
             <div className="flex gap-5">
               <button
                 type="submit"
-                className="bg-lightBlue p-2 rounded-lg text-white hover:scale-105 hover:bg-lime-400 hover:text-white"
+                className="bg-darkBlue p-2 rounded-lg text-white hover:scale-105 hover:bg-lime-400 hover:text-white"
               >
                 Salvar mudanças
               </button>
               <Link
                 href={"/profile"}
-                className="bg-white p-2 border border-lightBlue text-lightBlue rounded-lg hover:bg-red-600 hover:scale-105 hover:text-white"
+                className="bg-white p-2 border border-darkBlue text-darkBlue rounded-lg hover:bg-red-600 hover:scale-105 hover:text-white"
               >
                 Cancelar
               </Link>

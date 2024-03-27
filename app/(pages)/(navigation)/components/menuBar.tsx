@@ -37,7 +37,7 @@ const MenuBar = ({ user }: User) => {
   };
 
   return !menuOpen ? (
-    <div className="h-fit bg-lightBlue w-16 md:w-32 rounded-2xl flex flex-col items-center py-8  relative">
+    <div className="h-fit bg-darkBlue w-16 md:w-32 rounded-2xl flex flex-col items-center py-8  relative">
       <div className=" w-full relative flex items-center justify-center ">
         {user?.profileImg ? (
           <div className="w-[70px] h-[70px] rounded-full relative ">
@@ -118,8 +118,8 @@ const MenuBar = ({ user }: User) => {
         <Link
           href={"/feed"}
           className={`${
-            pathname === "/feed" ? "border bg-lightBlue text-white" : ""
-          } p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black`}
+            pathname === "/feed" ? "border bg-darkBlue text-white" : ""
+          } p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-darkBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black`}
         >
           <IoHomeOutline size={30} className="" />
           <span>Home</span>
@@ -127,8 +127,8 @@ const MenuBar = ({ user }: User) => {
         <Link
           href={"/messages"}
           className={`${
-            pathname === "/messages" ? "border bg-lightBlue text-white" : ""
-          } p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black`}
+            pathname === "/messages" ? "border bg-darkBlue text-white" : ""
+          } p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-darkBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black`}
         >
           <AiOutlineMessage size={30} />
           <span>Mensagens</span>
@@ -136,15 +136,15 @@ const MenuBar = ({ user }: User) => {
         <Link
           href={"/profile"}
           className={` ${
-            pathname === "/profile" ? "border bg-lightBlue text-white" : ""
-          }p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-lightBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black`}
+            pathname === "/profile" ? "border bg-darkBlue text-white" : ""
+          }p-3 rounded-xl hover:scale-105 hover:border w-full md:w-4/5 hover:bg-darkBlue hover:text-white ease-in duration-200 cursor-pointer flex items-center gap-2 text-black`}
         >
           <IoPersonOutline size={30} />
           <span>Perfil</span>
         </Link>
       </div>
       <div
-        className="flex  items-center gap-2 bottom-0 my-5  hover:border hover:bg-lightBlue hover:text-white p-3 rounded-xl hover:scale-110 cursor-pointer "
+        className="flex  items-center gap-2 bottom-0 my-5  hover:border hover:bg-darkBlue hover:text-white p-3 rounded-xl hover:scale-110 cursor-pointer "
         onClick={handleOnClickSignOut}
       >
         <AiOutlinePoweroff size={30} />

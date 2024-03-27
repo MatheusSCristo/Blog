@@ -13,7 +13,7 @@ const config: Config = {
         'registerImg':"url(/bgRegister.jpg)",
       },
       colors:{
-        lightBlue:'#b9bfc1',
+        darkBlue:'#011627',
         lightGray:'#6C6C6C',
         bgGray:'#F2F2F2'
       }
