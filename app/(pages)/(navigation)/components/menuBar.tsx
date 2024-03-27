@@ -49,7 +49,7 @@ const MenuBar = ({ user }: User) => {
             />
           </div>
         ) : (
-          <IoPersonCircle size={70} className="rounded-[50%]" />
+          <IoPersonCircle size={70} className="rounded-[50%] text-white" />
         )}
         <IoIosArrowDropright
           size={30}

@@ -45,7 +45,7 @@ const Following = async () => {
               />
             </div>
           ) : (
-            <IoPerson size={30} />
+            <IoPerson size={40} />
           )}
         </Link>
       ))}

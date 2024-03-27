@@ -126,11 +126,11 @@ const Login = () => {
             Entrar
           </button>
         </form>
-        <h2>
+        <h2 className="text-lightGray">
           Não possui uma conta?
           <Link
             href={"/auth/register"}
-            className="text-nowrap md:mx-2 text-darkBlue"
+            className="text-nowrap md:mx-2 text-darkBlue  "
           >
             Se cadastre agora
           </Link>

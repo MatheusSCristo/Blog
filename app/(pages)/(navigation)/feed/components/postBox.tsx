@@ -57,6 +57,7 @@ const PostBox = () => {
         authorId: currentUser.id,
       }),
     }).then(() => {
+      setCategories([])
       router.refresh();
     });
   };
@@ -137,7 +138,7 @@ const PostBox = () => {
           {categories.length > 0 &&
             categories.map((category) => (
               <div key={category}
-                className="basis-[150px] min-w-fit bg-darkBlue flex justify-evenly items-center text-lightGray rounded-lg p-2 hover:bg-red-400 hover:text-black gap-2 cursor-pointer"
+                className="basis-[150px] min-w-fit bg-darkBlue flex justify-evenly items-center text-white rounded-lg p-2 hover:bg-red-400 hover:text-black gap-2 cursor-pointer"
                 onClick={() => handleRemoveCategory(category)}
               >
                 <span>{category}</span>

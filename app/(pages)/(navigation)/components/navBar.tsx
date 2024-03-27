@@ -20,7 +20,7 @@ const NavBar = () => {
     getNotifications,
     { refreshInterval: 5 }
   );
-  const [notifications, setNotifications] = useState<number | null>(null);
+  const [notifications, setNotifications] = useState<number>(0);
   const [users, setUsers] = useState<UserSearchType[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,8 +40,8 @@ const NavBar = () => {
   }
   useEffect(() => {
     if (data) {
-      const not = data.filter((item: { read: boolean }) => item.read === false);
-      setNotifications(not.length);
+      const messagesUnread = data.filter((item: { read: boolean }) => item.read === false);
+      setNotifications(messagesUnread.length);
     }
   }, [data]);
 
@@ -131,7 +131,7 @@ const NavBar = () => {
       <Link href={"/messages"}>
         <div className="rounded-[50%] p-1 border border-black flex relative ">
           <FaRegBell size={30} color="black" />
-          {notifications !== 0 && (
+          {notifications > 0 && (
             <div className="p-2 w-5 h-5 rounded-full bg-[#DD0000] absolute right-0 bottom-0 flex items-center justify-center text-white">
               <span>{notifications}</span>
             </div>

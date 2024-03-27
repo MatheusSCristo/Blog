@@ -164,7 +164,7 @@ const Register = () => {
             Criar conta
           </button>
         </form>
-        <h2>
+        <h2 className="text-ligthGray">
           Já possui uma conta?
           <Link href={"/auth/login"} className="mx-2 text-darkBlue">
             Faça login
