@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import {
-  IoPeopleOutline,
   IoPersonOutline,
   IoHomeOutline,
   IoPersonCircle,
@@ -12,7 +11,8 @@ import { IoIosArrowDropright, IoIosArrowDropleft } from "react-icons/io";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCookies } from "next-client-cookies";
+import Cookie from 'js-cookie'
+import { useRouter } from "next/navigation";
 
 type User = {
   user:
@@ -28,9 +28,12 @@ export const revalidate = 0;
 const MenuBar = ({ user }: User) => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const router=useRouter()
+  
   const handleOnClickSignOut = async () => {
-    await signOut({ callbackUrl: "/auth/login" });
+    await signOut()
+    Cookie.remove("auth-token");
+    router.refresh()
   };
 
   return !menuOpen ? (

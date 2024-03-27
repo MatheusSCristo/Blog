@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { createUserFormSchema } from "@/schemas/createUserSchema";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest, res: NextResponse) {

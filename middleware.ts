@@ -1,23 +1,17 @@
-import { cookies } from "next/headers";
+"use server"
 import { NextRequest, NextResponse } from "next/server";
+import { verifyJwtToken } from "./lib/auth";
 
 export default async function middleware(request: NextRequest) {
-  const cookiesStore = cookies();
-  const data = cookiesStore.get("next-auth.session-token");
+  const { value: token } = request.cookies.get("auth-token") ?? { value: null };
+  const hasVerifiedToken = token && (await verifyJwtToken(token));
   const signInUrl = new URL("/auth/login", request.url);
-  const homeUrl = new URL("/feed", request.url);
 
-  if (!data) {
+  if (!hasVerifiedToken) {
     return NextResponse.redirect(signInUrl);
-  } else {
-    if (request.nextUrl.pathname === "/feed") {
-      return NextResponse.next();
-    } else if (request.nextUrl.pathname === "/auth/login") {
-      return NextResponse.redirect(homeUrl);
-    }
-  }
+  } 
 }
 
 export const config = {
-  matcher: ["/", "/feed", "/messages", "/profile/:id*","/profile"],
+  matcher: ["/", "/feed", "/messages", "/profile/:id*", "/profile"],
 };

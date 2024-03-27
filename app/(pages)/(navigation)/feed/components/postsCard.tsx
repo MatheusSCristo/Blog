@@ -107,7 +107,7 @@ const PostsCard = ({
           </div>
           <div className="flex gap-2 px-5 py-2 relative h-fit flex-wrap w-full items-center" >
             <span className="text-black">Categorias:</span>
-            {post.category.length > 0 ?
+            {post.category?.length > 0 ?
               post.category.map((item) => (
                 <div className="basis-[150px] min-w-fit bg-gray-100 flex justify-evenly items-center text-lightGray rounded-lg p-2 gap-2 " key={item.id}>
                   <span>{item.category}</span>
