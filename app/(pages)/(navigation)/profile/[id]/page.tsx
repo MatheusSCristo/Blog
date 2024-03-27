@@ -67,13 +67,14 @@ const LayoutPage = async ({ params }: { params: { id: string } }) => {
           <div className="h-full w-full bg-slate-500 " />
         )}
       </div>
-      <div className="flex justify-between w-full items-center">
-        <div className=" bg-white p-5  w-fit rounded">
+      <div className="flex justify-between w-full items-center p-5">
+        <div className=" bg-white p-5 w-[100px] h-[100px] rounded relative">
           {user?.profileImg ? (
+
             <Image
               src={user.profileImg}
-              width={120}
-              height={120}
+              fill
+              className="object-fit rounded-full"
               alt="Foto de perfil"
             />
           ) : (
