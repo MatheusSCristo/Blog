@@ -9,19 +9,14 @@ import getPostedTime from "@/utils/getPostedTime";
 import Image from "next/image";
 import DeletePostModal from "@/app/modal/DeletePost";
 import { UserContext } from "@/app/context/userSession";
+import Link from "next/link";
 
-const PostsCard = ({
-  post,
-  isAuthor,
-}: {
-  post: Post;
-  isAuthor: boolean;
-}) => {
+const PostsCard = ({ post, isAuthor }: { post: Post; isAuthor: boolean }) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(post.likes.length);
   const [commentIsOpen, setCommentIsOpen] = useState(false);
   const [deleteModelIsOpen, setDeleteModelIsOpen] = useState(false);
-  const {currentUser}=useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   useEffect(() => {
     post.likes.map((e: { userId: string; postId: string }) => {
       if (e.userId === currentUser?.id) {
@@ -42,7 +37,7 @@ const PostsCard = ({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ postId, userId:currentUser?.id }),
+      body: JSON.stringify({ postId, userId: currentUser?.id }),
     }).then(() => {
       revalidateAllData();
     });
@@ -58,12 +53,14 @@ const PostsCard = ({
           <div className="flex gap-5 items-center">
             {post.author.profileImg ? (
               <div className="relative w-[50px] h-[50px]">
-                <Image
-                  src={post.author.profileImg}
-                  alt={`Imagem de perfil de ${post.author.username} `}
-                  fill
-                  className="object-cover rounded-full"
-                />
+                <Link href={`profile/${post.authorId}`}>
+                  <Image
+                    src={post.author.profileImg}
+                    alt={`Imagem de perfil de ${post.author.username} `}
+                    fill
+                    className="object-cover rounded-full"
+                  />
+                </Link>
               </div>
             ) : (
               <IoPerson size={30} />
@@ -105,16 +102,22 @@ const PostsCard = ({
             />
             <span>{post?.comments.length}</span>
           </div>
-          <div className="flex gap-2 px-5 py-2 relative h-fit flex-wrap w-full items-center" >
+          <div className="flex gap-2 px-5 py-2 relative h-fit flex-wrap w-full items-center">
             <span className="text-black">Categorias:</span>
-            {post.category?.length > 0 ?
+            {post.category?.length > 0 ? (
               post.category.map((item) => (
-                <div className="basis-[150px] min-w-fit bg-gray-100 flex justify-evenly items-center text-lightGray rounded-lg p-2 gap-2 " key={item.id}>
+                <div
+                  className="basis-[150px] min-w-fit bg-gray-100 flex justify-evenly items-center text-lightGray rounded-lg p-2 gap-2 "
+                  key={item.id}
+                >
                   <span>{item.category}</span>
                 </div>
-              )):
-              <span className="text-sm ">Esse post não possui nenhuma categoria cadastrada...</span>
-              }
+              ))
+            ) : (
+              <span className="text-sm ">
+                Esse post não possui nenhuma categoria cadastrada...
+              </span>
+            )}
           </div>
         </div>
         {commentIsOpen && (

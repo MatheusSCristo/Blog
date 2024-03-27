@@ -3,10 +3,12 @@ import React from "react";
 import {  Post } from "@/types/types";
 import { IoPersonCircle } from "react-icons/io5";
 import PostsCard from "../../feed/components/postsCard";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import FollowButton from "./components/followButton";
 import prisma from "@/lib/prisma";
 import { prismaExclude } from "@/utils/excludePass";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const getUser = async (id: string) => {
   const user = await prisma.user.findUnique({
@@ -47,6 +49,10 @@ const getUser = async (id: string) => {
 
 const LayoutPage = async ({ params }: { params: { id: string } }) => {
   const user = await getUser(params.id);
+  const session:any=await getServerSession(authOptions);
+  if(params.id ===session?.user.id){
+    redirect('/profile')
+  }
   return (
     <section className="w-full mx-16 min-h-max bg-white relative">
       <div className="h-[200px]  w-full relative">
