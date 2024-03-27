@@ -4,7 +4,6 @@ import { createPostSchema } from "@/schemas/createPostSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import revalidatePostsData from "@/utils/revalidatePosts";
 import { UserContext } from "@/app/context/userSession";
 import getUserInfo from "@/utils/getUserInformation";
 import { useRouter } from "next/navigation";

@@ -1,11 +1,9 @@
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
-import { profileUserType, Post } from "@/types/types";
+import React from "react";
+import {  Post } from "@/types/types";
 import { IoPersonCircle } from "react-icons/io5";
-import { UserContext } from "@/app/context/userSession";
 import PostsCard from "../../feed/components/postsCard";
 import { notFound } from "next/navigation";
-import notFoundFunction from "@/utils/notFound";
 import FollowButton from "./components/followButton";
 import prisma from "@/lib/prisma";
 import { prismaExclude } from "@/utils/excludePass";
