@@ -20,6 +20,9 @@
 <h2>Personalização do Perfil</h2>
 <p>A personalização do perfil do usuário conta com a alteração de foto de perfil,nome de usuário, nome de exibicão, bio e foto de fundo do perfil. As fotos do usuário são armazenadas no banco de dados Storage do firebase</p>
 
+<h2>Proteção das Rotas</h2>
+<p>Utilizando o token fornecido no login do usuário, o middleware da aplicação protege as rotas de navegação do Blog, deixando liberado apenas as rotas de login e registro de conta.</p>
+
 <h1>Tecnologias</h1>
 <ul>
 <li>NextJs</li>
