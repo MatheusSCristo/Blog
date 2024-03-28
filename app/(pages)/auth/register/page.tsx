@@ -52,7 +52,7 @@ const Register = () => {
 
   return (
     <main className=" flex justify-center items-center sm:h-screen m-0 relative bg-bgGray ">
-      <div className="flex flex-col p-5 items-center bg-white z-10 md:w-[70vw] rounded-2xl gap-2">
+      <div className="flex flex-col p-5 items-center bg-white z-10 md:w-[40vw] rounded-2xl gap-2">
         <h1 className="text-2xl md:text-4xl font-bold my-1 md:my-4">
           Crie sua conta
         </h1>
