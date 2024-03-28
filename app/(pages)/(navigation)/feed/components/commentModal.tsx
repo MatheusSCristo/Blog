@@ -48,20 +48,20 @@ const CommentModal = ({
 
   return (
     <div className="flex flex-col items-center justify-center h-fit w-full bg-[#000} ">
-      <div className="bg-white flex w-full flex-col p-5 ">
-        <form onSubmit={handleSendComment} className="flex gap-10">
+      <div className="bg-white flex w-full flex-col p-2 md:p-5 ">
+        <form onSubmit={handleSendComment} className="flex gap-2 md:gap-10 flex-col md:flex-row">
           <input
             type="text"
-            className="w-full border border-gray-400 w-3/5 rounded-xl h-[50px] p-5"
+            className="w-full border border-gray-400 rounded-xl h-[50px] md:p-5 p-1 text-sm"
             placeholder="Deixe um comentário"
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
           <button
-            className="bg-darkBlue rounded-xl text-white p-2"
+            className="bg-darkBlue rounded-xl text-white p-2 w-fit self-end"
             type="submit"
           >
-            Enviar comentário
+            Enviar
           </button>
         </form>
       </div>
@@ -71,10 +71,13 @@ const CommentModal = ({
         </div>
       )}
       {comments.map((comment) => (
-        <div className="flex flex-col w-full p-5 border-b" key={comment.id}>
-          <div className="flex gap-5 items-center">
+        <div
+          className="flex flex-col w-full p-1 md:p-5 border-b"
+          key={comment.id}
+        >
+          <div className="ml-[5%] flex gap-1 md:gap-5 items-center">
             {comment.author.profileImg ? (
-              <div className="relative w-[40px] h-[40px]">
+              <div className="relative w-[35px] h-[35px]">
                 <Image
                   src={comment.author.profileImg}
                   alt="Imagem de perfil"
@@ -85,12 +88,16 @@ const CommentModal = ({
             ) : (
               <IoPersonCircle size={30} />
             )}
-            <h1 className="font-bold">{comment.author.displayName}</h1>
-            <span className="text-sm text-lightGray">
-              {getPostedTime(comment.createdAt)}
-            </span>
+            <div className="flex-col md:flex-row flex">
+              <h1 className="font-bold text-md w-max">
+                {comment.author.displayName}
+              </h1>
+              <span className="text-sm text-lightGray">
+                {getPostedTime(comment.createdAt)}
+              </span>
+            </div>
           </div>
-          <p className="ml-12">{comment.content}</p>
+          <p className="ml-[10%] py-2">{comment.content}</p>
         </div>
       ))}
     </div>

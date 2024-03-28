@@ -34,7 +34,7 @@ export default async function RootLayout({
   return (
     <Provider>
       <NavBar />
-      <main className="bg-bgGray px-[3%] py-4 flex flex-1 w-full ">
+      <main className="bg-bgGray px-[2vw] sm:px-[5vw] py-4 flex ">
         <MenuBar user={user} />
         {children}
       </main>

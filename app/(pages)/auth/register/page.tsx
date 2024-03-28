@@ -51,9 +51,9 @@ const Register = () => {
   };
 
   return (
-    <main className=" flex justify-center items-center min-h-[100vh] m-0 relative bg-bgGray ">
-           <div className="flex flex-col p-5 items-center bg-white z-10 md:w-2/5 rounded-2xl gap-2">
-        <h1 className="ttext-2xl md:text-4xl font-bold my-1 md:my-4">
+    <main className=" flex justify-center items-center sm:h-screen m-0 relative bg-bgGray ">
+      <div className="flex flex-col p-5 items-center bg-white z-10 md:w-[70vw] rounded-2xl gap-2">
+        <h1 className="text-2xl md:text-4xl font-bold my-1 md:my-4">
           Crie sua conta
         </h1>
         <h2 className="text-md md:text-xl">Entre com</h2>
@@ -84,7 +84,7 @@ const Register = () => {
           </label>
           <input
             type="text"
-            className="p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
+            className="p-2 md:p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
             {...register("displayName")}
           />
           {errors.displayName && (
@@ -95,7 +95,7 @@ const Register = () => {
           </label>
           <input
             type="text"
-            className="p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
+            className="p-2 md:p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
             {...register("username")}
           />
           {errors.username && (
@@ -106,7 +106,7 @@ const Register = () => {
           </label>
           <input
             type="text"
-            className="p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
+            className="p-2 md:p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
             {...register("email")}
           />
           {errors.email && (
@@ -118,7 +118,7 @@ const Register = () => {
           <div className="relative w-full flex items-center">
             <input
               type={passVisibility ? "text" : "password"}
-              className="p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
+              className="p-2 md:p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
               {...register("password")}
             />
             {passVisibility ? (
@@ -143,7 +143,7 @@ const Register = () => {
           </label>
           <input
             type="password"
-            className="p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
+            className="p-2 md:p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
             {...register("checkPass")}
           />
           {errors.checkPass && (
@@ -157,7 +157,7 @@ const Register = () => {
 
           <button
             type="submit"
-            className="bg-darkBlue w-1/2  rounded-2xl text-white uppercase m-auto my-5 p-3 font-semibold disabled:opacity-50"
+            className="bg-darkBlue w-3/4 md:w-1/2  rounded-2xl text-white uppercase m-auto my-5 p-3 font-semibold disabled:opacity-50"
             disabled={loading}
           >
             Criar conta

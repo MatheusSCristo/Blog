@@ -36,7 +36,7 @@ const getUser = async () => {
 const Profile = async () => {
   const user = await getUser();
   return (
-    <section className="w-full mx-16 min-h-max bg-white relative">
+    <section className="mx-2 md:mx-12 min-h-max bg-white relative w-full">
       <div className="h-[200px] w-full relative">
         {user?.bgImg ? (
           <Image
@@ -49,50 +49,62 @@ const Profile = async () => {
           <div className="h-full w-full bg-slate-500 " />
         )}
       </div>
-      <div className=" bg-white p-5 w-full flex justify-between items-center">
+      <div className=" bg-white p-2 md:p-5  w-full flex justify-between   items-center">
         {user?.profileImg ? (
-          <div className="w-[100px] h-[100px] relative rounded-full ">
+          <div className="w-[70px] h-[70px] md:w-[100px] md:h-[100px] relative rounded-full ">
             <Image
               src={user?.profileImg}
               alt="Imagem de perfil"
               className="object-cover rounded-full"
               fill
+              sizes="70px,100px"
             />
           </div>
         ) : (
           <IoPersonCircle size={100} />
         )}
-         <div className="flex gap-5 ">
-            <h2>Seguindo: {user?.following.length}</h2>
-            <h2>Seguidores: {user?.followedBy.length}</h2>
-          </div>
+        <div className="flex gap-2 md:gap-5 flex-col sm:flex-row ">
+          <h2>Seguindo: {user?.following.length}</h2>
+          <h2>Seguidores: {user?.followedBy.length}</h2>
+        </div>
       </div>
-      <div className="m-5 flex flex-col">
+      <div className="md:m-5 flex flex-col">
         <div className="flex justify-between">
-          <div className="flex gap-10 items-center ">
-            <h1 className="text-2xl font-bold ">{user?.displayName}</h1>
-            <h3 className="text-lightGray">@{user?.username}</h3>
+          <div className="flex gap-1 md:items-center flex-row">
+            <div className="flex flex-col ">
+              <h1 className="text-md md:text-2xl font-bold w-fit text-wrap">
+                {user?.displayName}
+              </h1>
+              <h2 className="text-lightGray text-sm md:text-lg w-fit">
+                @{user?.username}
+              </h2>
+            </div>
             <Link
               href={"/profile/edit"}
-              className="border border-black rounded-lg flex p-2 gap-3 items-center hover:scale-105 duration-300"
+              className="border border-black rounded-lg h-fit flex p-2 gap-1 md:gap-3 items-center hover:scale-105 duration-300 w-1/2"
             >
-              <span>Editar perfil</span>
+              <span className="text-nowrap sm:text-nowrap text-sm md:text-md">
+                Editar perfil
+              </span>
               <RiPencilFill size={20} className="cursor-pointer" />
             </Link>
           </div>
-         
         </div>
         <div className="flex flex-col mt-10">
-          <h1 className="text-xl font-bold">Bio</h1>
-          <p className="text-lightGray">{user?.bio ? user?.bio :"Esse usuário ainda não possui uma bio."}</p>
+          <h1 className="text-xl font-bold w-fit">Bio</h1>
+          <p className="text-lightGray w-full ">
+            {user?.bio ? user?.bio : "Esse usuário ainda não possui uma bio."}
+          </p>
         </div>
       </div>
-      <div className="mx-5 border border-gray-200 rounded-lg">
+      <div className="md:mx-5 border border-gray-200 rounded-lg">
         <PostBox />
       </div>
-      <Suspense fallback={<LoadingComponents />}>
-        <GetPosts />
-      </Suspense>
+      <div>
+        <Suspense fallback={<LoadingComponents />}>
+          <GetPosts />
+        </Suspense>
+      </div>
     </section>
   );
 };

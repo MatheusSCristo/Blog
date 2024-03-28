@@ -72,6 +72,7 @@ const NavBar = () => {
     } else {
       setUsers([]);
       setUserNotFound(false);
+      
     }
   }, [search]);
 
@@ -79,22 +80,22 @@ const NavBar = () => {
     <nav className="flex items-center justify-evenly p-4 bg-white">
       <div className="flex items-center gap-3">
         <ImBlogger size={30} />
-        <h1>BLOG</h1>
       </div>
-      <div className="flex flex-col w-full items-center relative">
+      <div className="flex flex-col w-full items-center relative justify-between mx-2">
         <input
           type="text"
           placeholder="Procurando um amigo?"
-          className="w-2/5 p-4 rounded-lg border-gray-200 border focus:outline-none"
+          className={`md:w-2/5 w-full p-4 m rounded-lg border-gray-200 focus:outline-none ${search? "rounded-b-none border border-b-0":'border'}`}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         { loading ? (
-          <div className="absolute border border-gray-200 top-14 bg-white w-2/5 rounded-b-lg flex justify-center z-[11] p-4 ">
+          <div className="absolute border border-gray-200 border-t-0 top-14 bg-white w-full md:w-2/5 rounded-b-lg flex justify-center z-[11] p-4 ">
             <CircularProgress size={20}/>
           </div>
-        ) : (
-          <ul className="absolute border border-t-0  border-lightGray top-14 bg-white w-2/5 rounded-b-lg z-[11]  ">
+        ) : search &&
+         (
+          <ul className="absolute border border-t-0  border-gray-200 top-14 w-full bg-white md:w-2/5 rounded-b-lg z-[11]  ">
             {users.map((user) => (
               <Link
                 href={`/profile/${user.id}`}
@@ -132,7 +133,7 @@ const NavBar = () => {
         <div className="rounded-[50%] p-1 border border-black flex relative ">
           <FaRegBell size={30} color="black" />
           {notifications > 0 && (
-            <div className="p-2 w-5 h-5 rounded-full bg-[#DD0000] absolute right-0 bottom-0 flex items-center justify-center text-white">
+            <div className="p-2 w-2 h-2 text-sm md:w-5 md:h-5 rounded-full bg-red-500 absolute right-0 bottom-0 flex items-center justify-center text-white">
               <span>{notifications}</span>
             </div>
           )}

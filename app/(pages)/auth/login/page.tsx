@@ -49,9 +49,9 @@ const Login = () => {
   };
 
   return (
-    <main className="flex justify-center items-center h-[100vh] m-0 relative bg-bgGray ">
-      <div className="flex flex-col p-5 items-center bg-white z-10 md:w-2/5 rounded-2xl gap-2">
-        <h1 className="text-2xl md:text-4xl font-bold my-1 md:my-4">
+    <main className="flex justify-center items-center sm:h-screen m-0 relative bg-bgGray ">
+      <div className="flex flex-col p-5 items-center bg-white z-10 md:w-[70w] rounded-2xl gap-2">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold my-1 md:my-4">
           Bem vindo de volta
         </h1>
         <h2 className="text-md md:text-xl">Entre com</h2>
@@ -82,7 +82,7 @@ const Login = () => {
           </label>
           <input
             type="text"
-            className="p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
+            className="p-2 md:p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
             {...register("email")}
           />
           {errors.email && (
@@ -94,7 +94,7 @@ const Login = () => {
           <div className="relative w-full flex items-center">
             <input
               type={passVisibility ? "text" : "password"}
-              className="p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
+              className="p-2 md:p-5 bg-white border border-lightGray rounded-2xl w-full shadow-md"
               {...register("password")}
             />
             {passVisibility ? (

@@ -6,13 +6,15 @@ import Following from "./components/Following";
 
 const Home = () => {
   return (
-    <div className="flex flex-col mx-16 w-full">
+    <div className="flex flex-col mx-2 md:mx-12 w-full">
       <h1 className="text-2xl my-5 font-bold">Feed</h1>
-      <section className="w-full h-full grid grid-cols-3 gap-5">
-        <div className="bg-white col-start-1 col-end-3">
+      <section className="w-full h-full grid md:grid-cols-3 grid-cols-1 gap-2 md:gap-5 auto-cols-max ">
+        <div className="bg-white col-start-1 md:col-end-3 col-span-3 rounded">
           <PostBox />
         </div>
+        <div className="hidden md:block">
         <Following />
+        </div>
         <Suspense fallback={<LoadingComponents />}>
           <GetPosts isAuthor={false} />
         </Suspense>

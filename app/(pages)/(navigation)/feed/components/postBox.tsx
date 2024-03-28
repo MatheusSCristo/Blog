@@ -56,7 +56,7 @@ const PostBox = () => {
         authorId: currentUser.id,
       }),
     }).then(() => {
-      setCategories([])
+      setCategories([]);
       router.refresh();
     });
   };
@@ -71,7 +71,7 @@ const PostBox = () => {
       setCategoriesError("Essa categoria já foi adicionada ao post!");
       return 0;
     }
-    setCategories((prevState) => [...prevState, category]);
+    setCategories((prevState) => [category, ...prevState]);
     setCategory("");
   };
 
@@ -82,11 +82,11 @@ const PostBox = () => {
 
   return (
     <form
-      className="w-full flex flex-col gap-5 p-5 "
+      className="w-full flex flex-col gap-5 p-1 md:p-5 "
       onSubmit={handleSubmit(handleOnClickPublishButton)}
     >
       <div className="bg-white h-[200px] rounded-lg relative flex flex-col">
-        <div className="w-full  flex flex-col">
+        <div className="w-full flex flex-col">
           <input
             className=" text-left rounded-sm p-2 focus:outline-none"
             placeholder="Titulo"
@@ -112,10 +112,10 @@ const PostBox = () => {
         </div>
       </div>
       <div className="flex gap-2 w-full items-center">
-        <div className="flex flex-col ">
-          <div className="flex items-center gap-2"> 
+        <div className="flex flex-col w-full">
+          <div className="flex items-center gap-2 w-full">
             <input
-              className="w-[300px] px-2 border border-gray-300 rounded py-1 focus:outline-none"
+              className="w-full lg:w-1/2 px-2 border border-gray-300 rounded py-1 text-sm md:text-lg focus:outline-none"
               placeholder="Deseja adicionar uma categoria?"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
@@ -135,19 +135,32 @@ const PostBox = () => {
       <div className="flex-col flex">
         <div className="flex gap-2 px-5 py-2 relative h-fit flex-wrap">
           {categories.length > 0 &&
-            categories.map((category) => (
-              <div key={category}
-                className="basis-[150px] min-w-fit bg-darkBlue flex justify-evenly items-center text-white rounded-lg p-2 hover:bg-red-400 hover:text-black gap-2 cursor-pointer"
-                onClick={() => handleRemoveCategory(category)}
-              >
-                <span>{category}</span>
-                <span className="text-sm ">X</span>
-              </div>
-            ))}
+            categories.map((category, index) => {
+              if (index <= 5) {
+                return (
+                  <div
+                    key={category}
+                    className="md:basis-[100px] basis-[50px] min-w-fit bg-darkBlue text-sm md:text-md flex justify-evenly items-center text-white rounded-lg p-2 hover:bg-red-500 hover:text-black gap-2 cursor-pointer"
+                    onClick={() => handleRemoveCategory(category)}
+                  >
+                    <span>{category}</span>
+                    <span className="text-sm ">X</span>
+                  </div>
+                );
+              }
+            })}
+          {categories.length > 6 && (
+            <div
+              className="md:basis-[50px] basis-[50px] min-w-fit bg-darkBlue text-sm md:text-md flex justify-evenly items-center text-white rounded-lg p-2 "
+              onClick={() => handleRemoveCategory(category)}
+            >
+              <span>...</span>
+            </div>
+          )}
         </div>
         <button
           type="submit"
-          className="bg-darkBlue text-white rounded-lg w-[15%] h-[50px] right-2 self-end "
+          className="bg-darkBlue text-white rounded-lg w-fit h-[50px] right-2 self-end text-nowrap px-2 "
         >
           Publicar post
         </button>

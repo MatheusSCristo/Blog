@@ -31,7 +31,7 @@ const GetPosts = async ({ isAuthor }: { isAuthor: boolean }) => {
   const session: any = await getServerSession(authOptions);
   const posts = await getPosts();
   return (
-    <div className="flex flex-col col-start-1 col-end-3 my-5">
+    <div className="flex flex-col col-start-1 col-span-3 my-5">
       {posts.length > 0 && session ? (
         posts?.map((post: any) => (
           <PostsCard

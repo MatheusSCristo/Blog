@@ -48,26 +48,34 @@ const PostsCard = ({ post, isAuthor }: { post: Post; isAuthor: boolean }) => {
       {deleteModelIsOpen && (
         <DeletePostModal postId={post.id} setIsOpen={setDeleteModelIsOpen} />
       )}
-      <div className="bg-white mt-8 min-h-[200px] rounded-lg border border-black m-10">
-        <div className="flex p-5 items-center mx-5 justify-between">
-          <div className="flex gap-5 items-center">
+      <div className="bg-white mt-2 md:mt-8 min-h-[200px] rounded-lg border border-black sm:m-10">
+        <div className="flex p-2 md:p-5 items-center  justify-between">
+          <div className="flex gap-2 sm:gap-5 items-center w-full">
             {post.author.profileImg ? (
-              <div className="relative w-[50px] h-[50px]">
-                <Link href={`profile/${post.authorId}`}>
+              <Link href={`profile/${post.authorId}`}>
+                <div className="relative w-[50px] h-[50px]">
                   <Image
                     src={post.author.profileImg}
                     alt={`Imagem de perfil de ${post.author.username} `}
                     fill
                     className="object-cover rounded-full"
                   />
-                </Link>
-              </div>
+                </div>
+              </Link>
             ) : (
               <IoPerson size={30} />
             )}
-            <h1 className="text-xl font-bold">{post.author?.displayName}</h1>
-            <h2 className="text-lg text-lightGray">@{post.author?.username}</h2>
-            <span>- Postado {getPostedTime(post?.createAt)} </span>
+            <div className="flex flex-col xl:flex-row xl:gap-2 relative w-full">
+              <h1 className="text-lg md:text-xl font-bold text-nowrap">
+                {post.author?.displayName}
+              </h1>
+              <h2 className="text-md md:text-lg text-lightGray">
+                @{post.author?.username}
+              </h2>
+              <span className="text-sm md:text-md md:absolute right-2">
+                - Postado {getPostedTime(post?.createAt)}{" "}
+              </span>
+            </div>
           </div>
           {isAuthor && (
             <IoTrashBinOutline
@@ -77,37 +85,39 @@ const PostsCard = ({ post, isAuthor }: { post: Post; isAuthor: boolean }) => {
             />
           )}
         </div>
-        <div className="flex flex-col p-5 mx-5 gap-2">
-          <h1 className="text-2xl font-bold">{post?.title}</h1>
-          <p className="ml-4"> {post?.content}</p>
+        <div className="flex flex-col p-2 sm:p-5 gap-2 w-fit">
+          <h1 className="text-2xl font-bold w-fit">{post?.title}</h1>
+          <p className="ml-4 w-fit"> {post?.content}</p>
         </div>
-        <div className="flex gap-10 mx-5 p-5 text-lightGray items-center">
-          <div
-            className="flex gap-2 items-center text-lightGray "
-            onClick={() => handleOnClickLikeButton(post?.id)}
-          >
-            <IoHeartCircle
-              size={30}
-              className={`hover:scale-[1.15] hover:text-red ${
-                liked ? "text-red-500" : "text-lightGray"
-              }`}
-            />
-            <span>{likes}</span>
+        <div className="flex gap-5 mx-1 md:mx-5 p-2 md:p-5 text-lightGray xl:items-center flex-col-reverse xl:flex-row">
+          <div className="flex gap-2">
+            <div
+              className="flex gap-2 items-center text-lightGray "
+              onClick={() => handleOnClickLikeButton(post?.id)}
+            >
+              <IoHeartCircle
+                size={30}
+                className={`hover:scale-[1.15] hover:text-red ${
+                  liked ? "text-red-500" : "text-lightGray"
+                }`}
+              />
+              <span>{likes}</span>
+            </div>
+            <div className="flex gap-2 items-center text-lightGray">
+              <CiChat1
+                size={30}
+                className="hover:scale-[1.15]"
+                onClick={() => setCommentIsOpen((prevState) => !prevState)}
+              />
+              <span>{post?.comments.length}</span>
+            </div>
           </div>
-          <div className="flex gap-2 items-center text-lightGray">
-            <CiChat1
-              size={30}
-              className="hover:scale-[1.15]"
-              onClick={() => setCommentIsOpen((prevState) => !prevState)}
-            />
-            <span>{post?.comments.length}</span>
-          </div>
-          <div className="flex gap-2 px-5 py-2 relative h-fit flex-wrap w-full items-center">
-            <span className="text-black">Categorias:</span>
+          <div className="flex gap-2 xl:px-5 py-2 relative h-fit flex-wrap w-full items-center">
+            <span className="text-black md:text-lg text-sm">Categorias:</span>
             {post.category?.length > 0 ? (
               post.category.map((item) => (
                 <div
-                  className="basis-[150px] min-w-fit bg-gray-100 flex justify-evenly items-center text-lightGray rounded-lg p-2 gap-2 "
+                  className="basis-[50px] text-sm md:text-lg min-w-fit bg-gray-100 flex justify-evenly items-center text-lightGray rounded-lg p-2 gap-2 "
                   key={item.id}
                 >
                   <span>{item.category}</span>
