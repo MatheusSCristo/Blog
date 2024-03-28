@@ -68,7 +68,7 @@ const MenuBar = ({ user }: User) => {
           const Icon = page.icon;
           return (
             <Link
-            key={page.name}
+              key={page.name}
               href={`/${page.page}`}
               className={`p-2 md:p-3 rounded-xl hover:scale-105 hover:border hover:border-white cursor-pointer ${
                 pathname === `/${page.page}` ? "border border-white" : ""
@@ -115,6 +115,7 @@ const MenuBar = ({ user }: User) => {
           const Icon = page.icon;
           return (
             <Link
+              key={page.page}
               href={`/${page.page}`}
               className={`${
                 pathname === "/messages" ? "border bg-darkBlue text-white" : ""
