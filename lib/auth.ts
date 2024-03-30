@@ -43,8 +43,10 @@ export const authOptions: NextAuthOptions = {
           username: existingUser.username,
           id: existingUser.id,
         });
-        const cookiesStore =cookies()
-        cookiesStore.set("auth-token", access_token,{expires:Date.now() + 60*60*1000});
+        const cookiesStore = cookies();
+        cookiesStore.set("auth-token", access_token, {
+          expires: Date.now() + 60 * 60 * 1000,
+        });
         return {
           id: existingUser.id,
           username: existingUser.username,

@@ -1,9 +1,8 @@
 "use client";
-import React, { Suspense, useContext } from "react";
+import React, { Suspense} from "react";
 import Menu from "./components/Menu/Menu";
 import Chat from "./components/Chat/Chat";
 import { CircularProgress } from "@mui/material";
-import { ChatContext } from "@/app/context/ChatContext";
 import MobileChat from "./components/Chat/MobileChat";
 
 const page = () => {

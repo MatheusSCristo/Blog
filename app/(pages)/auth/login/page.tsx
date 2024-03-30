@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa6";
@@ -9,12 +9,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LoginUserFormSchema } from "@/schemas/loginUserSchema";
-import {  signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
   const router = useRouter();
-
   const [passVisibility, setPassVisibility] = useState(false);
   const [erros, setErrors] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,13 +38,13 @@ const Login = () => {
       password: data.password,
       redirect: false,
     });
-    if(signInData?.ok){
-      router.push('/feed')
+    if (signInData?.ok) {
+      router.push("/feed");
     }
     if (signInData?.status === 401) {
+      setLoading(false);
       setErrors("Erro na validação das credenciais,tente novamente");
     }
-
   };
 
   return (
@@ -54,24 +53,8 @@ const Login = () => {
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold my-1 md:my-4">
           Bem vindo de volta
         </h1>
-        <h2 className="text-md md:text-xl">Entre com</h2>
-        <div className="flex justify-between md:w-2/5 gap-3">
-          <div className="bg-white flex items-center justify-center border border-lightGray rounded p-2 gap-2 md:w-32 cursor-pointer">
-            <FcGoogle size={20} />
-            <span onClick={() => ""}>Google</span>
-          </div>
-          <div className="bg-white flex items-center justify-center border border-lightGray rounded p-2 gap-2 md:w-32 cursor-pointer">
-            <FaGithub size={20} />
-            <span onClick={() => ""}>GitHub</span>
-          </div>
-        </div>
-        <div className="flex flex-row w-full items-center gap-2 md:gap-3 md:px-2 ">
-          <span className="bg-lightGray grow h-[1px] w-full " />
-          <h3 className="w-1/2 text-center text-nowrap my-2 text-sm md:text-md">
-            Ou continue com
-          </h3>
-          <span className="bg-lightGray w-full h-[1px]" />
-        </div>
+        <h2 className="text-md md:text-2xl">Entre com</h2>
+        <span className="bg-lightGray w-full h-[1px]" />
 
         <form
           className="flex flex-col md:w-3/5 text-lightGray "
@@ -115,7 +98,9 @@ const Login = () => {
             <span className="text-red-500">{errors.password.message}</span>
           )}
           {erros && (
-            <span className="text-red-500 text-sm text-center mt-2">{erros}</span>
+            <span className="text-red-500 text-sm text-center mt-2">
+              {erros}
+            </span>
           )}
           <button
             type="submit"

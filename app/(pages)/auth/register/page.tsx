@@ -56,25 +56,7 @@ const Register = () => {
         <h1 className="text-2xl md:text-4xl font-bold my-1 md:my-4">
           Crie sua conta
         </h1>
-        <h2 className="text-md md:text-xl">Entre com</h2>
-        <div className="flex justify-between md:w-2/5 gap-3">
-          <div className="bg-white flex items-center justify-center border border-lightGray rounded p-2 gap-2 w-32">
-            <FcGoogle size={20} />
-            <Link href={""}>Google</Link>
-          </div>
-          <div className="bg-white flex items-center justify-center border border-lightGray rounded p-2 gap-2 w-32">
-            <FaGithub size={20} />
-            <Link href={""}>GitHub</Link>
-          </div>
-        </div>
-        <div className="flex flex-row w-full items-center gap-2 md:gap-3 md:px-2 ">
-          <span className="bg-lightGray grow h-[1px] w-full " />
-          <h3 className='w-1/2 text-center text-nowrap my-2 text-sm md:"text-md'>
-            Ou continue com
-          </h3>
-          <span className="bg-lightGray w-full h-[1px]" />
-        </div>
-
+        <span className="bg-lightGray w-full h-[1px]" />
         <form
           className="flex flex-col md:w-3/5 text-lightGray "
           onSubmit={handleSubmit(handleOnClickSubmit)}

@@ -15,7 +15,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
     if (emailExists) {
       return NextResponse.json(
-        { user: null, message: "Email already registered" },
+        { user: null, message: "Email já foi registrado." },
         { status: 409 }
       );
     }
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
     if (usernameExists) {
       return NextResponse.json(
-        { user: null, message: "Username already registered" },
+        { user: null, message: "Username já foi registrado." },
         { status: 409 }
       );
     }
