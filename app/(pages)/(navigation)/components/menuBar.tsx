@@ -43,7 +43,7 @@ const MenuBar = ({ user }: User) => {
   };
 
   return !menuOpen ? (
-    <div className="h-screen bg-darkBlue w-16 md:w-32 rounded-xl flex flex-col items-center py-8  relative sticky top-0">
+    <div className="h-full bg-darkBlue w-16 md:w-32 rounded-xl flex flex-col items-center py-8 relative sticky top-0">
       <div className=" w-full relative flex items-center justify-center ">
         {user?.profileImg ? (
           <div className="w-[50px] h-[50px] md:w-[70px] md:h-[70px] rounded-full relative ">

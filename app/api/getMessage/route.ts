@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma"
 import { prismaExclude } from "@/utils/excludePass";
-import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest, res: NextResponse) {

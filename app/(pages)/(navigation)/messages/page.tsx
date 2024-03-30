@@ -1,9 +1,10 @@
 "use client";
-import React, { Suspense } from "react";
-import Menu from "./components/Menu";
-import Chat from "./components/Chat";
-import Context from "@/app/context/Provider";
+import React, { Suspense, useContext } from "react";
+import Menu from "./components/Menu/Menu";
+import Chat from "./components/Chat/Chat";
 import { CircularProgress } from "@mui/material";
+import { ChatContext } from "@/app/context/ChatContext";
+import MobileChat from "./components/Chat/MobileChat";
 
 const page = () => {
   return (
@@ -14,12 +15,13 @@ const page = () => {
         </div>
       }
     >
-      <section className="w-full mx-[5%]  gap-3 bg-white relative flex bg-[#EEF1F1]">
-        <div className="2xl:w-[30%] w-[40%] ">
-          <Menu />
-        </div>
-        <div className="w-full ">
+      <section className="w-full md:mx-[5%] mx-1 gap-3 bg-white relative flex bg-[#EEF1F1]">
+        <Menu />
+        <div className="w-full hidden xl:block ">
           <Chat />
+        </div>
+        <div className="w-full xl:hidden">
+          <MobileChat />
         </div>
       </section>
     </Suspense>

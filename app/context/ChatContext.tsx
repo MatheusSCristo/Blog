@@ -2,7 +2,7 @@ import { Message } from '@/types/types'
 import { Messages } from '@prisma/client'
 import React, { createContext, useState } from 'react'
 
-type currentChat={
+export type currentChat={
     id: string,
     username: string,
     displayName: string | null,
@@ -15,10 +15,10 @@ type ContextType={
 
 }
 
-export const ChatContext = createContext<ContextType | null>(null)
+export const ChatContext = createContext<ContextType>({} as ContextType)
 
 const ContextChat = ({ children }: { children: React.ReactNode }) => {
-    const [currentChat, setCurrentChat] = useState<any>()
+    const [currentChat, setCurrentChat] = useState<currentChat>({} as currentChat)
 
     return (
         <ChatContext.Provider value={{ currentChat, setCurrentChat }}>
