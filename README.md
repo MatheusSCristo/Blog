@@ -16,7 +16,7 @@
 :construction: Projeto ainda em desenvolvimento :construction:
 
 <h2>Autenticação</h2>
-<p>O projeto possui um sistema de autenticação utilizando o NextAuth, o blog possibilita a criação de usuários utilizando tanto um email, quanto sua conta do GitHub e Google.</p>
+<p>O projeto possui um sistema de autenticação utilizando o NextAuth, o blog possibilita a criação de usuários</p>
 
 <h2>Armazenamento de Dados</h2>
 <p>Para modelagem do banco de dados foi utilizado a ferramenta Prisma ORM, facilitando a conexão do blog a um banco PostgreSQL hospedado na plataforma Heroku e armazenando as informações dos usuários.</p>
