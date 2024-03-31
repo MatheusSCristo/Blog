@@ -61,7 +61,9 @@ const Profile = async () => {
             />
           </div>
         ) : (
-          <IoPersonCircle size={100} />
+          <div className="w-[70px] h-[70px] bg-darkBlue ">
+          <IoPersonCircle size={"fill"} className="text-white"/>
+            </div>
         )}
         <div className="flex gap-2 md:gap-5 flex-col sm:flex-row ">
           <h2>Seguindo: {user?.following.length}</h2>

@@ -45,7 +45,7 @@ const MobileChat = () => {
 
   return (
     currentChat.id && (
-      <div className="flex flex-col h-full bg-[#EEF1F1]  ">
+      <div className="flex flex-col h-full bg-[#EEF1F1] xl:hidden w-full">
         <div className="flex gap-2 items-center border-b-2 px-2 mx-2 py-5 bg-white">
           <FaCircleChevronLeft
             size={20}
@@ -88,10 +88,10 @@ const MobileChat = () => {
             messages?.map((item) => {
               return (
                 <div className="w-full flex flex-col " key={item.id}>
-                  <div>
-                    <div className={`flex items-end gap-2 flex-col `}>
+                  <div className="flex flex-col">
+                    <div className={`flex ${item.messageFromId === currentChat.id?'self-start':"self-end"} gap-2 flex-col w-1/2 `}>
                       <div
-                        className={`p-3 flex w-3/4 h-[400px]${
+                        className={`p-3 flex w-3/4  ${
                           item.messageFromId === currentChat.id
                             ? "rounded-bl-none bg-[#ffffff] text-black"
                             : "rounded-br-none bg-darkBlue text-white"

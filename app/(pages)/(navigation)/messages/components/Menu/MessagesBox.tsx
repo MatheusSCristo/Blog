@@ -8,7 +8,7 @@ import { IoPersonOutline } from "react-icons/io5";
 
 const MessagesBox = ({ item }: { item: Follow }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const {currentChat,setCurrentChat} = useContext(ChatContext);
+  const { currentChat, setCurrentChat } = useContext(ChatContext);
   const messageContext = useContext(MessageContext);
   const [messagesUnread, setMessagesUnread] = useState<number | null>(null);
   const { following: receiver } = item;
@@ -84,7 +84,7 @@ const MessagesBox = ({ item }: { item: Follow }) => {
 
   return (
     <div
-      className="flex py-2 pl-1 gap-3 border-b border-gray-200 h-[60px] items-center cursor-pointer hover:scale-[1.01] relative items-center "
+      className="flex py-2 pl-1 gap-3 border-b border-gray-200 h-[60px] items-center cursor-pointer hover:scale-[1.01] relative items-center overflow-hidden justify-between"
       onClick={Handle}
     >
       {receiver.profileImg ? (
@@ -101,7 +101,7 @@ const MessagesBox = ({ item }: { item: Follow }) => {
           <IoPersonOutline size={30} className="text-white" />
         </div>
       )}
-      <div className="flex flex-col max-h-[70px] overflow-hidden">
+      <div className="flex flex-col max-h-[70px] overflow-hidden flex-1">
         <h1 className="text-md font-bold">
           {receiver.displayName
             ? receiver.displayName
@@ -114,13 +114,13 @@ const MessagesBox = ({ item }: { item: Follow }) => {
         ) : (
           messages &&
           messages.length > 0 && (
-            <p className="text-sm text-lightGray  text-wrap truncate">
+            <p className="text-sm text-lightGray break-all  ">
               {messages[messages.length - 1].content}
             </p>
           )
         )}
       </div>
-      <div className="absolute right-0 flex flex-col justify-between">
+      <div className=" flex flex-col justify-between">
         <span className="text-gray-500 text-sm">
           {getTimeAgo(messages[messages.length - 1]?.createdAt)}
         </span>

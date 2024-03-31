@@ -146,7 +146,7 @@ const EditProfile = () => {
   };
 
   return (
-    <section className="w-full mx-16 min-h-max bg-white relative">
+    <section className="w-full xl:mx-16 h-full bg-white relative">
       <div className="h-1/5  w-full relative">
         {loadingBackgroundImage && (
           <div className="w-full h-full flex items-center justify-center bg-slate-500 absolute">
@@ -184,24 +184,27 @@ const EditProfile = () => {
           />
         </div>
       </div>
-      <div className="  p-0 absolute z-10 top-32 left-10 flex items-center justify-center rounded gap-2">
+      <div className="  p-0 xl:absolute z-10 top-32 left-10 flex items-center justify-center rounded gap-2">
         {loadingProfileImage && (
           <div className="p-2 w-[100px] h-[100px] rounded-full bg-white flex items-center justify-center">
             <CircularProgress />
           </div>
         )}
         {userInfos?.profileImg && !loadingProfileImage && (
-          <div className="w-[100px] h-[100px] relative ">
+          <div className="w-[70px] h-[70px] md:w-[100px] md:h-[100px] relative rounded-full ">
             <Image
-              src={userInfos.profileImg}
+              src={userInfos?.profileImg}
               alt="Imagem de perfil"
               className="object-cover rounded-full"
               fill
+              sizes="70px,100px"
             />
           </div>
         )}
         {!loadingProfileImage && !userInfos.profileImg && (
-          <IoPersonCircle size={100} className="bg-white rounded-full" />
+          <div className="w-[70px] h-[70px] bg-darkBlue ">
+            <IoPersonCircle size={"fill"} className="text-white" />
+          </div>
         )}
         <label
           htmlFor="profileFile"
@@ -221,9 +224,9 @@ const EditProfile = () => {
           }}
         />
       </div>
-      <div className="my-16 p-10">
+      <div className="xl:my-16 xl:p-10 p-5 my-2">
         <form
-          className="grid grid-cols-2 gap-5 grid-rows-3"
+          className="xl:grid grid-cols-2 gap-5 grid-rows-3 flex flex-col "
           onSubmit={handleUpdateUser}
         >
           <div className="flex flex-col w-4/5">
@@ -260,13 +263,13 @@ const EditProfile = () => {
             <div className="flex gap-5">
               <button
                 type="submit"
-                className="bg-darkBlue p-2 rounded-lg text-white hover:scale-105 hover:bg-lime-400 hover:text-white"
+                className="bg-darkBlue p-2 rounded-lg text-white hover:scale-105 hover:bg-lime-400 hover:text-white text-md xl:text-lg"
               >
                 Salvar mudanças
               </button>
               <Link
                 href={"/profile"}
-                className="bg-white p-2 border border-darkBlue text-darkBlue rounded-lg hover:bg-red-600 hover:scale-105 hover:text-white"
+                className="bg-white p-2 border border-darkBlue text-darkBlue rounded-lg hover:bg-red-600 hover:scale-105 hover:text-white text-md xl:text-lg"
               >
                 Cancelar
               </Link>

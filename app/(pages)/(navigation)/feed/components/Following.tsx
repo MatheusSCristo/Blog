@@ -23,21 +23,21 @@ const getFollowing = async () => {
 
 const Following = async () => {
   const followers = await getFollowing();
-  
 
   return (
-    <div className="bg-white border rounded-lg flex-col p-5 flex gap-2 h-full">
+    <div className="bg-white border rounded-lg flex-col p-5 flex gap-2 h-full ">
       <div className="flex gap-2">
         <h1 className="font-bold">Estou Seguindo</h1>
         <span className="text-lightGray">{followers?.length}</span>
       </div>
-      <div className="grid grid-cols-6 w-full gap-2">
+      <div className="grid md:grid-cols-2 xl:grid-cols-6 md:grid-rows-6 xl:grid-cols-5 w-full gap-2 ">
         {followers?.map(
           (follower, index) =>
             index < 30 && (
               <Link
                 href={`/profile/${follower.followingId}`}
                 key={follower.followingId}
+                className={`k${index > 6 ? "md:hidden" : "md:block"} xl:block`}
               >
                 {follower.following.profileImg ? (
                   <div className="relative w-[50px] h-[50px] ">
@@ -49,17 +49,18 @@ const Following = async () => {
                     />
                   </div>
                 ) : (
-                  <div className="bg-darkBlue w-[50px] h-[50px] rounded-full flex items-center justify-center">
+                  <div className="bg-darkBlue w-[50px] h-[50px] rounded-full flex items-center justify-center ">
                     <IoPerson size={40} className="text-white " />
                   </div>
                 )}
               </Link>
             )
         )}
-
-        <div className="bg-darkBlue w-[50px] h-[50px] rounded-full flex items-center justify-center">
-          <span className="text-white">...</span>
-        </div>
+        {followers && followers?.length >= 30 && (
+          <div className="bg-darkBlue w-[50px] h-[50px] rounded-full flex items-center justify-center">
+            <span className="text-white">...</span>
+          </div>
+        )}
       </div>
     </div>
   );

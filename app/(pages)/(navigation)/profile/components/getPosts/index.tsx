@@ -28,7 +28,6 @@ const getPost = async () => {
 }
 
 const getPosts = async () => {
-    const session: any = await getServerSession(authOptions)
     const posts = await getPost()
 
     return (

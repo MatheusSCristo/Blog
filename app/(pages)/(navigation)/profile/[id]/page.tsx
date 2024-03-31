@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import {  Post } from "@/types/types";
+import { Post } from "@/types/types";
 import { IoPersonCircle } from "react-icons/io5";
 import PostsCard from "../../feed/components/postsCard";
 import { notFound, redirect } from "next/navigation";
@@ -41,20 +41,20 @@ const getUser = async (id: string) => {
       },
     },
   });
-  if(!user){
-    notFound()
+  if (!user) {
+    notFound();
   }
   return user;
 };
 
 const LayoutPage = async ({ params }: { params: { id: string } }) => {
   const user = await getUser(params.id);
-  const session:any=await getServerSession(authOptions);
-  if(params.id ===session?.user.id){
-    redirect('/profile')
+  const session: any = await getServerSession(authOptions);
+  if (params.id === session?.user.id) {
+    redirect("/profile");
   }
   return (
-    <section className="w-full mx-16 min-h-max bg-white relative">
+    <section className="w-full mx-1 xl:mx-16 min-h-max bg-white relative">
       <div className="h-[200px]  w-full relative">
         {user?.bgImg ? (
           <Image
@@ -68,19 +68,21 @@ const LayoutPage = async ({ params }: { params: { id: string } }) => {
         )}
       </div>
       <div className="flex justify-between w-full items-center p-5">
-        <div className=" bg-white p-5 w-[100px] h-[100px] rounded relative">
-          {user?.profileImg ? (
-
+        {user?.profileImg ? (
+          <div className="w-[70px] h-[70px] md:w-[100px] md:h-[100px] relative rounded-full ">
             <Image
-              src={user.profileImg}
+              src={user?.profileImg}
+              alt="Imagem de perfil"
+              className="object-cover rounded-full"
               fill
-              className="object-fit rounded-full"
-              alt="Foto de perfil"
+              sizes="70px,100px"
             />
-          ) : (
-            <IoPersonCircle size={100} />
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="w-[70px] h-[70px] bg-darkBlue ">
+            <IoPersonCircle size={"fill"} className="text-white" />
+          </div>
+        )}
 
         <FollowButton params={params} user={user} />
       </div>

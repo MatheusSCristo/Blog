@@ -10,7 +10,7 @@ import { ChatContext } from "@/app/context/ChatContext";
 const Menu = () => {
   const [isLoading, setIsloading] = useState(true);
   const user = useContext(UserContext);
-  const {currentChat} = useContext(ChatContext);
+  const { currentChat } = useContext(ChatContext);
 
   const getFollowing = async () => {
     if (user) {
@@ -55,8 +55,14 @@ const Menu = () => {
   );
 
   return (
-    <div className={`bg-white h-full flex flex-col p-5 gap-5 w-full ${currentChat.id?"hidden":"block"} md:block 2xl:w-[30%] w-full xl: w-[40%]`}>
-      <h1 className="text-3xl font-semibold ml-2 mt-10 text-center xl:text-left ">Mensagens</h1>
+    <div
+      className={`bg-white h-full flex flex-col p-5 gap-5 w-full ${
+        currentChat.id ? "hidden" : "flex"
+      } xl:flex 2xl:w-[30%] w-full xl:w-[40%]`}
+    >
+      <h1 className="text-3xl font-semibold ml-2 mt-10 text-center md:text-left ">
+        Mensagens
+      </h1>
       <div className="flex items-center w-full">
         <IoSearchOutline className="absolute ml-2 text-gray-500" size={30} />
         <input

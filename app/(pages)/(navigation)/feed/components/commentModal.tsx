@@ -88,7 +88,7 @@ const CommentModal = ({
             ) : (
               <IoPersonCircle size={30} />
             )}
-            <div className="flex-col md:flex-row flex">
+            <div className="flex-col md:flex-row flex gap-2 items-center">
               <h1 className="font-bold text-md w-max">
                 {comment.author.displayName}
               </h1>
