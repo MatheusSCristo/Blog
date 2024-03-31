@@ -1,5 +1,15 @@
 <h1 align="center">Blog</h1>
 <p align="center">Esse é um projeto FullStack de uma rede social estilo Blog utilizando o NextJS, onde as pessoas podem postar o que pensam e interagir com o pensamento de outras pessoas.</p>
+<div style={{display:inline }}>
+  
+![Screenshot_6](https://github.com/MatheusSCristo/Blog/assets/138341797/f1b2cd58-7c88-45b3-8d1c-7c2610ee421d)
+![Screenshot_1](https://github.com/MatheusSCristo/Blog/assets/138341797/b07718c1-f946-46fc-bcd7-496ad40b36c7)
+![Screenshot_2](https://github.com/MatheusSCristo/Blog/assets/138341797/19fd43a9-1eff-4ff9-a828-aa5ef27751e3)
+![Screenshot_5](https://github.com/MatheusSCristo/Blog/assets/138341797/69c00a21-179c-4974-a097-3ede4ebabf0c)
+![iPhone-13-PRO-localhost](https://github.com/MatheusSCristo/Blog/assets/138341797/57650fda-6cd7-4bdf-bb79-e3519207262a)
+![iPhone-13-PRO-localhost (2)](https://github.com/MatheusSCristo/Blog/assets/138341797/f3c9e5af-3b84-4217-aa1a-fa11ed8f7cd8)
+![iPhone-13-PRO-localhost (3)](https://github.com/MatheusSCristo/Blog/assets/138341797/518dcc7a-2e37-4559-9a41-7d51a2d15479)
+</div>
 
 
 <h1 align='center'> Funcionalidades do projeto</h1>
